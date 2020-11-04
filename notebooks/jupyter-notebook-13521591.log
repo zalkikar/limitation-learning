@@ -1,0 +1,62 @@
+
+MacOS or linux terminal command to create your ssh tunnel:
+ssh -N -L 8862:c42-02:8862 nsk367@ 
+For more info and how to connect from windows, 
+   see research.computing.yale.edu/jupyter-nb
+Here is the MobaXterm info:
+Forwarded port:same as remote port
+Remote server: c42-02
+Remote port: 8862
+SSH server: 
+SSH login: nsk367
+SSH port: 22
+Use a Browser on your local machine to go to:
+http://localhost:8862  (prefix w/ https:// if using password)
+Use the token string from the URL printed below and add it to the URL above
+
+/opt/slurm/data/slurmd/job13521591/slurm_script: line 54: activate: No such file or directory
+[I 10:47:09.009 NotebookApp] Serving notebooks from local directory: /scratch/nsk367/deepRL/limitation-learning/notebooks
+[I 10:47:09.010 NotebookApp] Jupyter Notebook 6.1.4 is running at:
+[I 10:47:09.010 NotebookApp] http://c42-02:8862/?token=81dd8e6463b8bad4980a6d2d990bf77da5f2610c84a4bb64
+[I 10:47:09.010 NotebookApp]  or http://127.0.0.1:8862/?token=81dd8e6463b8bad4980a6d2d990bf77da5f2610c84a4bb64
+[I 10:47:09.010 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 10:47:09.036 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/nsk367/.local/share/jupyter/runtime/nbserver-140818-open.html
+    Or copy and paste one of these URLs:
+        http://c42-02:8862/?token=81dd8e6463b8bad4980a6d2d990bf77da5f2610c84a4bb64
+     or http://127.0.0.1:8862/?token=81dd8e6463b8bad4980a6d2d990bf77da5f2610c84a4bb64
+[I 10:47:21.624 NotebookApp] 302 GET /?token=81dd8e6463b8bad4980a6d2d990bf77da5f2610c84a4bb64 (172.16.0.13) 0.43ms
+[I 10:47:28.055 NotebookApp] Creating new notebook in 
+[I 10:47:34.394 NotebookApp] Kernel started: be5ce506-cfce-44a5-aa3c-895972ca8387, name: python3
+[I 10:49:34.420 NotebookApp] Saving file at /HuggingFace Datasets.ipynb
+[I 13:47:34.814 NotebookApp] Saving file at /HuggingFace Datasets.ipynb
+[I 14:07:34.536 NotebookApp] Saving file at /HuggingFace Datasets.ipynb
+[I 14:09:35.567 NotebookApp] Saving file at /HuggingFace Datasets.ipynb
+[I 14:11:40.799 NotebookApp] Saving file at /HuggingFace Datasets.ipynb
+[I 14:12:09.167 NotebookApp] Starting buffering for be5ce506-cfce-44a5-aa3c-895972ca8387:495853e657174a11b138eff6d6cf1560
+[I 14:14:25.522 NotebookApp] Saving file at /HuggingFace Datasets.ipynb
+[I 14:16:25.845 NotebookApp] Saving file at /HuggingFace Datasets.ipynb
+[I 14:24:25.501 NotebookApp] Saving file at /HuggingFace Datasets.ipynb
+[I 14:26:11.351 NotebookApp] 302 GET / (172.16.0.13) 0.38ms
+[I 14:26:20.084 NotebookApp] Creating new notebook in 
+[I 14:26:24.390 NotebookApp] Kernel started: 9f603b26-e869-4d59-bd45-f90809ed7728, name: python3
+[I 14:26:25.821 NotebookApp] Saving file at /HuggingFace Datasets.ipynb
+[I 14:28:25.366 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:30:31.383 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:32:24.181 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:34:26.135 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:36:25.910 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:38:25.624 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:42:24.835 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:44:24.617 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:46:24.689 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:46:25.807 NotebookApp] Saving file at /HuggingFace Datasets.ipynb
+[I 14:48:24.628 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:48:25.794 NotebookApp] Saving file at /HuggingFace Datasets.ipynb
+[I 14:50:25.025 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:52:27.372 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:52:32.941 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:52:40.424 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:52:42.112 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
