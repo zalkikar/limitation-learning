@@ -1,0 +1,73 @@
+
+MacOS or linux terminal command to create your ssh tunnel:
+ssh -N -L 9525:c42-01:9525 nsk367@ 
+For more info and how to connect from windows, 
+   see research.computing.yale.edu/jupyter-nb
+Here is the MobaXterm info:
+Forwarded port:same as remote port
+Remote server: c42-01
+Remote port: 9525
+SSH server: 
+SSH login: nsk367
+SSH port: 22
+Use a Browser on your local machine to go to:
+http://localhost:9525  (prefix w/ https:// if using password)
+Use the token string from the URL printed below and add it to the URL above
+
+/opt/slurm/data/slurmd/job13559860/slurm_script: line 54: activate: No such file or directory
+[I 12:55:34.125 NotebookApp] Serving notebooks from local directory: /scratch/nsk367/deepRL/limitation-learning/notebooks
+[I 12:55:34.126 NotebookApp] Jupyter Notebook 6.1.4 is running at:
+[I 12:55:34.126 NotebookApp] http://c42-01:9525/?token=a35f5fd192ba3ed6ea30db4e2618fb5398ef42373f8a8b75
+[I 12:55:34.126 NotebookApp]  or http://127.0.0.1:9525/?token=a35f5fd192ba3ed6ea30db4e2618fb5398ef42373f8a8b75
+[I 12:55:34.126 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 12:55:34.134 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/nsk367/.local/share/jupyter/runtime/nbserver-93951-open.html
+    Or copy and paste one of these URLs:
+        http://c42-01:9525/?token=a35f5fd192ba3ed6ea30db4e2618fb5398ef42373f8a8b75
+     or http://127.0.0.1:9525/?token=a35f5fd192ba3ed6ea30db4e2618fb5398ef42373f8a8b75
+[I 12:55:57.175 NotebookApp] 302 GET /?token=a35f5fd192ba3ed6ea30db4e2618fb5398ef42373f8a8b75 (172.16.0.13) 0.62ms
+[I 12:58:19.584 NotebookApp] Kernel started: 953fedc6-2b83-4847-b282-1d3745718ebb, name: python3
+[I 13:00:20.470 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:04:19.661 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:06:19.675 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:08:20.198 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:12:19.807 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:14:19.724 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:15:45.842 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:15:54.096 NotebookApp] Starting buffering for 953fedc6-2b83-4847-b282-1d3745718ebb:bd939a82353044418262cd50ad7ff119
+[I 13:15:55.937 NotebookApp] Kernel restarted: 953fedc6-2b83-4847-b282-1d3745718ebb
+[I 13:15:55.986 NotebookApp] Restoring connection for 953fedc6-2b83-4847-b282-1d3745718ebb:bd939a82353044418262cd50ad7ff119
+[I 13:15:55.986 NotebookApp] Replaying 3 buffered messages
+[I 13:16:19.573 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:18:09.417 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:18:19.556 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:20:19.548 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:26:19.585 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:43:29.111 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:44:19.585 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:46:19.612 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:48:19.569 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:50:19.582 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:52:19.578 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:54:19.578 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:56:19.584 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:56:47.012 NotebookApp] Starting buffering for 953fedc6-2b83-4847-b282-1d3745718ebb:bd939a82353044418262cd50ad7ff119
+[I 13:56:48.860 NotebookApp] Kernel restarted: 953fedc6-2b83-4847-b282-1d3745718ebb
+[I 13:56:48.953 NotebookApp] Restoring connection for 953fedc6-2b83-4847-b282-1d3745718ebb:bd939a82353044418262cd50ad7ff119
+[I 13:56:48.954 NotebookApp] Replaying 3 buffered messages
+[I 13:58:19.589 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 13:58:56.790 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:00:19.600 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:02:19.612 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:04:19.611 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:04:29.550 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:06:19.607 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:08:19.584 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:14:19.622 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:16:19.604 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:18:19.597 NotebookApp] Saving file at /Cornell no HuggingFace.ipynb
+[I 14:19:33.838 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 14:19:35.730 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 14:21:45.475 NotebookApp] Saving file at /Movie Environment.ipynb
