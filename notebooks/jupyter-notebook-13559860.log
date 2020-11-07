@@ -71,3 +71,19 @@ Use the token string from the URL printed below and add it to the URL above
 [I 14:19:33.838 NotebookApp] Saving file at /Movie Environment.ipynb
 [I 14:19:35.730 NotebookApp] Saving file at /Movie Environment.ipynb
 [I 14:21:45.475 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 14:28:19.633 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 14:29:59.617 NotebookApp] Kernel interrupted: 953fedc6-2b83-4847-b282-1d3745718ebb
+[I 14:30:18.676 NotebookApp] Kernel interrupted: 953fedc6-2b83-4847-b282-1d3745718ebb
+[I 14:30:19.647 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 14:32:19.622 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 14:40:19.700 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 14:44:19.642 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 14:50:19.666 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 14:52:19.632 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 14:54:19.672 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 14:56:19.631 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 14:58:19.653 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 15:00:19.630 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 15:02:20.128 NotebookApp] Saving file at /Movie Environment.ipynb
+[I 15:32:10.797 NotebookApp] Starting buffering for 953fedc6-2b83-4847-b282-1d3745718ebb:bd939a82353044418262cd50ad7ff119
+slurmstepd: error: *** JOB 13559860 ON c42-01 CANCELLED AT 2020-11-06T19:42:55 ***
