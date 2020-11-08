@@ -8,8 +8,7 @@ def preprocessTxt(tokenizer, lines, conversations):
     convoLines = []
 
     for ind,uts in enumerate(conversations.utteranceIDs.values):
-        if ind> 10:
-            break
+
         texts = [lines.loc[ lines.lineID == ut , 'text' ].values[0] for ut in uts]
         textTokens = [' '.join([tok.text for tok in tokenizer(text.strip())]) for text in texts if text]
 
