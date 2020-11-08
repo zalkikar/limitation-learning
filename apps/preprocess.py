@@ -33,8 +33,6 @@ def main():
     """tokenizer = nlp.Defaults.create_tokenizer(nlp)""" # tokenizer with default punct rules & exceptions for transfer NER vocabulary
     tokenizer = nlp.tokenizer # for now we just go with the transfer tokenization
 
-    preprocessTxt(tokenizer, lines, conversations)
-
     preprocessLines = preprocessTxt(tokenizer, lines, conversations)
 
     with open('./dat/preprocess/formatted_movie_lines.txt', 'w', encoding='utf-8') as outFile:
