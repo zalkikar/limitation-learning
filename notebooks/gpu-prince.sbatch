@@ -1,4 +1,5 @@
 #!/bin/bash
+#SBATCH --gres=gpu:k80:1
 #SBATCH --nodes 1
 #SBATCH --ntasks-per-node 1
 #SBATCH --mem-per-cpu 8G
