@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import pickle
 import spacy
 from tensor_helpers import np_to_var
 import time

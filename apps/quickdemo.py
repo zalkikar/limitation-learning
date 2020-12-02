@@ -1,5 +1,4 @@
 import torch
-import pickle
 
 d = torch.load('./dat/preprocess/padded_vectorized_states.pt')#, map_location=lambda storage, loc: storage.cuda(1))
 raw = torch.load('./dat/preprocess/raw_states.pt')#, map_location=lambda storage, loc: storage.cuda(1))
