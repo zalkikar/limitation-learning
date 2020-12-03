@@ -4,7 +4,7 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --time=1:00:00
 #SBATCH --mem=8GB
-#SBATCH --job-name=spacy_pretrain
+#SBATCH --job-name=dialog_states
 #SBATCH --mail-type=END
 #SBATCH --mail-user=rz1567@nyu.edu
 #SBATCH --output=spacy_tok2vec_finetune_results%j.out
