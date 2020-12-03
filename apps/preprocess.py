@@ -22,7 +22,7 @@ def preprocessTxt(nlp, lines, conversations):
     return convoLines
 
 
-def main():
+def run_preprocess():
 
     print('loading lines...')
     start = time.process_time()
@@ -43,7 +43,7 @@ def main():
     
     print("preprocessing...")
     start = time.process_time()
-    preprocessLines = preprocessTxt(nlp, lines, conversations[0:500])
+    preprocessLines = preprocessTxt(nlp, lines, conversations)
     print(f'complete {time.process_time() - start}')
     
     with open('./dat/preprocess/formatted_movie_lines.txt', 'w', encoding='utf-8') as outFile:
@@ -51,5 +51,4 @@ def main():
 
     
 if __name__ == "__main__":
-    main()
-    
+    run_preprocess()

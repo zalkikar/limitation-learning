@@ -117,7 +117,7 @@ def pad_state_vects(vects, token_padding=False):
     return padded_state_vects
 
 
-if __name__ == "__main__":
+def run_dialog_states():
 
     """
     Given an initial state s0 representing the history of previous dialogues, a well-trained dialogue system should reply
@@ -148,3 +148,7 @@ if __name__ == "__main__":
     padded_vects = pad_state_vects(state_vects)
     assert len(state_dict)-len(no_vector_pairs) == len(padded_vects)
     torch.save(padded_vects, './dat/preprocess/padded_vectorized_states.pt')
+
+
+if __name__ == "__main__":
+    run_dialog_states()
