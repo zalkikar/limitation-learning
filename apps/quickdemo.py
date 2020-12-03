@@ -11,5 +11,3 @@ for index, vects in d.items():
 
     if index > 1:
         break
-
-

@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
+
 import spacy
 from tensor_helpers import np_to_var
 import time
 import torch
 import numpy as np
+from spacy_helpers import add_pipes_from_pretrained
+from config import TOKENS_WITH_VECTOR_CUTOFF
 
 
 def create_states(turn_limit=3):
@@ -59,19 +62,26 @@ def getTokVect_fromDoc(doc: spacy.tokens.Doc):
     return np.array(v)
 
 
-# TODO: sentence level token vectors instead of document level (num_sentences, num_tokens, dim_tokens)
-# eventually call within function above
-# def getTokVect_fromSent(doc: spacy.tokens.Doc):
-
-
 def create_state_vects(nlp, state_dict):
     state_vects = {}
+    dropped_vector_pairs = []
     for i, (k, v) in enumerate(state_dict.items()):
+        TokVectK = getTokVect_fromDoc(nlp(k))
+        TokVectV = getTokVect_fromDoc(nlp(v))
+        # ignore pairs where initial_state or next_state are empty vectors, for now
+        if ((len(TokVectK) == 0) or (len(TokVectV) == 0)):
+            dropped_vector_pairs.append(i)
+            continue
+        # ignore pairs where initial_state or next_state are above TOKEN_CUTOFF
+        if ((len(TokVectK) > TOKENS_WITH_VECTOR_CUTOFF) or (len(TokVectV) > TOKENS_WITH_VECTOR_CUTOFF)):
+            dropped_vector_pairs.append(i)
+            continue
+        # add
         state_vects[i] = [
-            getTokVect_fromDoc(
-                nlp(k)), getTokVect_fromDoc(
-                nlp(v))]
-    return state_vects
+            TokVectK, 
+            TokVectV
+            ]
+    return state_vects, dropped_vector_pairs
 
 
 def pad_state_vects(vects, token_padding=False):
@@ -106,12 +116,6 @@ def pad_state_vects(vects, token_padding=False):
 
     return padded_state_vects
 
-    """
-    if token_padding: ## NOT DONE, however, shouldn't do anything at the moment since all token vectors are same dimension
-        tok_vects_flatten = np.array([np.array(tok_v) for sent_v in vects for tok_v in np.array(sent_v)])
-        print(tok_vects_flatten.shape)
-    """
-
 
 if __name__ == "__main__":
 
@@ -133,18 +137,14 @@ if __name__ == "__main__":
         print(f'current state = {cs} {sep} next state = {state_dict[cs]}')
     """
 
-    nlp_pretrained = spacy.load('en_core_web_lg')  # spacy ner
-
     nlp = spacy.load('./models/spacy-blank-GoogleNews/')
-    # for now go with learned tokenization
-    nlp.tokenizer = nlp_pretrained.tokenizer
-    # for now go with learned dependency parsing
-    nlp.add_pipe(nlp_pretrained.get_pipe('parser'), name='parser')
 
-    state_vects = create_state_vects(nlp, state_dict)
-    assert len(state_dict) == len(state_vects)
+    nlp = add_pipes_from_pretrained(nlp)
+
+    state_vects,no_vector_pairs = create_state_vects(nlp, state_dict)
+    assert len(state_dict)-len(no_vector_pairs) == len(state_vects)
     torch.save(state_vects, './dat/preprocess/vectorized_states.pt')
 
     padded_vects = pad_state_vects(state_vects)
-    assert len(state_dict) == len(padded_vects)
+    assert len(state_dict)-len(no_vector_pairs) == len(padded_vects)
     torch.save(padded_vects, './dat/preprocess/padded_vectorized_states.pt')

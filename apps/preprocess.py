@@ -4,6 +4,8 @@ from utils import loadTxt
 import csv
 import spacy
 import time
+from config import SPACY_MODEL_TYPE
+
 
 def preprocessTxt(nlp, lines, conversations):
     convoLines = []
@@ -22,23 +24,27 @@ def preprocessTxt(nlp, lines, conversations):
 
 def main():
 
+    print('loading lines...')
     start = time.process_time()
     lines = loadTxt('lines',
                     ["lineID", "characterID", "movieID", "character", "text"])
-    print(time.process_time() - start)
+    print(f'complete {time.process_time() - start}')
+
+    print('loading conversations...')
     start = time.process_time()
     conversations = loadTxt('conversations',
                             ["character1ID", "character2ID", "movieID", "utteranceIDs"])
-    print(time.process_time() - start)
+    print(f'complete {time.process_time() - start}')
 
-    nlp = spacy.load('en_core_web_lg') # spacy ner
+    nlp = spacy.load(SPACY_MODEL_TYPE) # spacy ner
 
     """tokenizer = nlp.Defaults.create_tokenizer(nlp)""" # tokenizer with default punct rules & exceptions for transfer NER vocabulary
     #tokenizer = nlp.tokenizer # for now we just go with the learned transfer tokenization
     
+    print("preprocessing...")
     start = time.process_time()
     preprocessLines = preprocessTxt(nlp, lines, conversations[0:500])
-    print(time.process_time() - start)
+    print(f'complete {time.process_time() - start}')
     
     with open('./dat/preprocess/formatted_movie_lines.txt', 'w', encoding='utf-8') as outFile:
         outFile.write("\n".join( preprocessLines ))
@@ -46,3 +52,4 @@ def main():
     
 if __name__ == "__main__":
     main()
+    
