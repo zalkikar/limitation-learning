@@ -21,7 +21,7 @@ SRCDIR=$HOME/limitation-learning/apps
 
 # Activate the conda environment
 source ~/.bashrc
-conda activate ## TODO
+conda activate irl
 
 # Execute the script
 python -m run_dialog_process.py --vector_path ./dat/embeddings/GoogleNews-vectors-negative300.bin.gz
