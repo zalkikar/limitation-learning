@@ -3,7 +3,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=4
 #SBATCH --time=16:00:00
-#SBATCH --mem=8GB
+#SBATCH --mem=128GB
 #SBATCH --job-name=dialog_states
 #SBATCH --mail-type=END
 #SBATCH --mail-user=rz1567@nyu.edu
