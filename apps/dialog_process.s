@@ -24,6 +24,6 @@ source ~/.bashrc
 conda activate irl
 
 # Execute the script
-python -m run_dialog_process.py --vectors_path ./dat/embeddings/GoogleNews-vectors-negative300.bin.gz
+python run_dialog_process.py --vectors_path ./dat/embeddings/GoogleNews-vectors-negative300.bin.gz
 
 # And we're done!
