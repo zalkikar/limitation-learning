@@ -105,7 +105,7 @@ def pad_state_vects(vects, token_padding=False):
         # D is vector dim (300 for google news vectors)
         seq_length = seq.shape[0]
         data[i, 0:seq_length, :] = seq
-    data = np_to_var(data)
+    data = np_to_var(data, cuda=False) # not using gpu for now
     print(data.shape)
 
     # re-create state dictionary
