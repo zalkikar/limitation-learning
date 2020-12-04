@@ -8,7 +8,6 @@
 #SBATCH --mail-type=END
 #SBATCH --mail-user=rz1567@nyu.edu
 #SBATCH --output=dialog_states_results%j.out
-#SBATCH --gres=gpu:3
   
 # Refer to https://sites.google.com/a/nyu.edu/nyu-hpc/documentation/prince/batch/submitting-jobs-with-sbatch
 # for more information about the above options
