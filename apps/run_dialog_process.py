@@ -14,8 +14,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     
-    print("running preprocess...")
-    run_preprocess()
+    """ already complete in prior slurm job """
+    #print("running preprocess...")
+    #run_preprocess()
 
     print('loading GoogleNewsVectors into blank spacy...')
     create_google_news_vectors(args.vectors_path)
