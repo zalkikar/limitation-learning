@@ -143,7 +143,7 @@ def run_dialog_states():
 
     state_vects,no_vector_pairs = create_state_vects(nlp, state_dict)
     assert len(state_dict)-len(no_vector_pairs) == len(state_vects)
-    # torch.save(state_vects, './dat/preprocess/vectorized_states.pt')
+    torch.save(state_vects, './dat/preprocess/vectorized_states.pt')
 
     padded_vects = pad_state_vects(state_vects)
     assert len(state_dict)-len(no_vector_pairs) == len(padded_vects)
