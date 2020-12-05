@@ -16,7 +16,7 @@
 module purge
 
 # Move into the directory that contains our code
-SRCDIR=$HOME/limitation-learning/apps
+SRCDIR=$SCRATCH/rz1567/deep_rl/limitation-learning/apps
 
 # Activate the conda environment
 source ~/.bashrc
