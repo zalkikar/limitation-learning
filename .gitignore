@@ -3,6 +3,7 @@ __pycache__/
 *$py.class
 **npy 
 **fof_files/
+**pt
 **.ckpt
 **.csv
 **.out

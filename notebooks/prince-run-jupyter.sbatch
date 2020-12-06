@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --nodes 1
 #SBATCH --ntasks-per-node 1
-#SBATCH --mem-per-cpu 8G
-#SBATCH --time 0-024:00:00
+#SBATCH --mem-per-cpu 250G
+#SBATCH --time 0-08:00:00
 #SBATCH --job-name jupyter-notebook
 #SBATCH --output jupyter-notebook-%J.log 
 
