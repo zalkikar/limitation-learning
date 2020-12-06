@@ -1,0 +1,51 @@
+
+MacOS or linux terminal command to create your ssh tunnel:
+ssh -N -L 9699:c43-01:9699 nsk367@ 
+For more info and how to connect from windows, 
+   see research.computing.yale.edu/jupyter-nb
+Here is the MobaXterm info:
+Forwarded port:same as remote port
+Remote server: c43-01
+Remote port: 9699
+SSH server: 
+SSH login: nsk367
+SSH port: 22
+Use a Browser on your local machine to go to:
+http://localhost:9699  (prefix w/ https:// if using password)
+Use the token string from the URL printed below and add it to the URL above
+
+[I 18:10:34.449 NotebookApp] Serving notebooks from local directory: /scratch/nsk367/deepRL/limitation-learning/notebooks
+[I 18:10:34.449 NotebookApp] Jupyter Notebook 6.1.4 is running at:
+[I 18:10:34.449 NotebookApp] http://c43-01:9699/?token=6e5fba974dc95ec0ab439fe92796db39ec7f0fc7f46715df
+[I 18:10:34.449 NotebookApp]  or http://127.0.0.1:9699/?token=6e5fba974dc95ec0ab439fe92796db39ec7f0fc7f46715df
+[I 18:10:34.450 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 18:10:34.478 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/nsk367/.local/share/jupyter/runtime/nbserver-404421-open.html
+    Or copy and paste one of these URLs:
+        http://c43-01:9699/?token=6e5fba974dc95ec0ab439fe92796db39ec7f0fc7f46715df
+     or http://127.0.0.1:9699/?token=6e5fba974dc95ec0ab439fe92796db39ec7f0fc7f46715df
+[I 18:10:47.510 NotebookApp] 302 GET /?token=6e5fba974dc95ec0ab439fe92796db39ec7f0fc7f46715df (172.16.0.13) 1.95ms
+[I 18:10:58.876 NotebookApp] Kernel started: 84500beb-78b2-4ab9-976d-066475c39597, name: python3
+[I 18:12:58.760 NotebookApp] Saving file at /Rough Draft.ipynb
+[I 18:14:58.811 NotebookApp] Saving file at /Rough Draft.ipynb
+[I 18:16:58.725 NotebookApp] Saving file at /Rough Draft.ipynb
+[W 18:17:40.763 NotebookApp] Notebook GAIL for Dialog Generation.ipynb is not trusted
+[I 18:17:42.198 NotebookApp] Kernel started: 3ee79cf5-04af-416c-a010-7c35c7dbc627, name: python3
+[I 18:19:41.381 NotebookApp] Saving file at /GAIL for Dialog Generation.ipynb
+[I 18:21:41.380 NotebookApp] Saving file at /GAIL for Dialog Generation.ipynb
+[I 18:23:41.437 NotebookApp] Saving file at /GAIL for Dialog Generation.ipynb
+[I 18:25:41.375 NotebookApp] Saving file at /GAIL for Dialog Generation.ipynb
+[I 18:27:41.369 NotebookApp] Saving file at /GAIL for Dialog Generation.ipynb
+[I 18:29:41.380 NotebookApp] Saving file at /GAIL for Dialog Generation.ipynb
+[I 18:31:41.385 NotebookApp] Saving file at /GAIL for Dialog Generation.ipynb
+[I 18:33:41.371 NotebookApp] Saving file at /GAIL for Dialog Generation.ipynb
+[I 18:36:26.747 NotebookApp] Saving file at /GAIL for Dialog Generation.ipynb
+[I 18:38:56.756 NotebookApp] Saving file at /GAIL for Dialog Generation.ipynb
+[I 18:41:27.680 NotebookApp] Saving file at /GAIL for Dialog Generation.ipynb
+[I 18:43:56.409 NotebookApp] Saving file at /GAIL for Dialog Generation.ipynb
+[I 18:46:26.430 NotebookApp] Saving file at /GAIL for Dialog Generation.ipynb
+[I 20:01:30.204 NotebookApp] Starting buffering for 3ee79cf5-04af-416c-a010-7c35c7dbc627:289e80e0481f414da34b99821cb15612
+[I 20:01:30.675 NotebookApp] Starting buffering for 84500beb-78b2-4ab9-976d-066475c39597:f5b31bd9e0814c5d9216cfe99978d705
+slurmstepd: error: *** JOB 14015865 ON c43-01 CANCELLED AT 2020-12-03T18:10:26 DUE TO TIME LIMIT ***

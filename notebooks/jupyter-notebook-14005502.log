@@ -60,3 +60,6 @@ Use the token string from the URL printed below and add it to the URL above
 [I 22:32:46.887 NotebookApp] Saving file at /Rough Draft.ipynb
 [I 22:34:47.778 NotebookApp] Saving file at /Rough Draft.ipynb
 [I 22:36:48.308 NotebookApp] Saving file at /Rough Draft.ipynb
+[I 22:39:38.605 NotebookApp] Starting buffering for c3b7851a-0bf3-4ef9-be32-6a14989d15a0:2a9f8035563a4b98bf5738f5dce0ecb7
+[I 22:39:38.824 NotebookApp] Starting buffering for 52cc7e07-f840-497f-b0ec-82c1d3a76c41:209b73256a84430d82e84a3a29892be9
+slurmstepd: error: *** JOB 14005502 ON c42-02 CANCELLED AT 2020-12-02T11:57:29 ***
