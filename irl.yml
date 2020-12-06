@@ -98,5 +98,5 @@ dependencies:
     - webencodings==0.5.1
     - widgetsnbextension==3.5.1
     - xxhash==2.0.0
-prefix: /scratch/nsk367/anaconda3/envs/irl
+prefix: /scratch/rz1567/anaconda3/envs/irl
 

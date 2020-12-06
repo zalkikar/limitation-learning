@@ -3,6 +3,7 @@
 import gensim
 import spacy
 from spacy.strings import hash_string
+import time
 
 
 def create_google_news_vectors(path):
@@ -20,8 +21,11 @@ def create_google_news_vectors(path):
 
 if __name__ == "__main__":
 
+    print('loading GoogleNewsVectors into blank spacy...')
+    start = time.process_time()
     create_google_news_vectors(
         'C:/Users/rayzc/Downloads/GoogleNews-vectors-negative300.bin.gz')
+    print(f'complete {time.process_time() - start}')
 
     #nlp = spacy.load('./models/spacy-blank-GoogleNews/')
     # print(nlp.vocab.strings["<person>"])
