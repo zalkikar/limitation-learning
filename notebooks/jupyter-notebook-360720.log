@@ -1,0 +1,60 @@
+
+MacOS or linux terminal command to create your ssh tunnel:
+ssh -N -L 9906:gv01:9906 nsk367@ 
+For more info and how to connect from windows, 
+   see research.computing.yale.edu/jupyter-nb
+Here is the MobaXterm info:
+Forwarded port:same as remote port
+Remote server: gv01
+Remote port: 9906
+SSH server: 
+SSH login: nsk367
+SSH port: 22
+Use a Browser on your local machine to go to:
+http://localhost:9906  (prefix w/ https:// if using password)
+Use the token string from the URL printed below and add it to the URL above
+
+[I 17:40:59.228 NotebookApp] Serving notebooks from local directory: /scratch/nsk367/limitation-learning/notebooks
+[I 17:40:59.228 NotebookApp] Jupyter Notebook 6.1.4 is running at:
+[I 17:40:59.228 NotebookApp] http://gv01:9906/?token=e11a999cf25a6d2497fe0ecc48c6583c4d5d5a211a98f990
+[I 17:40:59.228 NotebookApp]  or http://127.0.0.1:9906/?token=e11a999cf25a6d2497fe0ecc48c6583c4d5d5a211a98f990
+[I 17:40:59.228 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 17:40:59.231 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/nsk367/.local/share/jupyter/runtime/nbserver-3622780-open.html
+    Or copy and paste one of these URLs:
+        http://gv01:9906/?token=e11a999cf25a6d2497fe0ecc48c6583c4d5d5a211a98f990
+     or http://127.0.0.1:9906/?token=e11a999cf25a6d2497fe0ecc48c6583c4d5d5a211a98f990
+[I 17:41:34.685 NotebookApp] 302 GET /?token=e11a999cf25a6d2497fe0ecc48c6583c4d5d5a211a98f990 (10.32.32.4) 0.43ms
+[I 17:41:45.303 NotebookApp] Kernel started: 98a98576-86b3-497f-b78d-ae1317aeae02, name: python3
+[I 17:43:45.357 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 17:45:45.376 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 17:47:45.383 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 17:48:20.173 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 17:49:45.367 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 17:51:45.383 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 17:52:23.626 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 17:55:45.384 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 17:57:45.388 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 17:58:12.264 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 17:59:45.445 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:01:45.369 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:03:45.373 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:04:42.019 NotebookApp] Kernel started: 9572c6c8-6089-42bc-a257-b1bc2f0d0cb4, name: python3
+[I 18:05:45.406 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:06:42.508 NotebookApp] Saving file at /Test Rahul Models.ipynb
+[I 18:07:45.513 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:09:45.413 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:10:49.973 NotebookApp] Kernel interrupted: 98a98576-86b3-497f-b78d-ae1317aeae02
+[I 18:10:58.608 NotebookApp] Kernel interrupted: 98a98576-86b3-497f-b78d-ae1317aeae02
+[I 18:10:59.930 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:11:45.439 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:11:48.615 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:11:55.231 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:12:08.388 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:12:27.120 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:13:45.475 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:19:24.837 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 18:19:27.135 NotebookApp] Starting buffering for 98a98576-86b3-497f-b78d-ae1317aeae02:cf3d1b42833f4678b8489c1649a8573a
+[I 18:19:29.680 NotebookApp] Starting buffering for 9572c6c8-6089-42bc-a257-b1bc2f0d0cb4:397eadbef3c04e299227b38298ec4500
