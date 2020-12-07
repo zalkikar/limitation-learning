@@ -54,16 +54,16 @@ class DialogEnvironment(object):
         return i  # i for current conversation index, j for current word (these should be odd? )
     
     def reset(self):
-    	"""
-		Start a new trajectory, aka a new conversation. Environment does this by 
-		picking a random i in the length of the total conversations. 
+        """
+        Start a new trajectory, aka a new conversation. Environment does this by 
+        picking a random i in the length of the total conversations. 
 
-		Using random with replacement, so it is possible to revisit environments.
+        Using random with replacement, so it is possible to revisit environments.
 
-		I will leave this as a TODO in case without replacement is preferred. 
-    	"""
+        I will leave this as a TODO in case without replacement is preferred. 
+        """
         while True: #some indices have been removed, for various resions. This while loop 
-        			# allows us to keep trying until a viable conversation is selected. 
+                # allows us to keep trying until a viable conversation is selected. 
             try:
                 self.i = random.randint(a=0,b=len(self.conversations))
                 self.conversations_visited.append(self.i)
