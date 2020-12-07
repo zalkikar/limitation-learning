@@ -3,6 +3,11 @@ import torch
 import numpy as np
 from utils.utils import get_entropy, log_prob_density
 
+
+def subsample(data, target, n=15):
+    return [x[::n] for x in data], [y[::n] for y in target]
+
+
 def get_action(mu, std):
     action = torch.normal(mu, std)
     action = action.data.numpy()
