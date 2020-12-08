@@ -140,26 +140,16 @@ class Critic(nn.Module):
             feature_norm=feature_norm,
             input_size=input_size,
                             )
-        self.action_encoder =  EncoderRNN(
-            hidden_size=hidden_size,
-            num_layers=num_layers,
-            device=device,
-            drop_prob=drop_prob,
-            lstm=lstm,
-            feature_norm=feature_norm,
-            input_size=input_size,
-                            )
         
-        self.MLP = nn.Linear(in_features=120,out_features=1)
+        self.MLP = nn.Linear(in_features=60,out_features=1)
         
         
     def forward(self,state,action):
         state = self.state_encoder(state)
-        action = self.action_encoder(action)
         # reshape 
-        state_action = torch.cat([state,action],dim=2).reshape(-1,120)
-        state_action = F.relu(self.MLP(state_action))
-        return state_action
+        state = state.reshape(-1,60)
+        state = F.relu(self.MLP(state))
+        return state
     
     
     
