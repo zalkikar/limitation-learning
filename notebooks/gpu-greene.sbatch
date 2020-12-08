@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --gres=gpu:k80:1
+#SBATCH --gres=gpu:1
 #SBATCH --nodes 1
 #SBATCH --ntasks-per-node 1
-#SBATCH --mem-per-cpu 50G
+#SBATCH --mem-per-cpu 80G
 #SBATCH --time 0-024:00:00
 #SBATCH --job-name jupyter-notebook
 #SBATCH --output jupyter-notebook-%J.log 
@@ -18,8 +18,8 @@ node=$(hostname -s)
 user=$(whoami)
 #cluster=$(hostname -f | awk -F"." '{print $2}')
 case "$SLURM_SUBMIT_HOST" in
-prince.hpc.nyu.edu)
-	login_node=prince.hpc.nyu.edu
+greene.hpc.nyu.edu)
+	login_node=greene.hpc.nyu.edu
 	;;
 	
 esac
