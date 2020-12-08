@@ -144,7 +144,7 @@ class Critic(nn.Module):
         self.MLP = nn.Linear(in_features=60,out_features=1)
         
         
-    def forward(self,state,action):
+    def forward(self,state):
         state = self.state_encoder(state)
         # reshape 
         state = state.reshape(-1,60)
