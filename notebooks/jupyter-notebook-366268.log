@@ -1,0 +1,117 @@
+
+MacOS or linux terminal command to create your ssh tunnel:
+ssh -N -L 9428:gr014:9428 nsk367@ 
+For more info and how to connect from windows, 
+   see research.computing.yale.edu/jupyter-nb
+Here is the MobaXterm info:
+Forwarded port:same as remote port
+Remote server: gr014
+Remote port: 9428
+SSH server: 
+SSH login: nsk367
+SSH port: 22
+Use a Browser on your local machine to go to:
+http://localhost:9428  (prefix w/ https:// if using password)
+Use the token string from the URL printed below and add it to the URL above
+
+[I 22:32:05.896 NotebookApp] Serving notebooks from local directory: /scratch/nsk367/limitation-learning/notebooks
+[I 22:32:05.896 NotebookApp] Jupyter Notebook 6.1.4 is running at:
+[I 22:32:05.896 NotebookApp] http://gr014:9428/?token=02b3a099c53103421b81fa27b1c8bc1533a89a9ff88efca5
+[I 22:32:05.896 NotebookApp]  or http://127.0.0.1:9428/?token=02b3a099c53103421b81fa27b1c8bc1533a89a9ff88efca5
+[I 22:32:05.896 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 22:32:05.901 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/nsk367/.local/share/jupyter/runtime/nbserver-3923808-open.html
+    Or copy and paste one of these URLs:
+        http://gr014:9428/?token=02b3a099c53103421b81fa27b1c8bc1533a89a9ff88efca5
+     or http://127.0.0.1:9428/?token=02b3a099c53103421b81fa27b1c8bc1533a89a9ff88efca5
+[I 22:32:30.513 NotebookApp] 302 GET /?token=02b3a099c53103421b81fa27b1c8bc1533a89a9ff88efca5 (10.32.32.4) 3.61ms
+[W 22:36:17.092 NotebookApp] Notebook Final Gym Env.ipynb is not trusted
+[I 22:36:17.774 NotebookApp] Kernel started: 0410ce24-24f9-4763-aa98-4dea3e1837a3, name: python3
+[W 22:45:06.655 NotebookApp] Notebook GAIL for Dialog Generation.ipynb is not trusted
+[I 22:45:07.102 NotebookApp] Kernel started: eee82179-7d7e-4937-82ca-2ebc932f357a, name: python3
+[I 22:45:07.436 NotebookApp] Starting buffering for 0410ce24-24f9-4763-aa98-4dea3e1837a3:ba4fb94992b049c38683794579b44103
+[I 22:45:21.234 NotebookApp] Kernel started: 851251e1-7008-44b7-bda5-1a497db6a1ed, name: python3
+[I 22:45:22.746 NotebookApp] Starting buffering for eee82179-7d7e-4937-82ca-2ebc932f357a:bb0e220b8df746d688215a4d073cb5cb
+[I 22:45:52.596 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 22:47:22.546 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 22:49:21.273 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 22:50:13.012 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 22:50:21.594 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 22:50:47.673 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 22:51:21.292 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 22:53:21.296 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 22:54:51.178 NotebookApp] Kernel interrupted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 22:54:54.481 NotebookApp] Kernel interrupted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 22:54:58.560 NotebookApp] Kernel interrupted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 22:55:01.676 NotebookApp] Starting buffering for 851251e1-7008-44b7-bda5-1a497db6a1ed:e4c60bfc4c48458d94790b0806cd5232
+[I 22:55:08.027 NotebookApp] Kernel restarted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 22:55:08.159 NotebookApp] Restoring connection for 851251e1-7008-44b7-bda5-1a497db6a1ed:e4c60bfc4c48458d94790b0806cd5232
+[I 22:55:21.289 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 22:57:21.307 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 22:59:21.298 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:01:21.297 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:03:21.317 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:05:21.309 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:05:46.435 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:07:06.677 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:07:21.298 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:07:30.788 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:11:21.319 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:13:21.627 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:14:24.885 NotebookApp] Starting buffering for 851251e1-7008-44b7-bda5-1a497db6a1ed:e4c60bfc4c48458d94790b0806cd5232
+[I 23:14:28.582 NotebookApp] Kernel restarted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 23:14:28.810 NotebookApp] Restoring connection for 851251e1-7008-44b7-bda5-1a497db6a1ed:e4c60bfc4c48458d94790b0806cd5232
+[I 23:14:28.810 NotebookApp] Replaying 3 buffered messages
+[I 23:15:22.196 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:17:21.303 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:18:17.919 NotebookApp] Starting buffering for 851251e1-7008-44b7-bda5-1a497db6a1ed:e4c60bfc4c48458d94790b0806cd5232
+[I 23:18:20.730 NotebookApp] Kernel restarted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 23:18:20.799 NotebookApp] Restoring connection for 851251e1-7008-44b7-bda5-1a497db6a1ed:e4c60bfc4c48458d94790b0806cd5232
+[I 23:18:20.799 NotebookApp] Replaying 3 buffered messages
+[I 23:19:21.296 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:21:21.282 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:23:21.308 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:24:48.584 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:24:50.893 NotebookApp] Starting buffering for 851251e1-7008-44b7-bda5-1a497db6a1ed:e4c60bfc4c48458d94790b0806cd5232
+[I 23:24:53.794 NotebookApp] Kernel restarted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 23:24:53.820 NotebookApp] Restoring connection for 851251e1-7008-44b7-bda5-1a497db6a1ed:e4c60bfc4c48458d94790b0806cd5232
+[I 23:24:53.820 NotebookApp] Replaying 3 buffered messages
+[I 23:25:04.410 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:25:36.494 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:26:03.993 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:26:12.867 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:27:09.665 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:27:21.324 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:28:10.444 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:29:21.325 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:30:20.886 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:31:21.279 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:33:05.945 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:33:21.288 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:33:30.574 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:35:05.355 NotebookApp] Kernel interrupted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 23:35:21.298 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:37:21.294 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:39:21.326 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:41:21.291 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:43:21.297 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:45:21.312 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:45:41.518 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:45:42.258 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:47:21.346 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:47:27.247 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:47:30.787 NotebookApp] Starting buffering for 851251e1-7008-44b7-bda5-1a497db6a1ed:e4c60bfc4c48458d94790b0806cd5232
+[I 23:47:34.151 NotebookApp] Kernel restarted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 23:47:34.182 NotebookApp] Restoring connection for 851251e1-7008-44b7-bda5-1a497db6a1ed:e4c60bfc4c48458d94790b0806cd5232
+[I 23:47:34.182 NotebookApp] Replaying 3 buffered messages
+[I 23:49:21.336 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:51:21.337 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:51:24.929 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:52:19.674 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:53:19.089 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:55:22.026 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:57:21.808 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 23:59:23.559 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 00:01:21.325 NotebookApp] Saving file at /GAIL rough.ipynb
