@@ -132,3 +132,47 @@ Use the token string from the URL printed below and add it to the URL above
 [I 00:31:21.821 NotebookApp] Saving file at /GAIL rough.ipynb
 [I 00:33:21.383 NotebookApp] Saving file at /GAIL rough.ipynb
 [I 00:35:21.842 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 00:36:38.650 NotebookApp] Kernel interrupted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 00:37:22.042 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 00:39:23.093 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 00:41:21.380 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 00:42:11.802 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 00:42:13.874 NotebookApp] Starting buffering for 851251e1-7008-44b7-bda5-1a497db6a1ed:e4c60bfc4c48458d94790b0806cd5232
+[I 10:48:21.099 NotebookApp] 302 GET /?token=02b3a099c53103421b81fa27b1c8bc1533a89a9ff88efca5 (10.32.32.6) 0.63ms
+[I 10:48:44.992 NotebookApp] Kernel interrupted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 10:48:46.939 NotebookApp] Starting buffering for 851251e1-7008-44b7-bda5-1a497db6a1ed:2eea1767ac794658bf26c24a49ed0e22
+[I 10:48:54.597 NotebookApp] Kernel restarted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 10:48:54.741 NotebookApp] Restoring connection for 851251e1-7008-44b7-bda5-1a497db6a1ed:2eea1767ac794658bf26c24a49ed0e22
+[I 10:50:29.694 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 10:52:04.744 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 10:52:11.693 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 10:52:29.753 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 10:54:11.006 NotebookApp] Kernel interrupted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 10:54:30.089 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 10:55:03.675 NotebookApp] Kernel interrupted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 10:55:08.900 NotebookApp] Starting buffering for 851251e1-7008-44b7-bda5-1a497db6a1ed:2eea1767ac794658bf26c24a49ed0e22
+[I 10:55:12.001 NotebookApp] Kernel restarted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 10:55:12.054 NotebookApp] Restoring connection for 851251e1-7008-44b7-bda5-1a497db6a1ed:2eea1767ac794658bf26c24a49ed0e22
+[I 10:55:12.055 NotebookApp] Replaying 3 buffered messages
+[I 10:56:30.010 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 10:58:30.427 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 11:00:29.733 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 11:02:29.733 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 11:04:29.730 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 11:06:29.705 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 11:08:29.729 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 11:10:29.727 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 11:12:29.776 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 11:14:12.796 NotebookApp] Kernel interrupted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 11:14:29.760 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 11:14:30.534 NotebookApp] Starting buffering for 851251e1-7008-44b7-bda5-1a497db6a1ed:2eea1767ac794658bf26c24a49ed0e22
+[I 11:14:33.712 NotebookApp] Kernel restarted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 11:14:33.810 NotebookApp] Restoring connection for 851251e1-7008-44b7-bda5-1a497db6a1ed:2eea1767ac794658bf26c24a49ed0e22
+[I 11:14:33.810 NotebookApp] Replaying 3 buffered messages
+[I 11:16:29.753 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 11:17:03.477 NotebookApp] Starting buffering for 851251e1-7008-44b7-bda5-1a497db6a1ed:2eea1767ac794658bf26c24a49ed0e22
+[I 11:17:06.187 NotebookApp] Kernel restarted: 851251e1-7008-44b7-bda5-1a497db6a1ed
+[I 11:17:06.231 NotebookApp] Restoring connection for 851251e1-7008-44b7-bda5-1a497db6a1ed:2eea1767ac794658bf26c24a49ed0e22
+[I 11:17:06.231 NotebookApp] Replaying 3 buffered messages
+[I 11:17:36.799 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 11:17:39.042 NotebookApp] Saving file at /GAIL rough.ipynb
