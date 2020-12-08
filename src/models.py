@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 OUTPUT_SIZE = 300 ## can be changed for integration with mlp or whatever else
 
