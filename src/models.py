@@ -117,13 +117,17 @@ class Actor(nn.Module):
         mu = self.seq2seq(x)
         logstd = torch.zeros_like(mu)
         std = torch.exp(logstd)
-        return mu, .001*std # Kinda guessed. 
+        return mu, .01*std # Kinda guessed. 
+
+        #unit norm, 
 
     
 class Critic(nn.Module):
     """
-    Combination of two encoders for the state and action embeddings to predict value. 
-    
+
+    Estimate of value function, I need to know what the best architecute
+
+
     """
     
     def __init__(self, hidden_size, num_layers,
@@ -131,7 +135,7 @@ class Critic(nn.Module):
                  input_size=300):
         
         super().__init__()
-        
+        # TODO
         self.state_encoder = EncoderRNN(
             hidden_size=hidden_size,
             num_layers=num_layers,
@@ -149,7 +153,7 @@ class Critic(nn.Module):
         state = self.state_encoder(state)
         # reshape 
         state = state.reshape(-1,60)
-        state = F.relu(self.MLP(state))
+        state = F.relu(self.MLP(state)) # idk if this good enough
         return state
     
     
@@ -163,8 +167,10 @@ class Discriminator(nn.Module):
     """
     Combination of two encoders for the state and action embeddings to predict value. 
     
+
+    Based on the GAIL for question answering paper you shared. 
     """
-    
+    #TODO
     def __init__(self, hidden_size, num_layers,
                  device='cpu', drop_prob=0, lstm=True, feature_norm=False,
                  input_size=300):
@@ -190,14 +196,14 @@ class Discriminator(nn.Module):
             input_size=input_size,
                             )
         
-        self.MLP = nn.Linear(in_features=120,out_features=1)
+        self.MLP = nn.Linear(in_features=120,out_features=1) #should we extends
         
         
     def forward(self,state,action):
-        state = self.state_encoder(state)
+        state = self.state_encoder(state) # idk how good these are 
         action = self.action_encoder(action)
         # reshape 
-        state_action = torch.cat([state,action],dim=2).reshape(-1,120)
+        state_action = torch.cat([state,action],dim=2).reshape(-1,120) # idk if this the right way to encoding
         prob = torch.sigmoid(self.MLP(state_action))
         return prob
 
