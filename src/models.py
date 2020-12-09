@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 OUTPUT_SIZE = 300 ## can be changed for integration with mlp or whatever else
 
-
+# TODO: as part of forward pass, reshape input properly?
 
 class EncoderRNN(nn.Module):
     

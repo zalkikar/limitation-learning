@@ -109,7 +109,7 @@ def main():
 
                 steps += 1
 
-                mu, std = actor(state.resize(1,60,300))
+                mu, std = actor(state.resize(1,60,300)) #TODO: gotta be a better way to resize. 
                 action = get_action(mu.cpu(), std.cpu())[0]
                 raw_action = get_closest_tokens(action) #TODO
                 done= env.step(action)
