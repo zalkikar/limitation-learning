@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from seq2seq import Seq2Seq
+from models.seq2seq import Seq2Seq
 
 def subsample(data, target, n=15):
     return [x[::n] for x in data], [y[::n] for y in target]
@@ -44,6 +44,10 @@ if __name__ == '__main__':
         input_state, next_state = vects[0], vects[1]
         # raw strings corresponding to embeddings
         raw_input_state, raw_next_state = list(raw.keys())[index], raw[list(raw.keys())[index]]
+        print(raw_input_state)
+        print(input_state)
+        print(raw_next_state)
+        print(next_state)
         if index > 1:
             break
 
