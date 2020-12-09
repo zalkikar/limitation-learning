@@ -49,7 +49,7 @@ def save_checkpoint(state, filename):
     torch.save(state, filename)
     
 
-def train_discrim(discrim, memory, discrim_optim, discrim_update_num, clip_param):
+def train_discrim(discrim, memory, discrim_optim, demonstrations, args):
     """
     Training the discriminator. 
 
@@ -65,7 +65,7 @@ def train_discrim(discrim, memory, discrim_optim, discrim_update_num, clip_param
 
     criterion = torch.nn.BCELoss() # classify
 
-    for _ in range(discrim_update_num):
+    for _ in range(args.discrim_update_num):
 
         learner = discrim(states, actions) #pass (s,a) through discriminator
 
@@ -85,4 +85,125 @@ def train_discrim(discrim, memory, discrim_optim, discrim_update_num, clip_param
     learner_acc = ((discrim(states,actions) > 0.5).float()).mean() #how often if predicted expert correctly. 
 
     return expert_acc, learner_acc # accuracy, it's the same kind, but because imbalanced better to look at separately. 
- 
+
+
+def train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args):
+    """
+    Take a PPO step or two to improve the actor critic model,  using GAE to estimate returns. 
+    
+    In our case each trajectory it most one step, so the value function will have to do. 
+    
+    
+    """
+    # tuple of a regular old RL problem, but now reward is what the discriminator says. 
+    states = torch.stack([memory[i][0] for i in range(len(memory))])
+    actions = torch.stack([memory[i][1] for i in range(len(memory))])
+    rewards = [memory[i][2] for i in range(len(memory))]
+    masks = [memory[i][2] for i in range(len(memory))]
+    # compute value of what happened, see if what we can get us better. 
+    old_values = critic(states)
+
+    #GAE aka estimate of Value + actual return roughtly 
+    returns, advants = get_gae(rewards, masks, old_values, args)
+    
+    # pass states through actor, get corresponding actions
+    mu, std = actor(states)
+    # new mus and stds? 
+    old_policy = log_prob_density(actions, mu, std) # sum of log probability
+    # of old actions
+
+    criterion = torch.nn.MSELoss()
+    n = len(states)
+    arr = np.arange(n)
+
+    for _ in range(args.actor_critic_update_num):
+        np.random.shuffle(arr)
+
+        for i in range(n // args.batch_size): 
+            batch_index = arr[args.batch_size * i : args.batch_size * (i + 1)]
+            #batch_index = torch.LongTensor(batch_index)
+            
+            inputs = states[batch_index]
+            actions_samples = actions[batch_index]
+            returns_samples = returns.unsqueeze(1)[batch_index].to(device)
+            advants_samples = advants.unsqueeze(1)[batch_index].to(device)
+            oldvalue_samples = old_values[batch_index].detach()
+        
+        
+            values = critic(inputs) #
+            clipped_values = oldvalue_samples + \
+                             torch.clamp(values - oldvalue_samples,
+                                         -args.clip_param, 
+                                         args.clip_param)
+            critic_loss1 = criterion(clipped_values, returns_samples)
+            critic_loss2 = criterion(values, returns_samples)
+            critic_loss = torch.max(critic_loss1, critic_loss2).mean()
+
+            loss, ratio, entropy = surrogate_loss(actor, advants_samples, inputs,
+                                         old_policy.detach(), actions_samples,
+                                         batch_index)
+            clipped_ratio = torch.clamp(ratio,
+                                        1.0 - args.clip_param,
+                                        1.0 + args.clip_param)
+            clipped_loss = clipped_ratio * advants_samples
+            actor_loss = -torch.min(loss, clipped_loss).mean()
+            #print(actor_loss,critic_loss,entropy)
+           # return actor_loss, critic_loss, entropy
+            loss = actor_loss + 0.5 * critic_loss - 0.001 * entropy #entropy bonus to promote exploration.
+
+            actor_optim.zero_grad()
+            loss.backward()
+            actor_optim.step()
+
+           # critic_optim.zero_grad()
+           # loss.backward() 
+            critic_optim.step()
+
+def get_gae(rewards, masks, values, args):
+    """
+    How much better a particular action is in a particular state. 
+    
+    Uses reward of current action + value function of that state-action pair, discount factor gamma, and then lamda to compute. 
+    """
+    rewards = torch.Tensor(rewards)
+    masks = torch.Tensor(masks)
+    returns = torch.zeros_like(rewards)
+    advants = torch.zeros_like(rewards)
+    
+    running_returns = 0
+    previous_value = 0
+    running_advants = 0
+
+    for t in reversed(range(0, len(rewards))): #for LL, only ever one step :-)
+        running_returns = rewards[t] + (args.gamma * running_returns * masks[t])
+        returns[t] = running_returns
+
+        running_delta = rewards[t] + (args.gamma * previous_value * masks[t]) - \
+                                        values.data[t]
+        previous_value = values.data[t]
+        
+        running_advants = running_delta + (args.gamma * args.lamda * \
+                                            running_advants * masks[t])
+        advants[t] = running_advants
+
+    advants = (advants - advants.mean()) / advants.std()
+    return returns, advants
+
+def surrogate_loss(actor, advants, states, old_policy, actions, batch_index):
+    """
+    The loss for PPO. Re-run through network, recomput policy from states
+    and see if this surrogate ratio is better. If it is, use as proximal policy update. It's very close to prior policy, but def better. 
+    
+    Not sure this actually works though. Should not the new mu and stds be used to draw,
+    
+        When do we use get_action? Only once in main, I think it should be for all? 
+    """
+    mu, std = actor(states)
+    new_policy = log_prob_density(actions, mu, std)
+    old_policy = old_policy[batch_index]
+
+    ratio = torch.exp(new_policy - old_policy)
+    surrogate_loss = ratio * advants
+    entropy = get_entropy(mu, std)
+
+    return surrogate_loss, ratio, entropy

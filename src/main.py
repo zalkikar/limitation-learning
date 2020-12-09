@@ -4,40 +4,6 @@ Main.py file for GAIL implementation on dialog datasets.
 Uses command line arguments to maximize flexibility, and run many options in parallel
 
 """
-
-
-# Normally args but not here :-)
-env_name = # Dialog
-load_model = None
-train_discrim_flag = True # starts here. 
-
-
-seed = 0 # should try 3
-hidden_size = 128 # should try a few, also add more layers? 
-learning_rate = 3e-4 # try a few
-clip_param = .2 # try a few
-discrim_update_num = 2 # try a few
-actor_critic_update_num = 10 # try a few
-l2_rate = 1e-3 # weight decay # try a few
-total_sample_size = 256 # total num of state-actions to collect before learning 
-batch_size = 32
-
-# That's about 9 values. 9^3 is 729, and a shit load more than we're able to try
-
-
-
-
-render = False #X X
-gamma = 0.99 # no longer used ! 
-lamda = .98 # lambda is used for future steps in GAE. Also only one 
-
-
-# Not sure, maybe go for iters
-suspend_accu_exp = 1. # do not need to be this high typically, but seems likely it has to be for a simple env like mountain car cont.
-suspend_accu_gen = 1.
-max_iter_num = 500
-
-
 import os
 import gym
 import pickle
@@ -53,7 +19,7 @@ from utils.zfilter import ZFilter
 from model import Actor, Critic, Discriminator
 from train_model import *
 
-parser = argparse.ArgumentParser(description='PyTorch GAIL')
+parser = argparse.ArgumentParser(description='PyTorch GAIL for Dialog')
 parser.add_argument('--load_model', type=str, default=None, 
                     help='path to load the saved model')
 parser.add_argument('--render', action="store_true", default=False, 
@@ -62,7 +28,7 @@ parser.add_argument('--gamma', type=float, default=0.99,
                     help='discounted factor (default: 0.99)')
 parser.add_argument('--lamda', type=float, default=0.98, 
                     help='GAE hyper-parameter (default: 0.98)')
-parser.add_argument('--hidden_size', type=int, default=100, 
+parser.add_argument('--hidden_size', type=int, default=100,  #TODO
                     help='hidden unit size of actor, critic and discrim networks (default: 100)')
 parser.add_argument('--learning_rate', type=float, default=3e-4, 
                     help='learning rate of models (default: 3e-4)')
@@ -76,8 +42,8 @@ parser.add_argument('--actor_critic_update_num', type=int, default=10,
                     help='update number of actor-critic (default: 10)')
 parser.add_argument('--total_sample_size', type=int, default=2048, 
                     help='total sample size to collect before PPO update (default: 2048)')
-parser.add_argument('--batch_size', type=int, default=64, 
-                    help='batch size to update (default: 64)')
+parser.add_argument('--batch_size', type=int, default=128, 
+                    help='batch size to update (default: 128)')
 parser.add_argument('--suspend_accu_exp', type=float, default=0.8,
                     help='accuracy for suspending discriminator about expert data (default: 0.8)')
 parser.add_argument('--suspend_accu_gen', type=float, default=0.8,
@@ -86,8 +52,8 @@ parser.add_argument('--max_iter_num', type=int, default=4000,
                     help='maximal number of main iterations (default: 4000)')
 parser.add_argument('--seed', type=int, default=500,
                     help='random seed (default: 500)')
-parser.add_argument('--logdir', type=str, default='logs',
-                    help='tensorboardx logs directory')
+parser.add_argument('--logdir', type=str, default='logs/EXPERIMENTNAME',
+                    help='tensorboardx logs directory (default: logs/EXPERIMENTNAME')
 args = parser.parse_args()
 
 
@@ -122,7 +88,6 @@ def main():
         critic.load_state_dict(ckpt['critic'])
         discrim.load_state_dict(ckpt['discrim'])
 
-        print("Loaded OK ex. Zfilter N {}".format(running_state.rs.n))
 
     
     episodes = 0
@@ -141,12 +106,12 @@ def main():
 
             
             for _ in range(10000): 
-                if args.render:
-                	print(raw_state, raw_action)
+
                 steps += 1
 
                 mu, std = actor(state.resize(1,60,300))
                 action = get_action(mu.cpu(), std.cpu())[0]
+                raw_action = get_closest_tokens(action) #TODO
                 done= env.step(action)
                 irl_reward = get_reward(discrim, state, action)
                 if done:
@@ -169,17 +134,25 @@ def main():
         score_avg = np.mean(scores)
         print('{}:: {} episode score is {:.2f}'.format(iter, episodes, score_avg))
         writer.add_scalar('log/score', float(score_avg), iter)
+        writer.add_scalar('log/expert_acc', float(expert_acc), iter) #logg
+        writer.add_scalar('log/learner_acc', float(learner_acc), iter) #logg
+        writer.add_scalar('log/avg_acc', float(learner_acc + expert_acc)/2, iter) #logg
+
 
         actor.train(), critic.train(), discrim.train()
         if train_discrim_flag:
-            expert_acc, learner_acc = train_discrim(discrim, memory, discrim_optim, demonstrations, args) #TODO.
+            expert_acc, learner_acc = train_discrim(discrim, memory, discrim_optim, demonstrations, args) 
             print("Expert: %.2f%% | Learner: %.2f%%" % (expert_acc * 100, learner_acc * 100))
             if expert_acc > args.suspend_accu_exp and learner_acc > args.suspend_accu_gen:
                 train_discrim_flag = False
-        train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args) # TODO
+        train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args)
 
         if iter % 100:
             score_avg = int(score_avg)
+            writer.add_text('log/raw_state', raw_state,iter)
+            writer.add_text('log/raw_action', raw_action,iter)
+            writer.add_text('log/raw_expert_action', raw_expert_action,iter)
+
 
             model_path = os.path.join(os.getcwd(),'save_model')
             if not os.path.isdir(model_path):
