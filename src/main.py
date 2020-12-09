@@ -16,7 +16,10 @@ import torch.optim as optim
 from tensorboardX import SummaryWriter 
 
 from utils.zfilter import ZFilter
-from model import Actor, Critic, Discriminator
+#from model import Actor, Critic, Discriminator
+from models.actor import Actor
+from models.critic import Critic
+from models.discriminator import Discriminator
 from train_model import *
 
 parser = argparse.ArgumentParser(description='PyTorch GAIL for Dialog')
