@@ -18,7 +18,6 @@ from tensorboardX import SummaryWriter
 from models.actor import Actor
 from models.critic import Critic
 from models.discriminator import Discriminator
-from train_model import * # THIS IS MISSING RIGHT NOW I THINK
 from dialog_environment import DialogEnvironment
 
 device='cpu' # for now
