@@ -50,7 +50,7 @@ def get_reward(discrim, state, action):
 
     with torch.no_grad():
         #TODO: better resize
-        return -math.log(discrim(state.resize(1,60,300),action.resize(1,60,300))[0].item())
+        return -math.log(discrim(state.resize(1,args.seq_len,args.input_size),action.resize(1,args.seq_len,args.input_size))[0].item())
 
 def save_checkpoint(state, filename):
     torch.save(state, filename)

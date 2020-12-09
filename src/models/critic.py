@@ -49,7 +49,7 @@ if __name__ == '__main__':
     print("Initializing a critic network.")
     x = torch.randn(16,10,300)
 
-    model = model = Critic(hidden_size=4,num_layers=4,input_size=300,seq_len=10)
+    model = Critic(hidden_size=4,num_layers=4,input_size=300,seq_len=10)
 
     out = model(x)
     print('inshape =',x.shape)

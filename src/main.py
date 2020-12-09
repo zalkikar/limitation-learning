@@ -91,7 +91,21 @@ parser.add_argument('--seed',
 
 parser.add_argument('--logdir', 
                     type=str, default='logs/EXPERIMENTNAME',
-                    help='tensorboardx logs directory (default: logs/EXPERIMENTNAME')
+                    help='tensorboardx logs directory (default: logs/EXPERIMENTNAME)')
+
+parser.add_argument('--hidden_size', 
+                    type=int, default=8,
+                    help='New sequence length of the representation produced by the encoder/decoder RNNs. (default: 8)')
+parser.add_argument('--num_layers', 
+                    type=int, default=4,
+                    help='Number of layers in the respective RNNs (default: 4)')
+
+parser.add_argument('--seq_len', 
+                    type=int, default=60,
+                    help='length of input and response sequences (default: 60, which is also max)')
+parser.add_argument('--input_size', 
+                    type=int, default=300,
+                    help='DO NOT CHANGE UNLESS NEW EMBEDDINGS ARE MADE. Dimensionality of embeddings (default: 300)')
 
 args = parser.parse_args()
 
@@ -103,9 +117,9 @@ def main():
     torch.manual_seed(args.seed)
 
     #TODO
-    actor = Actor(hidden_size=3,num_layers=3,device='cuda')
-    critic = Critic(hidden_size=1,num_layers=3,device='cuda')
-    discrim = Discriminator(input_size = 300, hidden_size=1,device='cuda',num_layers=3)
+    actor = Actor(hidden_size=args.hidden_size,num_layers=args.num_layers,device='cuda')
+    critic = Critic(hidden_size=args.hidden_size,num_layers=args.num_layers,input_size=args.input_size,seq_len=args.seq_len)
+    discrim = Discriminator(hidden_size=args.hidden_size,num_layers=args.hidden_size,input_size=args.input_size,seq_len=args.seq_len)
     
     actor.to(device), critic.to(device), discrim.to(device)
     
@@ -143,12 +157,14 @@ def main():
             state, expert_action, raw_state, raw_expert_action = env.reset()
             score = 0
 
-            
+            state = state[:args.seq_len,:]
+            expert_action = expert_action[:args.seq_len,:]
+
             for _ in range(10000): 
 
                 steps += 1
 
-                mu, std = actor(state.resize(1,30,300)) #TODO: gotta be a better way to resize. 
+                mu, std = actor(state.resize(1,args.seq_len,args.input_size)) #TODO: gotta be a better way to resize. 
                 action = get_action(mu.cpu(), std.cpu())[0]
                 raw_action = get_closest_tokens(action) #TODO
                 done= env.step(action)

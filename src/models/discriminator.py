@@ -62,7 +62,7 @@ if __name__ == '__main__':
     print("Initialized a discrim.")
     x = torch.randn(16,10,300)
 
-    model = model = Discriminator(hidden_size=4,num_layers=4,input_size=300,seq_len=10)
+    model = Discriminator(hidden_size=4,num_layers=4,input_size=300,seq_len=10)
 
 
     out = model(x,x)
