@@ -20,7 +20,11 @@ from utils.zfilter import ZFilter
 from models.actor import Actor
 from models.critic import Critic
 from models.discriminator import Discriminator
-from train_model import *
+from train_model import * # THIS IS MISSING RIGHT NOW I THINK
+from dialog_environment import DialogEnvironment
+
+device='cpu' # for now
+
 
 parser = argparse.ArgumentParser(description='PyTorch GAIL for Dialog')
 
@@ -91,7 +95,7 @@ parser.add_argument('--seed',
 parser.add_argument('--logdir', 
                     type=str, default='logs/EXPERIMENTNAME',
                     help='tensorboardx logs directory (default: logs/EXPERIMENTNAME')
-                    
+
 args = parser.parse_args()
 
 
@@ -109,10 +113,10 @@ def main():
     actor.to(device), critic.to(device), discrim.to(device)
     
 
-    actor_optim = optim.Adam(actor.parameters(), lr=learning_rate)
-    critic_optim = optim.Adam(critic.parameters(), lr=learning_rate, 
-                              weight_decay=l2_rate) 
-    discrim_optim = optim.Adam(discrim.parameters(), lr=learning_rate)
+    actor_optim = optim.Adam(actor.parameters(), lr=args.learning_rate)
+    critic_optim = optim.Adam(critic.parameters(), lr=args.learning_rate, 
+                              weight_decay=args.l2_rate) 
+    discrim_optim = optim.Adam(discrim.parameters(), lr=args.learning_rate)
 
     # load demonstrations
 
@@ -147,7 +151,7 @@ def main():
 
                 steps += 1
 
-                mu, std = actor(state.resize(1,60,300)) #TODO: gotta be a better way to resize. 
+                mu, std = actor(state.resize(1,30,300)) #TODO: gotta be a better way to resize. 
                 action = get_action(mu.cpu(), std.cpu())[0]
                 raw_action = get_closest_tokens(action) #TODO
                 done= env.step(action)
@@ -203,7 +207,7 @@ def main():
                 'critic': critic.state_dict(),
                 'discrim': discrim.state_dict(),
                 'args': args,
-                'score': score_avg
+                'score': score_avg,
                 'accuracy': np.mean([expert_acc,learner_acc])
             }, filename=ckpt_path)
 
