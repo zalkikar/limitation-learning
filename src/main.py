@@ -54,8 +54,6 @@ from model import Actor, Critic, Discriminator
 from train_model import *
 
 parser = argparse.ArgumentParser(description='PyTorch GAIL')
-parser.add_argument('--env_name', type=str, default="Hopper-v2", 
-                    help='name of the environment to run')
 parser.add_argument('--load_model', type=str, default=None, 
                     help='path to load the saved model')
 parser.add_argument('--render', action="store_true", default=False, 
@@ -95,45 +93,34 @@ args = parser.parse_args()
 
 
 def main():
-    env = gym.make(args.env_name)
-    env.seed(args.seed)
+    env = DialogEnvironment()
+
     torch.manual_seed(args.seed)
 
-
-    # TODO
-    num_inputs = env.observation_space.shape[0]
-    num_actions = env.action_space.shape[0]
-    running_state = ZFilter((num_inputs,), clip=5)
-
-    print('state size:', num_inputs) 
-    print('action size:', num_actions)
-
-    # TODO
-    actor = Actor(num_inputs, num_actions, args)
-    critic = Critic(num_inputs, args)
-    discrim = Discriminator(num_inputs + num_actions, args)
-
-    actor_optim = optim.Adam(actor.parameters(), lr=args.learning_rate)
-    critic_optim = optim.Adam(critic.parameters(), lr=args.learning_rate, 
-                              weight_decay=args.l2_rate) 
-    discrim_optim = optim.Adam(discrim.parameters(), lr=args.learning_rate)
+    #TODO
+    actor = Actor(hidden_size=3,num_layers=3,device='cuda')
+    critic = Critic(hidden_size=1,num_layers=3,device='cuda')
+    discrim = Discriminator(input_size = 300, hidden_size=1,device='cuda',num_layers=3)
     
+    actor.to(device), critic.to(device), discrim.to(device)
+    
+
+    actor_optim = optim.Adam(actor.parameters(), lr=learning_rate)
+    critic_optim = optim.Adam(critic.parameters(), lr=learning_rate, 
+                              weight_decay=l2_rate) 
+    discrim_optim = optim.Adam(discrim.parameters(), lr=learning_rate)
 
     # load demonstrations
 
     writer = SummaryWriter(args.logdir)
 
-    if args.load_model is not None:
+    if args.load_model is not None: #TODO
         saved_ckpt_path = os.path.join(os.getcwd(), 'save_model', str(args.load_model))
         ckpt = torch.load(saved_ckpt_path)
 
         actor.load_state_dict(ckpt['actor'])
         critic.load_state_dict(ckpt['critic'])
         discrim.load_state_dict(ckpt['discrim'])
-
-        running_state.rs.n = ckpt['z_filter_n']
-        running_state.rs.mean = ckpt['z_filter_m']
-        running_state.rs.sum_square = ckpt['z_filter_s']
 
         print("Loaded OK ex. Zfilter N {}".format(running_state.rs.n))
 
@@ -158,24 +145,23 @@ def main():
                 	print(raw_state, raw_action)
                 steps += 1
 
-                #TODO
-                mu, std = actor(torch.Tensor(state).unsqueeze(0))
-                action = get_action(mu, std)[0]
+                mu, std = actor(state.resize(1,60,300))
+                action = get_action(mu.cpu(), std.cpu())[0]
                 done= env.step(action)
                 irl_reward = get_reward(discrim, state, action)
-
                 if done:
                     mask = 0
                 else:
                     mask = 1
 
-                memory.append([state, action, irl_reward, mask,expert_action.numpy()])
 
+                memory.append([state, torch.from_numpy(action).to(device), irl_reward, mask,expert_action])
 
                 score += irl_reward
 
                 if done:
                     break
+
             
             episodes += 1
             scores.append(score)
@@ -186,11 +172,11 @@ def main():
 
         actor.train(), critic.train(), discrim.train()
         if train_discrim_flag:
-            expert_acc, learner_acc = train_discrim(discrim, memory, discrim_optim, demonstrations, args)
+            expert_acc, learner_acc = train_discrim(discrim, memory, discrim_optim, demonstrations, args) #TODO.
             print("Expert: %.2f%% | Learner: %.2f%%" % (expert_acc * 100, learner_acc * 100))
             if expert_acc > args.suspend_accu_exp and learner_acc > args.suspend_accu_gen:
                 train_discrim_flag = False
-        train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args)
+        train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args) # TODO
 
         if iter % 100:
             score_avg = int(score_avg)
@@ -205,11 +191,9 @@ def main():
                 'actor': actor.state_dict(),
                 'critic': critic.state_dict(),
                 'discrim': discrim.state_dict(),
-                'z_filter_n':running_state.rs.n,
-                'z_filter_m': running_state.rs.mean,
-                'z_filter_s': running_state.rs.sum_square,
                 'args': args,
                 'score': score_avg
+                'accuracy': np.mean([expert_acc,learner_acc])
             }, filename=ckpt_path)
 
 if __name__=="__main__":
