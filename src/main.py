@@ -23,40 +23,75 @@ from models.discriminator import Discriminator
 from train_model import *
 
 parser = argparse.ArgumentParser(description='PyTorch GAIL for Dialog')
-parser.add_argument('--load_model', type=str, default=None, 
+
+parser.add_argument('--load_model', 
+                    type=str, default=None, 
                     help='path to load the saved model')
-parser.add_argument('--render', action="store_true", default=False, 
+
+parser.add_argument('--render', 
+                    action="store_true", default=False, 
                     help='if you dont want to render, set this to False')
-parser.add_argument('--gamma', type=float, default=0.99, 
+
+parser.add_argument('--gamma', 
+                    type=float, default=0.99, 
                     help='discounted factor (default: 0.99)')
-parser.add_argument('--lamda', type=float, default=0.98, 
+
+parser.add_argument('--lamda', 
+                    type=float, default=0.98, 
                     help='GAE hyper-parameter (default: 0.98)')
-parser.add_argument('--hidden_size', type=int, default=100,  #TODO
+
+parser.add_argument('--hidden_size', 
+                    type=int, default=100,  #TODO
                     help='hidden unit size of actor, critic and discrim networks (default: 100)')
-parser.add_argument('--learning_rate', type=float, default=3e-4, 
+
+parser.add_argument('--learning_rate', 
+                    type=float, default=3e-4, 
                     help='learning rate of models (default: 3e-4)')
-parser.add_argument('--l2_rate', type=float, default=1e-3, 
+
+parser.add_argument('--l2_rate', 
+                    type=float, default=1e-3, 
                     help='l2 regularizer coefficient (default: 1e-3)')
-parser.add_argument('--clip_param', type=float, default=0.2, 
+
+parser.add_argument('--clip_param', 
+                    type=float, default=0.2, 
                     help='clipping parameter for PPO (default: 0.2)')
-parser.add_argument('--discrim_update_num', type=int, default=2, 
+
+parser.add_argument('--discrim_update_num', 
+                    type=int, default=2, 
                     help='update number of discriminator (default: 2)')
-parser.add_argument('--actor_critic_update_num', type=int, default=10, 
+
+parser.add_argument('--actor_critic_update_num', 
+                    type=int, default=10, 
                     help='update number of actor-critic (default: 10)')
-parser.add_argument('--total_sample_size', type=int, default=2048, 
+
+parser.add_argument('--total_sample_size', 
+                    type=int, default=2048, 
                     help='total sample size to collect before PPO update (default: 2048)')
-parser.add_argument('--batch_size', type=int, default=128, 
+
+parser.add_argument('--batch_size', 
+                    type=int, default=128, 
                     help='batch size to update (default: 128)')
-parser.add_argument('--suspend_accu_exp', type=float, default=0.8,
+
+parser.add_argument('--suspend_accu_exp', 
+                    type=float, default=0.8,
                     help='accuracy for suspending discriminator about expert data (default: 0.8)')
-parser.add_argument('--suspend_accu_gen', type=float, default=0.8,
+
+parser.add_argument('--suspend_accu_gen', 
+                    type=float, default=0.8,
                     help='accuracy for suspending discriminator about generated data (default: 0.8)')
-parser.add_argument('--max_iter_num', type=int, default=4000,
+
+parser.add_argument('--max_iter_num', 
+                    type=int, default=4000,
                     help='maximal number of main iterations (default: 4000)')
-parser.add_argument('--seed', type=int, default=500,
+
+parser.add_argument('--seed', 
+                    type=int, default=500,
                     help='random seed (default: 500)')
-parser.add_argument('--logdir', type=str, default='logs/EXPERIMENTNAME',
+
+parser.add_argument('--logdir', 
+                    type=str, default='logs/EXPERIMENTNAME',
                     help='tensorboardx logs directory (default: logs/EXPERIMENTNAME')
+                    
 args = parser.parse_args()
 
 
