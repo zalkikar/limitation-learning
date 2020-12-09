@@ -17,10 +17,16 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def get_action(mu, std):
     action = torch.normal(mu, std)
     action = action.data.numpy()
-    
-    # This should be normalized. 
+    # TODO 
+    # After drawing an action, normalize the embedding the same way the expert ones are.
     return action
 
+def get_raw_action(action):
+    """
+    Converts a token or sequence of token embeddings into their raw form, finding the closest point in the embedding
+    space to that word. 
+    """
+    #TODO
 
 def get_entropy(mu, std):
     dist = Normal(mu, std)
@@ -68,8 +74,6 @@ def train_discrim(discrim, memory, discrim_optim, demonstrations, args):
     for _ in range(args.discrim_update_num):
 
         learner = discrim(states, actions) #pass (s,a) through discriminator
-
-        # TODO
        # demonstrations = torch.Tensor([states, expert_actions]) # pass (s,a) of expert through discriminator
         expert = discrim(states,expert_actions) #discrimator "guesses" whether or not these 
         # actions came from expert or learner

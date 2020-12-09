@@ -36,7 +36,7 @@ class DialogEnvironment(object):
     """
     def __init__(self, mode='train'):
         
-
+        # TODO: fix path
         self.conversations = torch.load('../apps/dat/preprocess/padded_vectorized_states.pt')
         self.raw_conversations = torch.load('../apps/dat/preprocess/raw_states.pt')
         
@@ -74,7 +74,7 @@ class DialogEnvironment(object):
         raw_state = list(self.raw_conversations.keys())[self.i], 
         
         raw_expert_action = self.raw_conversations[list(self.raw_conversations.keys())[self.i]]
-
+        #TODO: truncate sequences? 
         return state, expert_action, raw_state, raw_expert_action
     
     def step(self,action):
