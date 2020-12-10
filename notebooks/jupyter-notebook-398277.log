@@ -151,3 +151,95 @@ WARNING:root:kernel 0905b46e-e15a-4442-8ae0-5f182f03b53c restarted
 [I 20:46:06.833 NotebookApp] Saving file at /Main Try.ipynb
 [W 20:53:06.940 NotebookApp] delete /logs/noah/events.out.tfevents.1607564353.gr055.nyu.cluster
 [W 20:53:06.940 NotebookApp] Skipping trash for /scratch/nsk367/limitation-learning/notebooks/logs/noah/events.out.tfevents.1607564353.gr055.nyu.cluster, on different device to home directory
+[I 20:57:50.069 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:560ff2e945fa4251a6759c7183b00b33
+[I 20:57:53.657 NotebookApp] Kernel restarted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 20:57:53.776 NotebookApp] Restoring connection for 0905b46e-e15a-4442-8ae0-5f182f03b53c:560ff2e945fa4251a6759c7183b00b33
+[I 20:57:53.777 NotebookApp] Replaying 3 buffered messages
+[I 20:58:16.194 NotebookApp] Saving file at /Main Try.ipynb
+[I 20:59:16.327 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:560ff2e945fa4251a6759c7183b00b33
+[I 20:59:16.670 NotebookApp] Kernel restarted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 20:59:16.713 NotebookApp] Restoring connection for 0905b46e-e15a-4442-8ae0-5f182f03b53c:560ff2e945fa4251a6759c7183b00b33
+[I 20:59:16.713 NotebookApp] Replaying 3 buffered messages
+[I 21:00:15.471 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:00:23.047 NotebookApp] Kernel interrupted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 21:02:15.321 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:09:40.598 NotebookApp] Kernel interrupted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 21:10:15.359 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:10:51.934 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:560ff2e945fa4251a6759c7183b00b33
+[I 21:10:58.844 NotebookApp] Kernel restarted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 21:10:58.911 NotebookApp] Restoring connection for 0905b46e-e15a-4442-8ae0-5f182f03b53c:560ff2e945fa4251a6759c7183b00b33
+[I 21:10:58.911 NotebookApp] Replaying 3 buffered messages
+[I 21:12:17.718 NotebookApp] Saving file at /Main Try.ipynb
+[W 21:12:53.344 NotebookApp] delete /logs/noah/events.out.tfevents.1607565722.gr055.nyu.cluster
+[W 21:12:53.344 NotebookApp] Skipping trash for /scratch/nsk367/limitation-learning/notebooks/logs/noah/events.out.tfevents.1607565722.gr055.nyu.cluster, on different device to home directory
+[I 21:14:16.624 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:16:22.477 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:18:18.095 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:20:19.913 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:22:16.616 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:23:40.689 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:26:16.758 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:28:16.022 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:30:17.031 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:31:45.495 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:32:16.208 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:33:23.881 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:36:15.351 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:38:17.260 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:40:16.080 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:42:15.368 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:44:18.680 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:44:36.990 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:46:10.446 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:46:15.336 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:46:16.722 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:46:18.456 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:46:31.582 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:48:19.914 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:50:16.163 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:52:16.189 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:52:49.038 NotebookApp] Kernel interrupted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 21:53:12.183 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:54:01.087 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:560ff2e945fa4251a6759c7183b00b33
+[I 21:54:07.946 NotebookApp] Kernel restarted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 21:54:08.046 NotebookApp] Restoring connection for 0905b46e-e15a-4442-8ae0-5f182f03b53c:560ff2e945fa4251a6759c7183b00b33
+[I 21:54:08.046 NotebookApp] Replaying 3 buffered messages
+[I 21:54:15.445 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:56:16.238 NotebookApp] Saving file at /Main Try.ipynb
+[I 21:58:16.703 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:00:15.377 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:02:15.382 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:04:16.185 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:06:16.803 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:08:18.441 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:10:19.352 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:12:16.056 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:14:16.779 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:16:16.081 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:18:16.492 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:20:22.354 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:22:16.078 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:24:16.064 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:26:16.433 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:28:16.083 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:30:16.501 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:32:16.346 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:34:16.115 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:36:16.857 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:38:16.946 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:40:16.131 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:42:16.190 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:44:18.737 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:46:16.120 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:48:16.113 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:50:16.526 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:52:17.713 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:54:16.564 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:56:23.124 NotebookApp] Saving file at /Main Try.ipynb
+[I 22:58:19.209 NotebookApp] Saving file at /Main Try.ipynb
+[I 23:00:17.370 NotebookApp] Saving file at /Main Try.ipynb
+[I 23:02:17.525 NotebookApp] Saving file at /Main Try.ipynb
+[I 23:04:17.505 NotebookApp] Saving file at /Main Try.ipynb
+[I 23:06:16.133 NotebookApp] Saving file at /Main Try.ipynb
+[I 23:08:18.159 NotebookApp] Saving file at /Main Try.ipynb
+[I 23:10:16.474 NotebookApp] Saving file at /Main Try.ipynb

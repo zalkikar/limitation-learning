@@ -13,6 +13,7 @@ __pycache__/
 pip-log.txt 
 pip-delete-this-directory.txt
 apps/dat/*
+**/save_model*
 **.DS_Store
 
 # Jupyter Notebook
