@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from encoders import EncoderRNN
+from models.encoders import EncoderRNN
 
 class Critic(nn.Module):
     """

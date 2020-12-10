@@ -187,3 +187,5 @@ Use the token string from the URL printed below and add it to the URL above
 [I 11:44:29.771 NotebookApp] Saving file at /GAIL rough.ipynb
 [I 11:46:17.072 NotebookApp] Saving file at /GAIL rough.ipynb
 [I 11:46:17.643 NotebookApp] Saving file at /GAIL rough.ipynb
+[I 11:50:56.329 NotebookApp] Starting buffering for 851251e1-7008-44b7-bda5-1a497db6a1ed:2eea1767ac794658bf26c24a49ed0e22
+slurmstepd: error: *** JOB 366268 ON gr014-ib0 CANCELLED AT 2020-12-08T22:32:25 DUE TO TIME LIMIT ***

@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 
-from encoders import EncoderRNN
-from decoders import DecoderRNN
+from models.encoders import EncoderRNN
+from models.decoders import DecoderRNN
 
 
 

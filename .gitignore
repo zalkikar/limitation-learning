@@ -1,6 +1,7 @@
 __pycache__/
 **hdf5
 *$py.class
+**.gz
 **npy 
 **fof_files/
 **pt
@@ -11,7 +12,8 @@ __pycache__/
 # Installer logs
 pip-log.txt 
 pip-delete-this-directory.txt
-
+apps/dat/*
+**/save_model*
 **.DS_Store
 
 # Jupyter Notebook
