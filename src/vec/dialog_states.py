@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import spacy
+#import spacy
 from tensor_helpers import np_to_var
 import time
 import torch
 import numpy as np
-from spacy_helpers import add_pipes_from_pretrained
+#from spacy_helpers import add_pipes_from_pretrained
 from config import TOKENS_WITH_VECTOR_CUTOFF
+import gensim
 
 
 def create_states(processed_txt_path, turn_limit=3):
@@ -52,23 +53,23 @@ def create_states(processed_txt_path, turn_limit=3):
     return state_dict
 
 
-def getTokVect_fromDoc(doc: spacy.tokens.Doc):
+def getTokVect_fromDoc(w2v, doc): # doc is already processed from spacy #(doc: spacy.tokens.Doc):
     # document level token vectors (num_tokens, dim_tokens)
     v = []
-    for tok in doc:
-        if tok.has_vector:
-            v.append(tok.vector)
-        else:
+    for tok in doc.split(' '):
+        try:
+            v.append(w2v[tok])
+        except KeyError: # oov token, probably didnt appear much 
             continue
     return np.array(v)
 
 
-def create_state_vects(nlp, state_dict):
+def create_state_vects(w2v, state_dict):
     state_vects = {}
     dropped_vector_pairs = []
     for i, (k, v) in enumerate(state_dict.items()):
-        TokVectK = getTokVect_fromDoc(nlp(k))
-        TokVectV = getTokVect_fromDoc(nlp(v))
+        TokVectK = getTokVect_fromDoc(w2v, k) #(nlp(k))
+        TokVectV = getTokVect_fromDoc(w2v, v) #(nlp(v))
         # ignore pairs where initial_state or next_state are empty vectors, for now
         if ((len(TokVectK) == 0) or (len(TokVectV) == 0)):
             dropped_vector_pairs.append(i)
@@ -139,11 +140,12 @@ def run_dialog_states():
         print(f'current state = {cs} {sep} next state = {state_dict[cs]}')
     """
 
-    nlp = spacy.load('./models/spacy-blank-GoogleNews/')
+    #nlp = spacy.load('./models/custom-GoogleNews/')
+    #nlp = add_pipes_from_pretrained(nlp)
 
-    nlp = add_pipes_from_pretrained(nlp)
+    model = gensim.models.Word2Vec.load("./models/custom_w2v_intersect_GoogleNews")
 
-    state_vects,no_vector_pairs = create_state_vects(nlp, state_dict)
+    state_vects,no_vector_pairs = create_state_vects(model.wv, state_dict)
     assert len(state_dict)-len(no_vector_pairs) == len(state_vects)
     torch.save(state_vects, './dat/processed/vectorized_states.pt')
 

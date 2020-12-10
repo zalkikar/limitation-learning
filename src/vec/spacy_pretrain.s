@@ -17,17 +17,17 @@
 module purge
 
 # Move into the directory that contains our code
-SRCDIR=$HOME/limitation-learning/apps
+SRCDIR=$SCRATCH/rz1567/deep_rl/limitation-learning
 
 # Activate the conda environment
 source ~/.bashrc
-conda activate ## TODO
+conda activate irl
 
 # Execute the script
-python -m spacy pretrain [texts_loc] [vectors_model] [output_dir]
-[--width] [--conv-depth] [--cnn-window] [--cnn-pieces] [--use-chars] [--sa-depth]
-[--embed-rows] [--loss_func] [--dropout] [--batch-size] [--max-length]
-[--min-length]  [--seed] [--n-iter] [--use-vectors] [--n-save-every]
-[--init-tok2vec] [--epoch-start]
+python -m spacy pretrain ./dat/processed/formatted_movie_lines.jsonl ./models/spacy-blank-GoogleNews ./models/spacy-pretrain-GoogleNews --n-iter 50
+#[--width] [--conv-depth] [--cnn-window] [--cnn-pieces] [--use-chars] [--sa-depth]
+#[--embed-rows] [--loss_func] [--dropout] [--batch-size] [--max-length]
+#[--min-length]  [--seed] [--n-iter] [--use-vectors] [--n-save-every]
+#[--init-tok2vec] [--epoch-start]
 
 # And we're done!

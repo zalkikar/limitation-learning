@@ -43,7 +43,7 @@ class Seq2Seq(nn.Module):
 class Seq2SeqAttn_pre_embed(nn.Module):
     def __init__(self,  
                  hidden_size,
-                 num_layers,
+                 num_layers=1,
                  embed_size=300,
                  output_size=300,
                  device='cpu',
@@ -69,7 +69,7 @@ class Seq2SeqAttn_pre_embed(nn.Module):
                                         lstm = lstm
                                         )
         
-    def forward(self, x, targets, teacher_forcing_ratio=0.5):
+    def forward(self, x, targets, teacher_forcing_ratio=0.):
         # encoder_outputs : all hidden states of the input sequence (forward and backward)
         # hidden : final forward and backward hidden states, passed through a linear layer
         enc_outs, enc_hidden = self.encoder(x)
