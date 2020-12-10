@@ -14,7 +14,8 @@ import gensim
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-model = gensim.models.KeyedVectors.load_word2vec_format("/scratch/nsk367/limitation-learning/apps/dat/preprocess/GoogleNews-vectors-negative300.bin.gz", binary=True)
+#model = gensim.models.KeyedVectors.load_word2vec_format("/scratch/nsk367/limitation-learning/apps/dat/preprocess/GoogleNews-vectors-negative300.bin.gz", binary=True)
+model = gensim.models.Word2Vec.load("./models/custom_w2v_intersect_GoogleNews")
 
 def get_action(mu, std):
     action = torch.normal(mu, std)
@@ -53,6 +54,8 @@ def get_raw_action(action,
             ### TODO: 
             # vocab restriction after sorting vocab in descending order
             # or by subsetting top N words in cornell movie dialog corpus and then sorting
+            ### UPDATE:
+            # the above probably wont be needed now!
             
             raw_token = sims[0][0]
             sim_score = sims[0][1]
