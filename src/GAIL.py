@@ -1,5 +1,4 @@
-from collections import deque  
-#code for training 
+from collections import deque
 import torch
 import numpy as np
 
@@ -11,22 +10,58 @@ import math
 import torch
 from torch.distributions import Normal
 
+import gensim
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+model = gensim.models.KeyedVectors.load_word2vec_format("./dat/vectors/GoogleNews-vectors-negative300.bin.gz", binary=True)
 
 def get_action(mu, std):
     action = torch.normal(mu, std)
     action = action.data.numpy()
     # TODO 
     # After drawing an action, normalize the embedding the same way the expert ones are.
+    # normalization stuff is still sort of up in the air
     return action
 
-def get_raw_action(action):
-    """
-    Converts a token or sequence of token embeddings into their raw form, finding the closest point in the embedding
-    space to that word. 
-    """
-    #TODO
+def get_raw_action(action, 
+                   type = 'average',
+                   metric = 'cosine',
+                   cutoff = None,
+                   normalize = False):
+
+    raw_action = []
+
+    if metric != 'cosine':
+        raise NotImplementedError
+
+    if type == 'greedy':
+        raise NotImplementedError
+
+    elif type == 'average':
+        
+        for token_vector in action:
+
+            if isinstance(token_vector, torch.Tensor):
+                token_vector = token_vector.numpy()
+
+            # https://tedboy.github.io/nlps/_modules/gensim/models/word2vec.html#Word2Vec.similar_by_vector
+            # computes cosine similarity between a simple mean of the projection
+            # weight vectors of the given words and the vectors for each word in the model
+            sims = model.similar_by_vector(token_vector, topn=1, restrict_vocab=None)
+
+            ### TODO: 
+            # vocab restriction after sorting vocab in descending order
+            # or by subsetting top N words in cornell movie dialog corpus and then sorting
+            
+            raw_token = sims[0][0]
+            sim_score = sims[0][1]
+            if (cutoff and (sim_score < cutoff)):
+                continue
+            
+            raw_action.append(raw_token.replace('_',' '))
+
+    return ' '.join(raw_action)
 
 def get_entropy(mu, std):
     dist = Normal(mu, std)
@@ -212,3 +247,10 @@ def surrogate_loss(actor, advants, states, old_policy, actions, batch_index):
     entropy = get_entropy(mu, std)
 
     return surrogate_loss, ratio, entropy
+
+
+if __name__ == "__main__":
+    
+    action = torch.rand(size=(30, 300))
+
+    print(get_raw_action(action))

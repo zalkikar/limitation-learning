@@ -1,7 +1,9 @@
 import torch
 import torch.nn as nn
 
-from models.seq2seq import Seq2Seq
+import numpy as np
+
+from models.seq2seq import Seq2Seq, Seq2SeqAttn
 
 def subsample(data, target, n=15):
     return [x[::n] for x in data], [y[::n] for y in target]
@@ -40,7 +42,7 @@ if __name__ == '__main__':
     raw = torch.load('./dat/processed/raw_states.pt')
 
     for index, vects in d.items():
-        # each is 60 x 300
+        # each is 30 x 300
         input_state, next_state = vects[0], vects[1]
         # raw strings corresponding to embeddings
         raw_input_state, raw_next_state = list(raw.keys())[index], raw[list(raw.keys())[index]]
@@ -48,6 +50,19 @@ if __name__ == '__main__':
         print(input_state)
         print(raw_next_state)
         print(next_state)
+
+        data = abs(input_state.numpy())
+        print(data)
+        l1 = np.linalg.norm(data, ord=1, axis=1)
+        x_norm2 = data / l1[:,None]
+        print(x_norm2)
+        print("\n")
+
+        results = x_norm2*l1[:,None]
+        print(results)
+        print("\n")
+
+        print(data*l1[:,None])
         if index > 1:
             break
 
@@ -57,12 +72,14 @@ if __name__ == '__main__':
     print(dataset[0][1].shape) # next state at index 0
 
     loader = torch.utils.data.DataLoader(dataset,
-                                         batch_size=5,
+                                         batch_size=128,
                                          shuffle=True,
                                          num_workers=0,
                                         )
 
-    model = Seq2Seq(hidden_size=2, num_layers=2)
+    #model = Seq2Seq(hidden_size=2, num_layers=2)
+
+    model = Seq2SeqAttn(hidden_size=512, num_layers=1)
 
     for index, (data, target) in enumerate(loader):
         
