@@ -1,0 +1,37 @@
+
+MacOS or linux terminal command to create your ssh tunnel:
+ssh -N -L 9842:gr055:9842 nsk367@ 
+For more info and how to connect from windows, 
+   see research.computing.yale.edu/jupyter-nb
+Here is the MobaXterm info:
+Forwarded port:same as remote port
+Remote server: gr055
+Remote port: 9842
+SSH server: 
+SSH login: nsk367
+SSH port: 22
+Use a Browser on your local machine to go to:
+http://localhost:9842  (prefix w/ https:// if using password)
+Use the token string from the URL printed below and add it to the URL above
+
+[I 19:31:26.196 NotebookApp] Serving notebooks from local directory: /scratch/nsk367/limitation-learning/notebooks
+[I 19:31:26.197 NotebookApp] Jupyter Notebook 6.1.4 is running at:
+[I 19:31:26.197 NotebookApp] http://gr055:9842/?token=16726dd275d87fd7441ed714f5e2ca2719cd5fe64e661847
+[I 19:31:26.197 NotebookApp]  or http://127.0.0.1:9842/?token=16726dd275d87fd7441ed714f5e2ca2719cd5fe64e661847
+[I 19:31:26.197 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 19:31:26.203 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/nsk367/.local/share/jupyter/runtime/nbserver-3284631-open.html
+    Or copy and paste one of these URLs:
+        http://gr055:9842/?token=16726dd275d87fd7441ed714f5e2ca2719cd5fe64e661847
+     or http://127.0.0.1:9842/?token=16726dd275d87fd7441ed714f5e2ca2719cd5fe64e661847
+[I 19:31:55.913 NotebookApp] 302 GET /?token=16726dd275d87fd7441ed714f5e2ca2719cd5fe64e661847 (10.32.32.4) 0.43ms
+[I 19:32:13.070 NotebookApp] Creating new notebook in 
+[I 19:32:15.204 NotebookApp] Kernel started: 0905b46e-e15a-4442-8ae0-5f182f03b53c, name: python3
+[I 19:34:15.206 NotebookApp] Saving file at /Main Try.ipynb
+[I 19:35:26.590 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:560ff2e945fa4251a6759c7183b00b33
+[I 19:35:26.932 NotebookApp] Kernel restarted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 19:35:27.292 NotebookApp] Restoring connection for 0905b46e-e15a-4442-8ae0-5f182f03b53c:560ff2e945fa4251a6759c7183b00b33
+[I 19:35:27.292 NotebookApp] Replaying 3 buffered messages
+[I 19:36:15.207 NotebookApp] Saving file at /Main Try.ipynb
