@@ -260,3 +260,25 @@ WARNING:root:kernel 0905b46e-e15a-4442-8ae0-5f182f03b53c restarted
 [I 12:42:49.967 NotebookApp] Kernel interrupted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
 [I 12:43:23.841 NotebookApp] Saving file at /Main Try.ipynb
 [I 12:45:23.846 NotebookApp] Saving file at /Main Try.ipynb
+[I 13:52:31.296 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:a527f835b6eb4b2e90601aa19731a018
+[I 15:04:12.133 NotebookApp] 302 GET /?token=16726dd275d87fd7441ed714f5e2ca2719cd5fe64e661847 (10.32.32.6) 0.34ms
+[I 15:36:17.677 NotebookApp] Saving file at /Main Try.ipynb
+[I 15:37:27.875 NotebookApp] KernelRestarter: restarting kernel (1/5), keep random ports
+WARNING:root:kernel 0905b46e-e15a-4442-8ae0-5f182f03b53c restarted
+[I 15:37:38.299 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:3e80bfd1f9754915bd2e182625238fbf
+[I 15:37:38.531 NotebookApp] Kernel restarted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 15:37:38.726 NotebookApp] Restoring connection for 0905b46e-e15a-4442-8ae0-5f182f03b53c:3e80bfd1f9754915bd2e182625238fbf
+[I 15:37:38.726 NotebookApp] Replaying 3 buffered messages
+[I 15:37:51.302 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:3e80bfd1f9754915bd2e182625238fbf
+[I 15:37:56.498 NotebookApp] Kernel restarted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 15:37:56.937 NotebookApp] Restoring connection for 0905b46e-e15a-4442-8ae0-5f182f03b53c:3e80bfd1f9754915bd2e182625238fbf
+[I 15:37:56.937 NotebookApp] Replaying 3 buffered messages
+[I 15:38:17.635 NotebookApp] Saving file at /Main Try.ipynb
+[I 15:40:17.807 NotebookApp] Saving file at /Main Try.ipynb
+[I 15:41:03.610 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:3e80bfd1f9754915bd2e182625238fbf
+[I 15:41:03.848 NotebookApp] Kernel restarted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 15:41:04.050 NotebookApp] Restoring connection for 0905b46e-e15a-4442-8ae0-5f182f03b53c:3e80bfd1f9754915bd2e182625238fbf
+[I 15:41:04.050 NotebookApp] Replaying 3 buffered messages
+[I 15:42:17.802 NotebookApp] Saving file at /Main Try.ipynb
+/opt/slurm/data/slurmd/job398277/slurm_script: line 57: 3284631 Killed                  jupyter-notebook --no-browser --port=${port} --ip=${node}
+slurmstepd: error: Detected 3 oom-kill event(s) in step 398277.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
