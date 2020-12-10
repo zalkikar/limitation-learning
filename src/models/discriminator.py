@@ -1,9 +1,11 @@
 import torch
 import torch.nn as nn
-
-from models.encoders import EncoderRNN
-from models.decoders import DecoderRNN
-
+try:
+    from models.encoders import EncoderRNN
+    from models.decoders import DecoderRNN
+except:
+    from encoders import EncoderRNN
+    from decoders import DecoderRNN
 
 
 
@@ -15,7 +17,7 @@ class Discriminator(nn.Module):
     Based on the GAIL for question answering paper you shared. 
     """
     #TODO
-    def __init__(self,hidden_size, num_layers,
+    def __init__(self,hidden_size=1024, num_layers=2,
                  device='cpu', drop_prob=0, lstm=True, feature_norm=False,
                  input_size=30,seq_len=300):
         super().__init__()
@@ -62,7 +64,7 @@ if __name__ == '__main__':
     print("Initialized a discrim.")
     x = torch.randn(16,10,300)
 
-    model = Discriminator(hidden_size=4,num_layers=4,input_size=300,seq_len=10)
+    model = Discriminator(hidden_size=1024,num_layers=2,input_size=300,seq_len=10)
 
 
     out = model(x,x)
