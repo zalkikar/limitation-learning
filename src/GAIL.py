@@ -73,7 +73,7 @@ def log_prob_density(x, mu, std):
                      - 0.5 * math.log(2 * math.pi)
     return log_prob_density.sum(1, keepdim=True)
 
-def get_reward(discrim, state, action):
+def get_reward(discrim, state, action,args):
     """
     The reward function according to irl. It's log D(s,a). 
     
@@ -91,7 +91,7 @@ def save_checkpoint(state, filename):
     torch.save(state, filename)
     
 
-def train_discrim(discrim, memory, discrim_optim, demonstrations, args):
+def train_discrim(discrim, memory, discrim_optim, args):
     """
     Training the discriminator. 
 
