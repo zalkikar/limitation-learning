@@ -168,7 +168,7 @@ def main():
 
                 mu, std = actor(state.resize(1,args.seq_len,args.input_size)) #TODO: gotta be a better way to resize. 
                 action = get_action(mu.cpu(), std.cpu())[0]
-                raw_action = get_closest_tokens(action) #TODO
+                raw_action = get_raw_action(action) #TODO
                 done= env.step(action)
                 irl_reward = get_reward(discrim, state, action)
                 if done:
