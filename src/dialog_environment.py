@@ -37,8 +37,8 @@ class DialogEnvironment(object):
     def __init__(self, mode='train'):
         
         # TODO: fix path - fixed?
-        self.conversations = torch.load('./dat/processed/padded_vectorized_states.pt')
-        self.raw_conversations = torch.load('./dat/processed/raw_states.pt')
+        self.conversations = torch.load('/scratch/nsk367/limitation-learning/apps/dat/preprocess/padded_vectorized_states.pt')
+        self.raw_conversations = torch.load('/scratch/nsk367/limitation-learning/apps/dat/preprocess/raw_states.pt')
         
         
         self.conversations_visited = []
