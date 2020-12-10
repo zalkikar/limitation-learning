@@ -3,7 +3,7 @@ import torch.nn as nn
 
 import numpy as np
 
-from models.seq2seq import Seq2Seq, Seq2SeqAttn
+from models.seq2seq import Seq2Seq, Seq2SeqAttn_pre_embed
 
 def subsample(data, target, n=15):
     return [x[::n] for x in data], [y[::n] for y in target]
@@ -50,19 +50,6 @@ if __name__ == '__main__':
         print(input_state)
         print(raw_next_state)
         print(next_state)
-
-        data = abs(input_state.numpy())
-        print(data)
-        l1 = np.linalg.norm(data, ord=1, axis=1)
-        x_norm2 = data / l1[:,None]
-        print(x_norm2)
-        print("\n")
-
-        results = x_norm2*l1[:,None]
-        print(results)
-        print("\n")
-
-        print(data*l1[:,None])
         if index > 1:
             break
 
@@ -79,14 +66,19 @@ if __name__ == '__main__':
 
     #model = Seq2Seq(hidden_size=2, num_layers=2)
 
-    model = Seq2SeqAttn(hidden_size=512, num_layers=1)
+    model = Seq2SeqAttn_pre_embed(hidden_size=512, num_layers=1, drop_prob=0.5)
+    print(model)
+
+    param_count = sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+    print(f'The model has {param_count:,} trainable parameters')
 
     for index, (data, target) in enumerate(loader):
         
-        print(index, data.shape, target.shape)
+        #print(index, data.shape, target.shape)
 
         # run through model to test
-        result = model(data.cpu()).detach()
+        result = model(target, data.cpu()).detach()
 
         print(result.shape)
 

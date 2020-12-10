@@ -43,11 +43,17 @@ class EncoderRNN(nn.Module):
         return out
 
 
-class EncRnn(nn.Module):
-    
-    def __init__(self, hidden_size, num_layers,
-                 device='cpu', drop_prob=0, lstm=False, feature_norm=False,
-                 input_size=300):
+
+# no embedding layer, assumes embeddings have already been applied?
+class EncRnn_pre_embed(nn.Module):
+    def __init__(self, 
+                 hidden_size, 
+                 num_layers, 
+                 embed_size=300,
+                 device='cpu', 
+                 drop_prob=0, 
+                 lstm=False, 
+                 feature_norm=False):
         super().__init__()
         self.hidden_size = hidden_size
         self.num_layers = num_layers
@@ -60,16 +66,16 @@ class EncRnn(nn.Module):
             memory_cell = nn.GRU
             self.mem_type = 'gru'
 
-        self.memory_cell = memory_cell(input_size,
-                                       hidden_size,
-                                       num_layers,
+        self.memory_cell = memory_cell(input_size = embed_size,
+                                       hidden_size = hidden_size,
+                                       num_layers = num_layers,
                                        batch_first=True,
                                        # make dropout 0 if num_layers is 1
                                        dropout=drop_prob * (num_layers != 1),
                                        bidirectional=True)
 
         if feature_norm:
-            self.norm = nn.InstanceNorm1d(num_features=input_size)
+            self.norm = nn.InstanceNorm1d(num_features=embed_size)
         else:
             self.norm = nn.Identity()
 
