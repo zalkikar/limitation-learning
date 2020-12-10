@@ -108,6 +108,7 @@ parser.add_argument('--input_size',
                     type=int, default=300,
                     help='DO NOT CHANGE UNLESS NEW EMBEDDINGS ARE MADE. Dimensionality of embeddings (default: 300)')
 
+args = parser.parse_args()
 
 
 
