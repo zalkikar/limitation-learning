@@ -244,3 +244,41 @@ WARNING:root:kernel 0905b46e-e15a-4442-8ae0-5f182f03b53c restarted
 [I 23:08:18.159 NotebookApp] Saving file at /Main Try.ipynb
 [I 23:10:16.474 NotebookApp] Saving file at /Main Try.ipynb
 [I 23:12:17.132 NotebookApp] Saving file at /Main Try.ipynb
+[I 23:13:06.392 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:560ff2e945fa4251a6759c7183b00b33
+[I 12:37:16.205 NotebookApp] 302 GET /?token=16726dd275d87fd7441ed714f5e2ca2719cd5fe64e661847 (10.32.32.5) 0.63ms
+[I 12:37:23.968 NotebookApp] Discarding 899 buffered messages for 0905b46e-e15a-4442-8ae0-5f182f03b53c:560ff2e945fa4251a6759c7183b00b33
+[I 12:37:59.684 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:a527f835b6eb4b2e90601aa19731a018
+[I 12:38:06.871 NotebookApp] Kernel restarted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 12:38:07.224 NotebookApp] Restoring connection for 0905b46e-e15a-4442-8ae0-5f182f03b53c:a527f835b6eb4b2e90601aa19731a018
+[I 12:39:01.730 NotebookApp] Saving file at /Main Try.ipynb
+[I 12:39:23.856 NotebookApp] Saving file at /Main Try.ipynb
+[I 12:41:24.419 NotebookApp] Saving file at /Main Try.ipynb
+[W 12:41:50.889 NotebookApp] delete /logs/noah/events.out.tfevents.1607566339.gr055.nyu.cluster
+[W 12:41:50.889 NotebookApp] Skipping trash for /scratch/nsk367/limitation-learning/notebooks/logs/noah/events.out.tfevents.1607566339.gr055.nyu.cluster, on different device to home directory
+[W 12:41:50.915 NotebookApp] delete /logs/noah/events.out.tfevents.1607568931.gr055.nyu.cluster
+[W 12:41:50.915 NotebookApp] Skipping trash for /scratch/nsk367/limitation-learning/notebooks/logs/noah/events.out.tfevents.1607568931.gr055.nyu.cluster, on different device to home directory
+[I 12:42:49.967 NotebookApp] Kernel interrupted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 12:43:23.841 NotebookApp] Saving file at /Main Try.ipynb
+[I 12:45:23.846 NotebookApp] Saving file at /Main Try.ipynb
+[I 13:52:31.296 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:a527f835b6eb4b2e90601aa19731a018
+[I 15:04:12.133 NotebookApp] 302 GET /?token=16726dd275d87fd7441ed714f5e2ca2719cd5fe64e661847 (10.32.32.6) 0.34ms
+[I 15:36:17.677 NotebookApp] Saving file at /Main Try.ipynb
+[I 15:37:27.875 NotebookApp] KernelRestarter: restarting kernel (1/5), keep random ports
+WARNING:root:kernel 0905b46e-e15a-4442-8ae0-5f182f03b53c restarted
+[I 15:37:38.299 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:3e80bfd1f9754915bd2e182625238fbf
+[I 15:37:38.531 NotebookApp] Kernel restarted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 15:37:38.726 NotebookApp] Restoring connection for 0905b46e-e15a-4442-8ae0-5f182f03b53c:3e80bfd1f9754915bd2e182625238fbf
+[I 15:37:38.726 NotebookApp] Replaying 3 buffered messages
+[I 15:37:51.302 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:3e80bfd1f9754915bd2e182625238fbf
+[I 15:37:56.498 NotebookApp] Kernel restarted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 15:37:56.937 NotebookApp] Restoring connection for 0905b46e-e15a-4442-8ae0-5f182f03b53c:3e80bfd1f9754915bd2e182625238fbf
+[I 15:37:56.937 NotebookApp] Replaying 3 buffered messages
+[I 15:38:17.635 NotebookApp] Saving file at /Main Try.ipynb
+[I 15:40:17.807 NotebookApp] Saving file at /Main Try.ipynb
+[I 15:41:03.610 NotebookApp] Starting buffering for 0905b46e-e15a-4442-8ae0-5f182f03b53c:3e80bfd1f9754915bd2e182625238fbf
+[I 15:41:03.848 NotebookApp] Kernel restarted: 0905b46e-e15a-4442-8ae0-5f182f03b53c
+[I 15:41:04.050 NotebookApp] Restoring connection for 0905b46e-e15a-4442-8ae0-5f182f03b53c:3e80bfd1f9754915bd2e182625238fbf
+[I 15:41:04.050 NotebookApp] Replaying 3 buffered messages
+[I 15:42:17.802 NotebookApp] Saving file at /Main Try.ipynb
+/opt/slurm/data/slurmd/job398277/slurm_script: line 57: 3284631 Killed                  jupyter-notebook --no-browser --port=${port} --ip=${node}
+slurmstepd: error: Detected 3 oom-kill event(s) in step 398277.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.

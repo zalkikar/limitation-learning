@@ -4,6 +4,9 @@ Main.py file for GAIL implementation on dialog datasets.
 Uses command line arguments to maximize flexibility, and run many options in parallel
 
 """
+
+import sys 
+sys.path.append('../src')
 import os
 import pickle
 import argparse
@@ -21,7 +24,7 @@ from GAIL import *
 
 from dialog_environment import DialogEnvironment
 
-device='cpu' # for now
+device='cuda' # for now
 
 
 parser = argparse.ArgumentParser(description='PyTorch GAIL for Dialog')
@@ -41,6 +44,7 @@ parser.add_argument('--gamma',
 parser.add_argument('--lamda', 
                     type=float, default=0.98, 
                     help='GAE hyper-parameter (default: 0.98)')
+
 
 parser.add_argument('--learning_rate', 
                     type=float, default=3e-4, 
@@ -71,12 +75,12 @@ parser.add_argument('--batch_size',
                     help='batch size to update (default: 128)')
 
 parser.add_argument('--suspend_accu_exp', 
-                    type=float, default=0.8,
-                    help='accuracy for suspending discriminator about expert data (default: 0.8)')
+                    type=float, default=8,
+                    help='accuracy for suspending discriminator about expert data (default: 8)')
 
 parser.add_argument('--suspend_accu_gen', 
-                    type=float, default=0.8,
-                    help='accuracy for suspending discriminator about generated data (default: 0.8)')
+                    type=float, default=8,
+                    help='accuracy for suspending discriminator about generated data (default: 8)')
 
 parser.add_argument('--max_iter_num', 
                     type=int, default=4000,
@@ -91,14 +95,14 @@ parser.add_argument('--logdir',
                     help='tensorboardx logs directory (default: logs/EXPERIMENTNAME)')
 
 parser.add_argument('--hidden_size', 
-                    type=int, default=8,
-                    help='New sequence length of the representation produced by the encoder/decoder RNNs. (default: 8)')
+                    type=int, default=1024,
+                    help='New sequence length of the representation produced by the encoder/decoder RNNs. (default: 1024)')
 parser.add_argument('--num_layers', 
-                    type=int, default=4,
-                    help='Number of layers in the respective RNNs (default: 4)')
+                    type=int, default=2,
+                    help='Number of layers in the respective RNNs (default: 2)')
 
 parser.add_argument('--seq_len', 
-                    type=int, default=60,
+                    type=int, default=15,
                     help='length of input and response sequences (default: 60, which is also max)')
 parser.add_argument('--input_size', 
                     type=int, default=300,
@@ -114,7 +118,7 @@ def main():
     torch.manual_seed(args.seed)
 
     #TODO
-    actor = Actor(hidden_size=args.hidden_size,num_layers=args.num_layers,device='cuda')
+    actor = Actor(hidden_size=args.hidden_size,num_layers=args.num_layers,device='cuda',input_size=args.input_size,output_size=args.input_size//2)
     critic = Critic(hidden_size=args.hidden_size,num_layers=args.num_layers,input_size=args.input_size,seq_len=args.seq_len)
     discrim = Discriminator(hidden_size=args.hidden_size,num_layers=args.hidden_size,input_size=args.input_size,seq_len=args.seq_len)
     
@@ -156,16 +160,16 @@ def main():
 
             state = state[:args.seq_len,:]
             expert_action = expert_action[:args.seq_len,:]
-
+            state = state.to(device)
+            expert_action = expert_action.to(device)
             for _ in range(10000): 
 
                 steps += 1
 
                 mu, std = actor(state.resize(1,args.seq_len,args.input_size)) #TODO: gotta be a better way to resize. 
                 action = get_action(mu.cpu(), std.cpu())[0]
-                raw_action = get_raw_action(action) #TODO
                 done= env.step(action)
-                irl_reward = get_reward(discrim, state, action)
+                irl_reward = get_reward(discrim, state, action, args)
                 if done:
                     mask = 0
                 else:
@@ -185,25 +189,28 @@ def main():
         
         score_avg = np.mean(scores)
         print('{}:: {} episode score is {:.2f}'.format(iter, episodes, score_avg))
-        writer.add_scalar('log/score', float(score_avg), iter)
-        writer.add_scalar('log/expert_acc', float(expert_acc), iter) #logg
-        writer.add_scalar('log/learner_acc', float(learner_acc), iter) #logg
-        writer.add_scalar('log/avg_acc', float(learner_acc + expert_acc)/2, iter) #logg
-
 
         actor.train(), critic.train(), discrim.train()
         if train_discrim_flag:
-            expert_acc, learner_acc = train_discrim(discrim, memory, discrim_optim, demonstrations, args) 
+            expert_acc, learner_acc = train_discrim(discrim, memory, discrim_optim, args) 
             print("Expert: %.2f%% | Learner: %.2f%%" % (expert_acc * 100, learner_acc * 100))
+            writer.add_scalar('log/expert_acc', float(expert_acc), iter) #logg
+            writer.add_scalar('log/learner_acc', float(learner_acc), iter) #logg
+            writer.add_scalar('log/avg_acc', float(learner_acc + expert_acc)/2, iter) #logg
+
             if expert_acc > args.suspend_accu_exp and learner_acc > args.suspend_accu_gen:
                 train_discrim_flag = False
+                
         train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args)
+        writer.add_scalar('log/score', float(score_avg), iter)
+
+        writer.add_text('log/raw_state', raw_state[0],iter)
+        raw_action = get_raw_action(action) #TODO
+        writer.add_text('log/raw_action', raw_action,iter)
+        writer.add_text('log/raw_expert_action', raw_expert_action,iter)
 
         if iter % 100:
             score_avg = int(score_avg)
-            writer.add_text('log/raw_state', raw_state,iter)
-            writer.add_text('log/raw_action', raw_action,iter)
-            writer.add_text('log/raw_expert_action', raw_expert_action,iter)
 
 
             model_path = os.path.join(os.getcwd(),'save_model')
@@ -218,8 +225,8 @@ def main():
                 'discrim': discrim.state_dict(),
                 'args': args,
                 'score': score_avg,
-                'accuracy': np.mean([expert_acc,learner_acc])
             }, filename=ckpt_path)
+
 
 if __name__=="__main__":
     main()
