@@ -5,7 +5,6 @@ Uses command line arguments to maximize flexibility, and run many options in par
 
 """
 import os
-import gym
 import pickle
 import argparse
 import numpy as np
@@ -42,10 +41,6 @@ parser.add_argument('--gamma',
 parser.add_argument('--lamda', 
                     type=float, default=0.98, 
                     help='GAE hyper-parameter (default: 0.98)')
-
-parser.add_argument('--hidden_size', 
-                    type=int, default=100,  #TODO
-                    help='hidden unit size of actor, critic and discrim networks (default: 100)')
 
 parser.add_argument('--learning_rate', 
                     type=float, default=3e-4, 
