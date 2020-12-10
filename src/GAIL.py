@@ -14,7 +14,7 @@ import gensim
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-model = gensim.models.KeyedVectors.load_word2vec_format("./dat/vectors/GoogleNews-vectors-negative300.bin.gz", binary=True)
+#model = gensim.models.KeyedVectors.load_word2vec_format("./dat/vectors/GoogleNews-vectors-negative300.bin.gz", binary=True)
 
 def get_action(mu, std):
     action = torch.normal(mu, std)
