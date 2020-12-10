@@ -6,7 +6,8 @@ class EncoderRNN(nn.Module):
     
     def __init__(self, hidden_size, num_layers,
                  device='cpu', drop_prob=0, lstm=True, feature_norm=False,
-                 input_size=300):
+                 input_size=300,
+                 bidirectional=True):
         super().__init__()
         self.hidden_size = hidden_size
         self.num_layers = num_layers
@@ -17,13 +18,13 @@ class EncoderRNN(nn.Module):
         else:
             memory_cell = nn.GRU
 
-        self.memory_cell = memory_cell(input_size,
-                                       hidden_size,
-                                       num_layers,
+        self.memory_cell = memory_cell(input_size=input_size,
+                                       hidden_size=hidden_size,
+                                       num_layers=num_layers,
                                        batch_first=True,
                                        # make dropout 0 if num_layers is 1
                                        dropout=drop_prob * (num_layers != 1),
-                                       bidirectional=False)
+                                       bidirectional=bidirectional)
 
         if feature_norm:
             self.norm = nn.InstanceNorm1d(num_features=input_size)
@@ -98,4 +99,3 @@ class EncRnn(nn.Module):
         final_hidden = torch.tanh(self.linear(concated))
         
         return out, final_hidden
-        
