@@ -79,7 +79,7 @@ parser.add_argument('--suspend_accu_gen',
                     help='accuracy for suspending discriminator about generated data (default: None)')
 
 parser.add_argument('--max_iter_num', 
-                    type=int, default==4096,
+                    type=int, default=4096,
                     help='maximal number of main iterations (default: 4000)')
 
 parser.add_argument('--seed', 
@@ -193,7 +193,7 @@ def main():
             writer.add_scalar('log/expert_acc', float(expert_acc), iter) #logg
             writer.add_scalar('log/learner_acc', float(learner_acc), iter) #logg
             writer.add_scalar('log/avg_acc', float(learner_acc + expert_acc)/2, iter) #logg
-            if suspend_accu_exp is not None: #only if not None do we check.
+            if args.suspend_accu_exp is not None: #only if not None do we check.
                 if expert_acc > args.suspend_accu_exp and learner_acc > args.suspend_accu_gen:
                     train_discrim_flag = False
                     
