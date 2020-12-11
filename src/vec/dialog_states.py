@@ -144,6 +144,7 @@ def run_dialog_states():
     #nlp = add_pipes_from_pretrained(nlp)
 
     model = gensim.models.Word2Vec.load("./models/custom_w2v_intersect_GoogleNews")
+    model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
 
     state_vects,no_vector_pairs = create_state_vects(model.wv, state_dict)
     assert len(state_dict)-len(no_vector_pairs) == len(state_vects)
