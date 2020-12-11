@@ -29,8 +29,12 @@ my_sentences = []
 with open('./dat/processed/formatted_movie_lines.txt', 'r', encoding = 'utf-8') as pf:
         for line in pf:
             line = line.replace("\n", "").replace("</s>","").replace("</d>","")
+            """
+            these: </u> and <u> were present in raw text, as a quick fix and to avoid a rerun, we handle this later
+            by dropping "< u > " and "</u >". also "\x92" was present, iso8859 encoding to utf-8 issues....
+            """
+            line = line.replace("< u > ","").replace("</u >","").replace("\x92","'")
             my_sentences.append(line.strip().split())
-
 
 google_wv = gensim.models.KeyedVectors.load_word2vec_format('./dat/vectors/GoogleNews-vectors-negative300.bin.gz', binary=True)
 model = gensim.models.Word2Vec(size=300, 
@@ -58,6 +62,7 @@ model.train(my_sentences,
 
 print(model.vocabulary.sorted_vocab) # should be True
 print(model.wv.vectors.shape)
+# print(list(model.wv.vocab.keys()))
 # model.wv.vocab.keys() actual vocab tokens
 
 model.save("./models/custom_w2v_intersect_GoogleNews")

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-#import spacy
+import spacy
 from tensor_helpers import np_to_var
 import time
 import torch
 import numpy as np
-#from spacy_helpers import add_pipes_from_pretrained
+from spacy_helpers import add_pipes_from_pretrained
 from config import TOKENS_WITH_VECTOR_CUTOFF
 import gensim
 
@@ -29,7 +29,11 @@ def create_states(processed_txt_path, turn_limit=3):
                     "</s>",
                     "").replace(
                     "</d>",
-                    ""))
+                    "").replace(
+                    "</u >",
+                    "").replace(
+                    "\x92",
+                    "'"))
             if line.split(' ')[-1] == "</d>":
                 set_ind += 1
                 dialog_sets[set_ind] = []
@@ -53,7 +57,7 @@ def create_states(processed_txt_path, turn_limit=3):
     return state_dict
 
 
-def getTokVect_fromDoc(w2v, doc): # doc is already processed from spacy #(doc: spacy.tokens.Doc):
+def getTokVect_fromDoc_gensim(w2v, doc): # doc is already processed from spacy #(doc: spacy.tokens.Doc):
     # document level token vectors (num_tokens, dim_tokens)
     v = []
     for tok in doc.split(' '):
@@ -63,13 +67,22 @@ def getTokVect_fromDoc(w2v, doc): # doc is already processed from spacy #(doc: s
             continue
     return np.array(v)
 
+def getTokVect_fromDoc_spacy(nlp, doc):
+    v = []
+    for tok in nlp(doc):
+        if tok.has_vector:
+            v.append(tok.vector)
+        else:
+            continue
+    return np.array(v)
+
 
 def create_state_vects(w2v, state_dict):
     state_vects = {}
     dropped_vector_pairs = []
     for i, (k, v) in enumerate(state_dict.items()):
-        TokVectK = getTokVect_fromDoc(w2v, k) #(nlp(k))
-        TokVectV = getTokVect_fromDoc(w2v, v) #(nlp(v))
+        TokVectK = getTokVect_fromDoc_gensim(w2v, k) #getTokVect_fromDoc_spacy(w2v,k)
+        TokVectV = getTokVect_fromDoc_gensim(w2v, v) #getTokVect_fromDoc_spacy(w2v,k)
         # ignore pairs where initial_state or next_state are empty vectors, for now
         if ((len(TokVectK) == 0) or (len(TokVectV) == 0)):
             dropped_vector_pairs.append(i)
@@ -146,7 +159,10 @@ def run_dialog_states():
     model = gensim.models.Word2Vec.load("./models/custom_w2v_intersect_GoogleNews")
     model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
 
+    #nlp = spacy.load('en_core_web_lg')
+
     state_vects,no_vector_pairs = create_state_vects(model.wv, state_dict)
+    #state_vects,no_vector_pairs = create_state_vects(nlp, state_dict)
     assert len(state_dict)-len(no_vector_pairs) == len(state_vects)
     torch.save(state_vects, './dat/processed/vectorized_states.pt')
 
