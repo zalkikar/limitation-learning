@@ -24,28 +24,15 @@ Data. For this work, we use conversations from the Cornell-Movie-Dialog corpus, 
 As a means to accelerate the development of this work, we use Spacy and it's embedding software to quickly transform the words/tokens of our dataset into vector embeddings. We should note this introduces some bias to our dataset, seeing as the embeddings originate from an outside source, Google News, but we attempt to mitigate this by fine-tuning our results. This phase of the project transforms our conversations into a vectorized, model-readable form which is then used for training. 
 
 
-GAIL.
+Generative Adversarial Imitiation Learning. GAIL casts the objective of imitation learning, into a min max optimization problem analagous to generative adversarial networks.
 
-Gail is a technique that casts the objective of imitation learning, training policies via expert demonstrations, into a min max optimization problem analagous to a generative adversarial network.
-
-To do so, GAIL uses a discriminator network, characterized by loss function $E_{\pi}[log(D(s,a))] + E_{\pi_E}[log(1-D(s,a))]$ to distinguish between policy and expert generated actions given a state input, in the process creating a proxy for the reward function ubiquitous to RL, formulated as $E_{\tau}[\nabla_{\theta} log(\pi_{\theta}(a | s) r(s,a)] - \lambda \nabla_{\theta} H(\pi_{\theta}) $ where $ r(s,a) = -log(D(s,a))$ 
+GAIL uses a discriminator network, characterized by loss function $E_{\pi}[log(D(s,a))] + E_{\pi_E}[log(1-D(s,a))]$ to distinguish between policy and expert generated actions given a state input, in the process creating a proxy for the reward function ubiquitous to RL, formulated as $E_{\tau}[\nabla_{\theta} log(\pi_{\theta}(a | s) r(s,a)] - \lambda \nabla_{\theta} H(\pi_{\theta}) $ where $ r(s,a) = -log(D(s,a))$ 
 
 
-Using this proxy to the rewards, hereby expesssd as r psi, we are able to train a policy via model free reinforcement learning to better imitate the expert. The better the policy gets the more the discriminator must improve it’s proxy for the reward, and so on until convergence. 
+Using this reward function, a policy is trained through standard model-free reinforcement learning technqiues to maximize this reward. If successful, the policy is able to "trick" the discriminator into classifying it's trajectory as an expert demonstration, and the game between the networks continue. 
 
-In this research, we aim to deploy this technique in the context of dialog. We do so by undergoing the following 
+In this work, we  deploy this technique in the context of dialog. 
 
-
-In the reinforcement learning landscape, training a policy from expert demonstrations is an active area of research. GAIL is an attempt to bridge the gap between two popular techniques and draw similarities to other methods in machine learning unrelated to RL. Imitation learning parallels supervised learning, in that an agent's policy is trained to mimic the expert as closely as possible. Inverse reinforcement learning takes imitation one step further, in that it seeks to use expert data to infer the underlying dynamics of the system, most notably the reward function. This reward function is an essential tool for training abitrary reinforcement learning techniques, and provides valuable intuition. General Adversarial Imitation Learning, GAIL 
-
-
-How do I motivate this?
-There is a lot of background, but to summarize GAIL, is that it couples imitation learning with inverse reinforcement learning. It draws strong comparisons to GANs,
-
-GAIL is a powerful technique for imitation/inverse reinforcement learning. While there are many ways to extract the intuition from it, the key insight we draw from GAIL's formulations is that ....
-
-TODO
-...
 
 
 
