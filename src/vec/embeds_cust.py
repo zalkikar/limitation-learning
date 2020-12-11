@@ -38,7 +38,7 @@ with open('./dat/processed/formatted_movie_lines.txt', 'r', encoding = 'utf-8') 
 
 google_wv = gensim.models.KeyedVectors.load_word2vec_format('./dat/vectors/GoogleNews-vectors-negative300.bin.gz', binary=True)
 model = gensim.models.Word2Vec(size=300, 
-                               min_count=5,           # token is included if it appears at least 10 time in the vocabulary
+                               min_count=10,          # token is included if it appears at least 10 time in the vocabulary
                                iter = W2V_ITERATIONS, # number of iterations (epochs)
                                alpha = 0.025,         # initial learning rate
                                min_alpha=0.0001,      # lr with linearly drop during training
