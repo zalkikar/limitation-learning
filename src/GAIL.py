@@ -74,11 +74,11 @@ def get_cosine_sim(s1, s2, seq_len = 10): # two sentences, lists of pytorch vect
     s2v = np.zeros((seq_len, ), dtype='float32')
     for v1 in s1: 
         if isinstance(v1, torch.Tensor):
-            v1 = v1.cpu().numpy()[0]
+            v1 = v1.cpu().numpy()
         s1v = np.add(v1, v1)
     for v2 in s2:
         if isinstance(v2, torch.Tensor):
-            v2 = v2.cpu().numpy()[0]
+            v2 = v2.cpu().numpy()
         s2v = np.add(v2, v2)
     # assume there is atleast one vector in sentence
     s1v = np.divide(s1v, seq_len)
