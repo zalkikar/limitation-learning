@@ -14,15 +14,12 @@ import gensim
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-<<<<<<< HEAD
-model = gensim.models.KeyedVectors.load_word2vec_format("/scratch/nsk367/limitation-learning/apps/dat/preprocess/GoogleNews-vectors-negative300.bin.gz", binary=True)
-model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
-#deepRL/limitation-learning/apps/dat/preprocess/
-=======
+
 #model = gensim.models.KeyedVectors.load_word2vec_format("/scratch/nsk367/limitation-learning/apps/dat/preprocess/GoogleNews-vectors-negative300.bin.gz", binary=True)
+#model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
+#deepRL/limitation-learning/apps/dat/preprocess/
 model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
 
->>>>>>> 9480abab06a0693aee176f4d62b54db40df11276
 def get_action(mu, std):
     action = torch.normal(mu, std)
     action = action.data.numpy()
