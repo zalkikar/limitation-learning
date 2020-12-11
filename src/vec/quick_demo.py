@@ -5,13 +5,23 @@ model = gensim.models.Word2Vec.load("./models/custom_w2v_intersect_GoogleNews")
 model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
 print(model.vocabulary.sorted_vocab) # should be True
 print(model.wv.vectors.shape)
-print(list(model.wv.vocab.keys()))
-print(model.wv.similarity('hello', '<person>'))
-result = model.wv.similar_by_word("<person>")
-print('most similar to <person> :')
-for i in range(10):
-    most_similar_key, similarity = result[i]  # look at the first match
-    print(f"{most_similar_key}: {similarity:.4f}")
+
+word_counts = {word: vocab_obj.count for word, vocab_obj in model.wv.vocab.items()}
+word_counts = sorted(word_counts.items(), key=lambda x:-x[1])[:10]
+
+
+for wc in word_counts:
+    print("{0} : {1}".format(*wc))
+
+
+sim_queries = ["<person>","<org>"]
+for q in sim_queries:
+    result = model.wv.similar_by_word(q)
+    print(f'most similar to {q} :')
+    for i in range(10):
+        most_similar_key, similarity = result[i]
+        print(f"{most_similar_key}: {similarity:.4f}")
+    print("\n")
 
 
 """
