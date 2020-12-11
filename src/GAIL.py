@@ -71,9 +71,9 @@ def get_raw_action(action,
 
 def get_cosine_sim(v1, v2):
     if isinstance(v1, torch.Tensor):
-        v1 = v1.cpu().numpy()
+        v1 = v1.cpu().numpy()[0]
     if isinstance(v2, torch.Tensor):
-        v2 = v2.cpu().numpy()
+        v2 = v2.cpu().numpy()[0]
     return np.dot(v1, v2)/(np.linalg.norm(v1)*np.linalg.norm(v2))
 
 def get_entropy(mu, std):
