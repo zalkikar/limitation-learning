@@ -66,6 +66,13 @@ def get_raw_action(action,
 
     return ' '.join(raw_action)
 
+def get_cosine_sim(v1, v2):
+    if isinstance(v1, torch.Tensor):
+        v1 = v1.numpy()
+    if isinstance(v2, torch.Tensor):
+        v2 = v2.numpy()
+    return np.dot(v1, v2)/(np.linalg.norm(v1)*np.linalg.norm(v2))
+
 def get_entropy(mu, std):
     dist = Normal(mu, std)
     entropy = dist.entropy().mean()
