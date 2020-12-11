@@ -14,8 +14,11 @@ import gensim
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+
 #model = gensim.models.KeyedVectors.load_word2vec_format("/scratch/nsk367/limitation-learning/apps/dat/preprocess/GoogleNews-vectors-negative300.bin.gz", binary=True)
-model = gensim.models.Word2Vec.load("./models/custom_w2v_intersect_GoogleNews")
+#model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
+#deepRL/limitation-learning/apps/dat/preprocess/
+model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
 
 def get_action(mu, std):
     action = torch.normal(mu, std)
@@ -44,7 +47,7 @@ def get_raw_action(action,
         for token_vector in action:
 
             if isinstance(token_vector, torch.Tensor):
-                token_vector = token_vector.numpy()
+                token_vector = token_vector.cpu().numpy()
 
             # https://tedboy.github.io/nlps/_modules/gensim/models/word2vec.html#Word2Vec.similar_by_vector
             # computes cosine similarity between a simple mean of the projection
@@ -68,9 +71,9 @@ def get_raw_action(action,
 
 def get_cosine_sim(v1, v2):
     if isinstance(v1, torch.Tensor):
-        v1 = v1.numpy()
+        v1 = v1.cpu().numpy()[0]
     if isinstance(v2, torch.Tensor):
-        v2 = v2.numpy()
+        v2 = v2.cpu().numpy()[0]
     return np.dot(v1, v2)/(np.linalg.norm(v1)*np.linalg.norm(v2))
 
 def get_entropy(mu, std):

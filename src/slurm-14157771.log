@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "main.py", line 23, in <module>
+    from GAIL import *
+  File "/scratch/nsk367/deepRL/limitation-learning/src/GAIL.py", line 17, in <module>
+    model = gensim.models.KeyedVectors.load_word2vec_format("/scratch/nsk367/limitation-learning/apps/dat/preprocess/GoogleNews-vectors-negative300.bin.gz", binary=True)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/gensim/models/keyedvectors.py", line 1547, in load_word2vec_format
+    return _load_word2vec_format(
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/gensim/models/utils_any2vec.py", line 275, in _load_word2vec_format
+    with utils.open(fname, 'rb') as fin:
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/smart_open/smart_open_lib.py", line 221, in open
+    binary = _open_binary_stream(uri, binary_mode, transport_params)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/smart_open/smart_open_lib.py", line 377, in _open_binary_stream
+    fobj = submodule.open_uri(uri, mode, transport_params)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/smart_open/local_file.py", line 34, in open_uri
+    fobj = io.open(parsed_uri['uri_path'], mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/scratch/nsk367/limitation-learning/apps/dat/preprocess/GoogleNews-vectors-negative300.bin.gz'
