@@ -27,15 +27,11 @@ from dialog_environment import DialogEnvironment
 device='cuda' # for now
 
 
-parser = argparse.ArgumentParser(description='PyTorch GAIL for Dialog')
+parser = argparse.ArgumentParser(description='Limitation Learning')
 
 parser.add_argument('--load_model', 
                     type=str, default=None, 
                     help='path to load the saved model')
-
-parser.add_argument('--render', 
-                    action="store_true", default=False, 
-                    help='if you dont want to render, set this to False')
 
 parser.add_argument('--gamma', 
                     type=float, default=0.99, 
@@ -75,19 +71,19 @@ parser.add_argument('--batch_size',
                     help='batch size to update (default: 128)')
 
 parser.add_argument('--suspend_accu_exp', 
-                    type=float, default=8,
-                    help='accuracy for suspending discriminator about expert data (default: 8)')
+                    type=float, default=None,
+                    help='accuracy for suspending discriminator about expert data (default: None)')
 
 parser.add_argument('--suspend_accu_gen', 
-                    type=float, default=8,
-                    help='accuracy for suspending discriminator about generated data (default: 8)')
+                    type=float, default=None,
+                    help='accuracy for suspending discriminator about generated data (default: None)')
 
 parser.add_argument('--max_iter_num', 
-                    type=int, default=4000,
+                    type=int, default==4096,
                     help='maximal number of main iterations (default: 4000)')
 
 parser.add_argument('--seed', 
-                    type=int, default=500,
+                    type=int, default=42,
                     help='random seed (default: 500)')
 
 parser.add_argument('--logdir', 
@@ -95,14 +91,14 @@ parser.add_argument('--logdir',
                     help='tensorboardx logs directory (default: logs/EXPERIMENTNAME)')
 
 parser.add_argument('--hidden_size', 
-                    type=int, default=1024,
+                    type=int, default=128,
                     help='New sequence length of the representation produced by the encoder/decoder RNNs. (default: 1024)')
 parser.add_argument('--num_layers', 
                     type=int, default=2,
                     help='Number of layers in the respective RNNs (default: 2)')
 
 parser.add_argument('--seq_len', 
-                    type=int, default=15,
+                    type=int, default=10,
                     help='length of input and response sequences (default: 60, which is also max)')
 parser.add_argument('--input_size', 
                     type=int, default=300,
@@ -124,7 +120,6 @@ def main():
     
     actor.to(device), critic.to(device), discrim.to(device)
     
-
     actor_optim = optim.Adam(actor.parameters(), lr=args.learning_rate)
     critic_optim = optim.Adam(critic.parameters(), lr=args.learning_rate, 
                               weight_decay=args.l2_rate) 
@@ -153,11 +148,11 @@ def main():
 
         steps = 0
         scores = []
-
+        similarity_scores = []
         while steps < args.total_sample_size: 
             state, expert_action, raw_state, raw_expert_action = env.reset()
             score = 0
-
+            similarity_score = 0
             state = state[:args.seq_len,:]
             expert_action = expert_action[:args.seq_len,:]
             state = state.to(device)
@@ -177,18 +172,19 @@ def main():
 
 
                 memory.append([state, torch.from_numpy(action).to(device), irl_reward, mask,expert_action])
-
                 score += irl_reward
-
+                similarity_score += get_cosine_sim(action,expert_action)
                 if done:
                     break
 
-            
             episodes += 1
             scores.append(score)
-        
+            similarity_scores.append(similarity_score)
+
         score_avg = np.mean(scores)
+        similarity_score_avg = np.mean(similarity_scores)
         print('{}:: {} episode score is {:.2f}'.format(iter, episodes, score_avg))
+        print('{}:: {} episode similarity score is {:.2f}'.format(iter, episodes, similarity_score_avg))
 
         actor.train(), critic.train(), discrim.train()
         if train_discrim_flag:
@@ -197,13 +193,13 @@ def main():
             writer.add_scalar('log/expert_acc', float(expert_acc), iter) #logg
             writer.add_scalar('log/learner_acc', float(learner_acc), iter) #logg
             writer.add_scalar('log/avg_acc', float(learner_acc + expert_acc)/2, iter) #logg
-
-            if expert_acc > args.suspend_accu_exp and learner_acc > args.suspend_accu_gen:
-                train_discrim_flag = False
-                
+            if suspend_accu_exp not None: #only if not None do we check.
+                if expert_acc > args.suspend_accu_exp and learner_acc > args.suspend_accu_gen:
+                    train_discrim_flag = False
+                    
         train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args)
         writer.add_scalar('log/score', float(score_avg), iter)
-
+        writer.add_scalar('log/similarity_score', float(similarity_score_avg), iter)
         writer.add_text('log/raw_state', raw_state[0],iter)
         raw_action = get_raw_action(action) #TODO
         writer.add_text('log/raw_action', raw_action,iter)
