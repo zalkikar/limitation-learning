@@ -35,31 +35,10 @@ In this work, we  deploy this technique in the context of dialog.
 
 
 
-
-Networks. 
-After discussing the specifics of GAIL, we now touch on the various architectures employed. 
-
-For the policy network, we use a sequence-to-sequence architecture, which maps the input state, a matrix of size Nx300 where (N represents the number of tokens in the sequence, and 300 represents that each token is a 300 dimensional vector) to a similarly sized matrix of Nx300. 
-
-Of this output, each element now corresponds to the mean of a gaussian distribution with standard deviation Y. This is to encourage exploration, while simultaneously allowing this to obey the policy gradient formulation, albeit in a slightly more sophisticated manner. 
-
-TODO
+Architecture. We emply three networks as a part of this procedure. The discriminator maps a state and action sequence to probabilities of whether or not these sequences were from the expert or learner policy. An actor network is used to map state sequences to action sequences, and a critic network estimates the value function of a provided state. 
 
 
-Training:
-
-For training we follow the method laid out in the original GAIL paper, with a few changes (given the fixed trajectory length of 1), and reflect those differences in the algorithm described: 
-
-
-In our work, it is not straightforward how we would determine stopping criteria. 
-Since we do not have access to an underlying reward function aside from our proxy, it is impossible to determine how close or not our training has gotten to achieving equilibrium between the networks. 
-
-As an alternative, we draw conclusions on GAIL success by examining the resulting actions the policy selects. As an example of this evolution and determination to stop training, we present the following actions selected by the network at different phases of training:
-
-Phase 1: Action  = asdlk;fa;lisdfjkl;as;dkf
-Phase 21241: Action = I love you dear, how about a pizza. 
-
-Once this network has met our standards, we extract the discriminator and use it's log to extract rewards for different samples. 
+Training.  We follow the method laid out in the original GAIL paper, with minor changes. 
 
 
 
