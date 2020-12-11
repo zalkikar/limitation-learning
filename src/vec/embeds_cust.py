@@ -46,6 +46,7 @@ model = gensim.models.Word2Vec(size=300,
                                )
 model.build_vocab(my_sentences)
 training_examples_count = model.corpus_count # save now, lines below will convert to 1
+print(training_examples_count)
 model.build_vocab([list(google_wv.vocab.keys())], update=True)
 
 # see comment at top for function details
