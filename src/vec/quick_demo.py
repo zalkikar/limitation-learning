@@ -6,7 +6,12 @@ model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving
 print(model.vocabulary.sorted_vocab) # should be True
 print(model.wv.vectors.shape)
 print(list(model.wv.vocab.keys()))
-print(model_vects.shape)
+print(model.wv.similarity('hello', '<person>'))
+result = model.wv.similar_by_word("<person>")
+print('most similar to <person> :')
+for i in range(10):
+    most_similar_key, similarity = result[i]  # look at the first match
+    print(f"{most_similar_key}: {similarity:.4f}")
 
 
 """
