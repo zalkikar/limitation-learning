@@ -56,7 +56,7 @@ def get_raw_action(action,
 
             ### TODO: 
             # vocab restriction after sorting vocab in descending order
-            # or by subsetting top N words in cornell movie dialog corpus and then sorting
+            # or by substting top N words in cornell movie dialog corpus and then sorting
             ### UPDATE:
             # the above probably wont be needed now!
             
