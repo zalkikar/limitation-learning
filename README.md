@@ -32,7 +32,7 @@ GAIL.
 
 Gail is a technique that casts the objective of imitation learning, training policies via expert demonstrations, into a min max optimization problem analagous to a generative adversarial network.
 
-To do so, GAIL uses a discriminator network, characterized by loss function EQN to distinguish between policy and expert generated actions given a state input, in the process creating a proxy for the reward function ubiquitous to RL, formulated as EQN
+To do so, GAIL uses a discriminator network, characterized by loss function $E_{\pi}[log(D(s,a))] + E_{\pi_E}[log(1-D(s,a))]$ to distinguish between policy and expert generated actions given a state input, in the process creating a proxy for the reward function ubiquitous to RL, formulated as $E_{\tau}[\nabla_{\theta} log(\pi_{\theta}(a | s) r(s,a)] - \lambda \nabla_{\theta} H(\pi_{\theta}) $ where $ r(s,a) = -log(D(s,a))$ 
 
 
 Using this proxy to the rewards, hereby expesssd as r psi, we are able to train a policy via model free reinforcement learning to better imitate the expert. The better the policy gets the more the discriminator must improve it’s proxy for the reward, and so on until convergence. 
