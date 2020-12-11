@@ -193,7 +193,7 @@ def main():
             writer.add_scalar('log/expert_acc', float(expert_acc), iter) #logg
             writer.add_scalar('log/learner_acc', float(learner_acc), iter) #logg
             writer.add_scalar('log/avg_acc', float(learner_acc + expert_acc)/2, iter) #logg
-            if suspend_accu_exp not None: #only if not None do we check.
+            if suspend_accu_exp is not None: #only if not None do we check.
                 if expert_acc > args.suspend_accu_exp and learner_acc > args.suspend_accu_gen:
                     train_discrim_flag = False
                     
