@@ -161,7 +161,7 @@ def train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args):
     # tuple of a regular old RL problem, but now reward is what the discriminator says. 
     states = torch.stack([memory[i][0] for i in range(len(memory))])
     actions = torch.stack([memory[i][1] for i in range(len(memory))])
-    rewards = torch.stack([memory[i][2] for i in range(len(memory))])
+    rewards = torch.stack([torch.Tensor([memory[i][2]]) for i in range(len(memory))])
     masks = [memory[i][2] for i in range(len(memory))]
     # compute value of what happened, see if what we can get us better. 
     old_values = critic(states)
