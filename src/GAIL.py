@@ -27,6 +27,8 @@ def get_action(mu, std):
     # TODO 
     # After drawing an action, normalize the embedding the same way the expert ones are.
     # normalization stuff is still sort of up in the air
+    norm = action.norm(p=2, dim=1, keepdim=True)
+    action = action.div(norm.expand_as(action))
     return action
 
 def get_raw_action(action, 
