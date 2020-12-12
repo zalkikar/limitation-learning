@@ -40,17 +40,12 @@ class Seq2Seq(nn.Module):
 
 
 #------------ ONLY WORKS WITH 1 NUM LAYERS FOR NOW
+
 class Seq2SeqAttn_pre_embed(nn.Module):
-    def __init__(self,  
-                 hidden_size,
-                 num_layers=1,
-                 embed_size=300,
-                 output_size=300,
-                 device='cpu',
-                 drop_prob=0,
-                 lstm=False,
-                 feature_norm=False
-                 ):
+    def __init__(self,  hidden_size, num_layers,
+                 device='cpu', drop_prob=0, lstm=True, feature_norm=False,
+                 input_size=300,
+                 bidirectional=True,output_size=300):
         super().__init__()
         self.encoder = EncRnn_pre_embed(hidden_size = hidden_size,
                                         num_layers = 1, # forced to 1. 
