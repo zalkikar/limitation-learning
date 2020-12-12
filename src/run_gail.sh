@@ -7,4 +7,4 @@
 #SBATCH --job-name run-gail
 #SBATCH --output slurm-%J.log 
 
-python main.py --logdir 'logs/v5' --actor_critic_update_num 100 --discrim_update_num 50 --batch_size 32 --hidden_size 8 --num_layers 4
+python main.py --logdir 'logs/v8' --l2_rate 0 --actor_critic_update_num 25 --discrim_update_num 5 --batch_size 64 --hidden_size 16 --num_layers 4
