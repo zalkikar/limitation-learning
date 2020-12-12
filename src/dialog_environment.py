@@ -60,7 +60,7 @@ class DialogEnvironment(object):
         while True: #some indices have been removed, for various resions. This while loop 
                 # allows us to keep trying until a viable conversation is selected. 
             try:
-                self.i = random.randint(a=0,b=64)#b=len(self.conversations)) # test for over-fitting. 
+                self.i = random.randint(a=0,b=10)#b=len(self.conversations)) # test for over-fitting. 
                 self.conversations_visited.append(self.i)
                 self.conversation = self.conversations[self.i]
                 break
