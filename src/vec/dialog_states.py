@@ -9,6 +9,7 @@ from spacy_helpers import add_pipes_from_pretrained
 from config import TOKENS_WITH_VECTOR_CUTOFF, TOKENS_RAW_CUTOFF
 import gensim
 
+from embeds_cust import processLine
 
 def create_states(processed_txt_path, turn_limit=3):
     
@@ -23,17 +24,8 @@ def create_states(processed_txt_path, turn_limit=3):
     dialog_sets[set_ind] = []
     with open(processed_txt_path, 'r', encoding='utf-8') as out:
         for line in out:
-            line = line.replace("\n", "")
-            dialog_sets[set_ind].append(
-                line.replace(
-                    "</s>",
-                    "").replace(
-                    "</d>",
-                    "").replace(
-                    "</u >",
-                    "").replace(
-                    "\x92",
-                    "'"))
+            line = line.replace("\n", "").replace("</s>","").replace("</d>","")
+            dialog_sets[set_ind].append(processLine(line))
             if line.split(' ')[-1] == "</d>":
                 set_ind += 1
                 dialog_sets[set_ind] = []
@@ -82,7 +74,7 @@ def create_state_vects(w2v, state_dict):
     dropped_vector_pairs = []
     for i, (k, v) in enumerate(state_dict.items()):
         # ignore pairs where raw tokens are above cutoff (assume processed)
-        if ((len(k.split(' ')) > TOKENS_RAW_CUTOFF) or (len(k.split(' ')) > TOKENS_RAW_CUTOFF)):
+        if ((len(k.split(' ')) > TOKENS_RAW_CUTOFF) or (len(v.split(' ')) > TOKENS_RAW_CUTOFF)):
             dropped_vector_pairs.append(i)
             continue
         TokVectK = getTokVect_fromDoc_gensim(w2v, k) #getTokVect_fromDoc_spacy(w2v,k)

@@ -16,8 +16,8 @@ class DecoderRNN(nn.Module):
         else:
             memory_cell = nn.GRU
 
-        self.memory_cell = memory_cell(input_size=hidden_size,
-                                       hidden_size=output_size,
+        self.memory_cell = memory_cell(input_size=hidden_size*2,
+                                       hidden_size=hidden_size,
                                        num_layers=num_layers,
                                        batch_first=True,
                                        # make dropout 0 if num_layers is 1
@@ -29,10 +29,13 @@ class DecoderRNN(nn.Module):
             self.norm = nn.InstanceNorm1d(num_features=input_size)
         else:
             self.norm = nn.Identity()
+        
+        self.linear = nn.Linear(hidden_size*2, output_size)
 
     def forward(self, x):
+        print(x.shape)
         out, _ = self.memory_cell(x)
-        return out
+        return self.linear(out)
 
 
 # no embedding layer, assumes embeddings have already been applied?

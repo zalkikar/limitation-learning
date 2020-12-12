@@ -18,16 +18,18 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #model = gensim.models.KeyedVectors.load_word2vec_format("/scratch/nsk367/limitation-learning/apps/dat/preprocess/GoogleNews-vectors-negative300.bin.gz", binary=True)
 #model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
 #deepRL/limitation-learning/apps/dat/preprocess/
-model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
+#model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
+model = gensim.models.Word2Vec.load("./models/custom_w2v_intersect_GoogleNews")
 model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
 
 def get_action(mu, std):
     action = torch.normal(mu, std)
-    action = action.data.numpy()
+   # action = action.data.numpy()
     # TODO 
     # After drawing an action, normalize the embedding the same way the expert ones are.
     # normalization stuff is still sort of up in the air
-    norm = action.norm(p=2, dim=1, keepdim=True)
+    #norm = action.norm(p=2, dim=1, keepdim=True)
+    norm = torch.norm(action, p=2, dim=1, keepdim=True)
     action = action.div(norm.expand_as(action))
     return action
 

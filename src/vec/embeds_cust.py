@@ -1,5 +1,5 @@
 import gensim
-from config import W2V_ITERATIONS
+from config import W2V_ITERATIONS, TOKENS_RAW_CUTOFF
 
 """
 intersect_word2vec_format() will let you bring vectors from an external file 
@@ -19,6 +19,14 @@ on lots of things specific to your setup.***
 Im using ‘distributed memory’ (PV-DM) with dm=1.0 default in doc2vec
 """
 
+def processLine(line):
+    """
+    these: </u> and <u> were present in raw text, as a quick fix and to avoid a rerun, we handle this later
+    by dropping "< u > " and "</u >". also "\x92" was present, iso8859 encoding to utf-8 issues....
+    """
+    line = line.replace("< u > ","").replace("</u >","").replace("\x92","'")
+    line = line.lower()
+    return line
 
 my_sentences = [] 
 # load processed text from a pretrained spacy model, this is a list of list of tokens
@@ -29,11 +37,10 @@ my_sentences = []
 with open('./dat/processed/formatted_movie_lines.txt', 'r', encoding = 'utf-8') as pf:
         for line in pf:
             line = line.replace("\n", "").replace("</s>","").replace("</d>","")
-            """
-            these: </u> and <u> were present in raw text, as a quick fix and to avoid a rerun, we handle this later
-            by dropping "< u > " and "</u >". also "\x92" was present, iso8859 encoding to utf-8 issues....
-            """
-            line = line.replace("< u > ","").replace("</u >","").replace("\x92","'")
+            line = processLine(line)
+            # ignore pairs where raw tokens are above cutoff (assume processed)
+            if (len(line.split(' ')) > TOKENS_RAW_CUTOFF):
+                continue
             my_sentences.append(line.strip().split())
 
 google_wv = gensim.models.KeyedVectors.load_word2vec_format('./dat/vectors/GoogleNews-vectors-negative300.bin.gz', binary=True)

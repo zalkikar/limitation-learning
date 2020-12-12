@@ -23,7 +23,7 @@ class Seq2Seq(nn.Module):
                                   input_size=input_size,
                                   )
 
-        self.decoder = DecoderRNN(hidden_size=2*hidden_size,
+        self.decoder = DecoderRNN(hidden_size=hidden_size,
                                   num_layers=num_layers,
                                   device=device,
                                   drop_prob=drop_prob,

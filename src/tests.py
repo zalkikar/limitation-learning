@@ -5,6 +5,8 @@ import numpy as np
 
 from models.seq2seq import Seq2Seq, Seq2SeqAttn_pre_embed
 
+from GAIL import get_action, get_raw_action
+
 def subsample(data, target, n=15):
     return [x[::n] for x in data], [y[::n] for y in target]
 
@@ -52,7 +54,29 @@ if __name__ == '__main__':
         print(next_state)
         if index > 1:
             break
+    
 
+    model = Seq2Seq(hidden_size=2, num_layers=2)
+    print(model)
+
+    for index, vects in d.items():
+        # each is 30 x 300
+        input_state, next_state = vects[0], vects[1]
+        # raw strings corresponding to embeddings
+        raw_input_state, raw_next_state = list(raw.keys())[index], raw[list(raw.keys())[index]]
+
+        #print(input_state.unsqueeze(0).shape)
+        mu = model(input_state.unsqueeze(0)).detach()
+        #print(mu.shape)
+        
+        # ACTOR FORMAT
+        logstd = torch.zeros_like(mu)
+        std = 0.05*torch.exp(logstd)
+        action = get_action(mu, std)[0]
+        
+        print(raw_input_state, get_raw_action(action))
+
+    """
     dataset = DialogData(d)
     print(len(dataset))
     print(dataset[0][0].shape) # initial state at index 0
@@ -83,4 +107,5 @@ if __name__ == '__main__':
         print(result.shape)
 
         break
+    """
 
