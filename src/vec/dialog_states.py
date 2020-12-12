@@ -6,7 +6,7 @@ import time
 import torch
 import numpy as np
 from spacy_helpers import add_pipes_from_pretrained
-from config import TOKENS_WITH_VECTOR_CUTOFF
+from config import TOKENS_WITH_VECTOR_CUTOFF, TOKENS_RAW_CUTOFF
 import gensim
 
 
@@ -81,17 +81,20 @@ def create_state_vects(w2v, state_dict):
     state_vects = {}
     dropped_vector_pairs = []
     for i, (k, v) in enumerate(state_dict.items()):
+        # ignore pairs where raw tokens are above cutoff (assume processed)
+        if ((len(k.split(' ')) > TOKENS_RAW_CUTOFF) or (len(k.split(' ')) > TOKENS_RAW_CUTOFF)):
+            dropped_vector_pairs.append(i)
+            continue
         TokVectK = getTokVect_fromDoc_gensim(w2v, k) #getTokVect_fromDoc_spacy(w2v,k)
-        TokVectV = getTokVect_fromDoc_gensim(w2v, v) #getTokVect_fromDoc_spacy(w2v,k)
+        TokVectV = getTokVect_fromDoc_gensim(w2v, v) #getTokVect_fromDoc_spacy(w2v,v)
         # ignore pairs where initial_state or next_state are empty vectors, for now
         if ((len(TokVectK) == 0) or (len(TokVectV) == 0)):
             dropped_vector_pairs.append(i)
             continue
-        # ignore pairs where initial_state or next_state are above TOKEN_CUTOFF
+        # ignore pairs where either vectorized states are above cutoff
         if ((len(TokVectK) > TOKENS_WITH_VECTOR_CUTOFF) or (len(TokVectV) > TOKENS_WITH_VECTOR_CUTOFF)):
             dropped_vector_pairs.append(i)
             continue
-        # add
         state_vects[i] = [
             TokVectK, 
             TokVectV
