@@ -161,13 +161,13 @@ def train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args):
     # tuple of a regular old RL problem, but now reward is what the discriminator says. 
     states = torch.stack([memory[i][0] for i in range(len(memory))])
     actions = torch.stack([memory[i][1] for i in range(len(memory))])
-    rewards = [memory[i][2] for i in range(len(memory))]
+    rewards = torch.stack([memory[i][2] for i in range(len(memory))])
     masks = [memory[i][2] for i in range(len(memory))]
     # compute value of what happened, see if what we can get us better. 
     old_values = critic(states)
 
     #GAE aka estimate of Value + actual return roughtly 
-    returns, advants = get_gae(rewards, masks, old_values, args)
+    #returns, advants = get_gae(rewards, masks, old_values, args)
     
     # pass states through actor, get corresponding actions
     mu, std = actor(states)
@@ -188,31 +188,31 @@ def train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args):
             
             inputs = states[batch_index]
             actions_samples = actions[batch_index]
-            returns_samples = returns.unsqueeze(1)[batch_index].to(device)
-            advants_samples = advants.unsqueeze(1)[batch_index].to(device)
-            oldvalue_samples = old_values[batch_index].detach()
+           # returns_samples = returns.unsqueeze(1)[batch_index].to(device)
+           # advants_samples = advants.unsqueeze(1)[batch_index].to(device)
+            # oldvalue_samples = old_values[batch_index].detach()
         
         
-            values = critic(inputs) #
-            clipped_values = oldvalue_samples + \
-                             torch.clamp(values - oldvalue_samples,
-                                         -args.clip_param, 
-                                         args.clip_param)
-            critic_loss1 = criterion(clipped_values, returns_samples)
-            critic_loss2 = criterion(values, returns_samples)
-            critic_loss = torch.max(critic_loss1, critic_loss2).mean()
+            #values = critic(inputs) #
+            #clipped_values = oldvalue_samples + \
+            #                 torch.clamp(values - oldvalue_samples,
+            #                             -args.clip_param, 
+            #                             args.clip_param)
+           # critic_loss1 = criterion(clipped_values, returns_samples)
+            #critic_loss2 = criterion(values, returns_samples)
+            #critic_loss = torch.max(critic_loss1, critic_loss2).mean()
 
-            loss, ratio, entropy = surrogate_loss(actor, advants_samples, inputs,
+            loss, ratio, entropy = surrogate_loss(actor, rewards, inputs,
                                          old_policy.detach(), actions_samples,
                                          batch_index)
             clipped_ratio = torch.clamp(ratio,
                                         1.0 - args.clip_param,
                                         1.0 + args.clip_param)
-            clipped_loss = clipped_ratio * advants_samples
+            clipped_loss = clipped_ratio * rewards
             actor_loss = -torch.min(loss, clipped_loss).mean()
             #print(actor_loss,critic_loss,entropy)
            # return actor_loss, critic_loss, entropy
-            loss = actor_loss + 0.5 * critic_loss - 0.001 * entropy #entropy bonus to promote exploration.
+            loss = actor_loss - 0.001 * entropy # + 0.5 * critic_loss  #entropy bonus to promote exploration.
 
             actor_optim.zero_grad()
             loss.backward()
@@ -220,7 +220,7 @@ def train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args):
 
            # critic_optim.zero_grad()
            # loss.backward() 
-            critic_optim.step()
+           # critic_optim.step()
 
 def get_gae(rewards, masks, values, args):
     """
