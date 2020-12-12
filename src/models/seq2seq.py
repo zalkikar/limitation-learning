@@ -49,7 +49,7 @@ class Seq2SeqAttn_pre_embed(nn.Module):
         super().__init__()
         self.encoder = EncRnn_pre_embed(hidden_size = hidden_size,
                                         num_layers = 1, # forced to 1. 
-                                        embed_size = embed_size,
+                                        embed_size = input_size,
                                         device = device,
                                         drop_prob = drop_prob,
                                         lstm = lstm,
@@ -57,7 +57,7 @@ class Seq2SeqAttn_pre_embed(nn.Module):
                                         )
         self.decoder = DecRnn_pre_embed(hidden_size = hidden_size,
                                         num_layers = 1,
-                                        embed_size = embed_size,
+                                        embed_size = output_size,
                                         output_size = output_size,
                                         device = device,
                                         drop_prob = drop_prob,
