@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from models.seq2seq import Seq2Seq
+from models.seq2seq import Seq2Seq, Seq2SeqAttn_pre_embed
 
 
 class Actor(nn.Module):
@@ -15,7 +15,7 @@ class Actor(nn.Module):
                  bidirectional=True):
         super().__init__()
         
-        self.seq2seq = Seq2Seq(hidden_size=hidden_size, num_layers=num_layers,
+        self.seq2seq = Seq2SeqAttn_pre_embed(hidden_size=hidden_size, num_layers=num_layers,
                  device='cuda', drop_prob=drop_prob, lstm=lstm, feature_norm=feature_norm,
                  input_size=input_size,
                 output_size=output_size,
