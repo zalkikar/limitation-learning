@@ -7,7 +7,7 @@ print(model.vocabulary.sorted_vocab) # should be True
 print(model.wv.vectors.shape)
 
 word_counts = {word: vocab_obj.count for word, vocab_obj in model.wv.vocab.items()}
-word_counts = sorted(word_counts.items(), key=lambda x:-x[1])[:10]
+word_counts = sorted(word_counts.items(), key=lambda x:-x[1])
 
 
 for wc in word_counts:
