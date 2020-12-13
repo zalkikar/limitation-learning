@@ -83,16 +83,16 @@ def get_raw_action(action,
     return ' '.join(raw_action)
 
 def get_cosine_sim(s1, s2, seq_len = 5): # two sentences, lists of pytorch vectors
-    s1v = np.zeros((seq_len, ), dtype='float32')
-    s2v = np.zeros((seq_len, ), dtype='float32')
+    s1v = np.zeros((300, ), dtype='float32')
+    s2v = np.zeros((300, ), dtype='float32')
     for v1 in s1: 
         if isinstance(v1, torch.Tensor):
             v1 = v1.cpu().numpy()
-        s1v = np.add(v1, v1)
+        s1v = np.add(s1v, v1)
     for v2 in s2:
         if isinstance(v2, torch.Tensor):
             v2 = v2.cpu().numpy()
-        s2v = np.add(v2, v2)
+        s2v = np.add(s2v, v2)
     # assume there is atleast one vector in sentence
     s1v = np.divide(s1v, seq_len)
     s2v = np.divide(s2v, seq_len)
