@@ -1,3 +1,9 @@
+"""
+Main and helper functions used for running Generative Adversarial Imitation Learning
+
+
+"""
+
 from collections import deque
 import torch
 import numpy as np
@@ -23,15 +29,17 @@ model = gensim.models.Word2Vec.load("./models/custom_w2v_intersect_GoogleNews")
 model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
 
 def get_action(mu, std):
+    """
+    L2 norm is equal to 1 across the embedding dimension for all tokens.
+    """
     action = torch.normal(mu, std)
-   # action = action.data.numpy()
-    # TODO 
-    # After drawing an action, normalize the embedding the same way the expert ones are.
-    # normalization stuff is still sort of up in the air
-    #norm = action.norm(p=2, dim=1, keepdim=True)
-    norm = torch.norm(action, p=2, dim=1, keepdim=True)
+    
+    norm = action.norm(p=2, dim=2, keepdim=True)
     action = action.div(norm.expand_as(action))
+    action = action.detach().cpu().numpy()
+
     return action
+
 
 def get_raw_action(action, 
                    type = 'average',
