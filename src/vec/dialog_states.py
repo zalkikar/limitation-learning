@@ -87,7 +87,10 @@ def create_state_vects(w2v, state_dict, no_pad = True):
         if ((len(TokVectK) > TOKENS_WITH_VECTOR_CUTOFF) or (len(TokVectV) > TOKENS_WITH_VECTOR_CUTOFF)):
             dropped_vector_pairs.append(i)
             continue
-        # ignore pairs where either vectorized states dont have assigned vectors for every token
+        # ignore pairs where either vectorized states dont have assigned vectors for every 
+        ## print(k.split(' '),len(TokVectK), len(k.split(' ')))
+        ## print(v.split(' '),len(TokVectV), len(v.split(' ')))
+        ## print("\n")
         if ((no_pad) and ((len(TokVectK) != len(k.split(' '))) or (len(TokVectV) != len(v.split(' '))))):
             dropped_vector_pairs.append(i)
             continue

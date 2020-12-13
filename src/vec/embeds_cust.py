@@ -1,5 +1,5 @@
 import gensim
-from config import W2V_ITERATIONS, TOKENS_RAW_CUTOFF
+from config import W2V_ITERATIONS, TOKENS_RAW_CUTOFF, W2V_MIN_COUNT
 
 
 def processLine(line):
@@ -7,7 +7,7 @@ def processLine(line):
     these: </u> and <u> were present in raw text, as a quick fix and to avoid a rerun, we handle this later
     by dropping "< u > " and "</u >". also "\x92" was present, iso8859 encoding to utf-8 issues....
     """
-    line = line.replace("< u > ","").replace("</u >","").replace("\x92","'")
+    line = line.replace("< u > ","").replace("</u >","").replace("\x92","'").strip()
     line = line.lower()
     return line
 
@@ -30,7 +30,7 @@ def run_reg():
     my_sentences = load_sentences()
 
     model = gensim.models.Word2Vec(size=50, 
-                                min_count=10,          # token is included if it appears at least min_count time in the vocabulary
+                                min_count=W2V_MIN_COUNT,          # token is included if it appears at least min_count time in the vocabulary
                                 iter = W2V_ITERATIONS, # number of iterations (epochs)
                                 alpha = 0.025,         # initial learning rate
                                 min_alpha=0.0001,      # lr with linearly drop during training
@@ -73,7 +73,7 @@ def run_intersect():
 
     google_wv = gensim.models.KeyedVectors.load_word2vec_format('./dat/vectors/GoogleNews-vectors-negative300.bin.gz', binary=True)
     model = gensim.models.Word2Vec(size=300, 
-                                min_count=10,          # token is included if it appears at least 10 time in the vocabulary
+                                min_count=W2V_MIN_COUNT,          # token is included if it appears at least 10 time in the vocabulary
                                 iter = W2V_ITERATIONS, # number of iterations (epochs)
                                 alpha = 0.025,         # initial learning rate
                                 min_alpha=0.0001,      # lr with linearly drop during training
