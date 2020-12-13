@@ -98,7 +98,7 @@ parser.add_argument('--num_layers',
                     help='Number of layers in the respective RNNs (default: 2)')
 
 parser.add_argument('--seq_len', 
-                    type=int, default=10,
+                    type=int, default=5,
                     help='length of input and response sequences (default: 60, which is also max)')
 parser.add_argument('--input_size', 
                     type=int, default=300,
