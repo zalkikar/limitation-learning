@@ -174,7 +174,7 @@ def main():
 
                 memory.append([state, torch.from_numpy(action).to(device), irl_reward, mask,expert_action])
                 score += irl_reward
-                similarity_score += get_cosine_sim(s1=expert_action,s2=action.squeeze(),seq_len=5)
+                similarity_score += get_cosine_sim(expert=expert_action,action=action.squeeze(),seq_len=5)
                 if done:
                     break
 

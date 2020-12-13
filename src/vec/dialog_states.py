@@ -11,13 +11,13 @@ import gensim
 
 from embeds_cust import processLine
 
-def create_states(processed_txt_path, turn_limit=3):
+def create_states(processed_txt_path, turn_limit=2):
     
     """We use a state function to compress the dialogue context and the words already generated in the current utterance
     to an intermediate representation, which will be regarded as the current state.
     For example, s0 = f(p) represents the state at time step 0 and it takes the dialogue context p as input.
     State st is given as st = f(p, a1, a2, . . . , at−1).
-    For now, we limit the range of dialogue context to the utterances to 2 conversation turns."""
+    For now, we limit the range of dialogue context to the utterances to 2 or 3 conversation turns."""
 
     dialog_sets = {}
     set_ind = 0
@@ -45,7 +45,7 @@ def create_states(processed_txt_path, turn_limit=3):
                 for j in range(i + 1, turn_range):
                     # print((i,j))
                     rolling_turns = turns[j] + " " + rolling_turns
-                    state_dict[rolling_turns] = turns[i]
+                    state_dict[rolling_turns.strip()] = turns[i]
     return state_dict
 
 
@@ -69,7 +69,7 @@ def getTokVect_fromDoc_spacy(nlp, doc):
     return np.array(v)
 
 
-def create_state_vects(w2v, state_dict):
+def create_state_vects(w2v, state_dict, no_pad = True):
     state_vects = {}
     dropped_vector_pairs = []
     for i, (k, v) in enumerate(state_dict.items()):
@@ -87,6 +87,14 @@ def create_state_vects(w2v, state_dict):
         if ((len(TokVectK) > TOKENS_WITH_VECTOR_CUTOFF) or (len(TokVectV) > TOKENS_WITH_VECTOR_CUTOFF)):
             dropped_vector_pairs.append(i)
             continue
+        # ignore pairs where either vectorized states dont have assigned vectors for every 
+        ## print(k.split(' '),len(TokVectK), len(k.split(' ')))
+        ## print(v.split(' '),len(TokVectV), len(v.split(' ')))
+        ## print("\n")
+        if ((no_pad) and ((len(TokVectK) != len(k.split(' '))) or (len(TokVectV) != len(v.split(' '))))):
+            dropped_vector_pairs.append(i)
+            continue
+
         state_vects[i] = [
             TokVectK, 
             TokVectV
@@ -138,7 +146,7 @@ def run_dialog_states():
 
     state_dict = create_states('./dat/processed/formatted_movie_lines.txt')
 
-    torch.save(state_dict, './dat/processed/raw_states.pt')
+    torch.save(state_dict, './dat/processed/raw_states_v2.pt')
 
     """ # example print
     dist_print = 60
@@ -151,7 +159,7 @@ def run_dialog_states():
     #nlp = spacy.load('./models/custom-GoogleNews/')
     #nlp = add_pipes_from_pretrained(nlp)
 
-    model = gensim.models.Word2Vec.load("./models/custom_w2v_intersect_GoogleNews")
+    model = gensim.models.Word2Vec.load("./models/custom_w2v")
     model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
 
     #nlp = spacy.load('en_core_web_lg')
@@ -159,11 +167,11 @@ def run_dialog_states():
     state_vects,no_vector_pairs = create_state_vects(model.wv, state_dict)
     #state_vects,no_vector_pairs = create_state_vects(nlp, state_dict)
     assert len(state_dict)-len(no_vector_pairs) == len(state_vects)
-    torch.save(state_vects, './dat/processed/vectorized_states.pt')
+    torch.save(state_vects, './dat/processed/vectorized_states_v2.pt')
 
     padded_vects = pad_state_vects(state_vects)
     assert len(state_dict)-len(no_vector_pairs) == len(padded_vects)
-    torch.save(padded_vects, './dat/processed/padded_vectorized_states.pt')
+    torch.save(padded_vects, './dat/processed/padded_vectorized_states_v2.pt')
 
 
 if __name__ == "__main__":
