@@ -25,7 +25,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
 #deepRL/limitation-learning/apps/dat/preprocess/
 #model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
-model = gensim.models.Word2Vec.load("./models/custom_w2v_intersect_GoogleNews")
+model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
 model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
 
 def get_action(mu, std):
