@@ -23,9 +23,9 @@ class Actor(nn.Module):
     
     def forward(self,x):
         
-        mu = torch.tanh(self.seq2seq(x))
+        mu = self.seq2seq(x)
         logstd = torch.zeros_like(mu)
         std = torch.exp(logstd)
-        return mu, 0.2*std # output is standard deviation 1 and mean value for gaussian distribution at each point in embedding.
+        return mu, std # output is standard deviation 1 and mean value for gaussian distribution at each point in embedding.
 
         #unit norm, 
