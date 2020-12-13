@@ -55,7 +55,7 @@ parser.add_argument('--clip_param',
                     help='clipping parameter for PPO (default: 0.2)')
 
 parser.add_argument('--discrim_update_num', 
-                    type=int, default=2, 
+                    type=int, default=4, 
                     help='update number of discriminator (default: 2)')
 
 parser.add_argument('--actor_critic_update_num', 
@@ -63,7 +63,7 @@ parser.add_argument('--actor_critic_update_num',
                     help='update number of actor-critic (default: 10)')
 
 parser.add_argument('--total_sample_size', 
-                    type=int, default=2048, 
+                    type=int, default=4096, 
                     help='total sample size to collect before PPO update (default: 2048)')
 
 parser.add_argument('--batch_size', 
@@ -87,7 +87,7 @@ parser.add_argument('--seed',
                     help='random seed (default: 500)')
 
 parser.add_argument('--logdir', 
-                    type=str, default='logs/EXPERIMENTNAME',
+                    type=str, default='logs/sunday_v1',
                     help='tensorboardx logs directory (default: logs/EXPERIMENTNAME)')
 
 parser.add_argument('--hidden_size', 
@@ -101,7 +101,7 @@ parser.add_argument('--seq_len',
                     type=int, default=5,
                     help='length of input and response sequences (default: 60, which is also max)')
 parser.add_argument('--input_size', 
-                    type=int, default=300,
+                    type=int, default=50,
                     help='DO NOT CHANGE UNLESS NEW EMBEDDINGS ARE MADE. Dimensionality of embeddings (default: 300)')
 
 args = parser.parse_args()
@@ -151,6 +151,8 @@ def main():
         scores = []
         similarity_scores = []
         while steps < args.total_sample_size: 
+            scores = []
+            similarity_scores = []
             state, expert_action, raw_state, raw_expert_action = env.reset()
             score = 0
             similarity_score = 0
@@ -164,6 +166,13 @@ def main():
 
                 mu, std = actor(state.resize(1,args.seq_len,args.input_size)) #TODO: gotta be a better way to resize. 
                 action = get_action(mu.cpu(), std.cpu())[0]
+                for i in range(5):
+                    emb_sum = expert_action[i,:].sum().cpu().item()
+                    if emb_sum == 0:
+                       # print(i)
+                        action[i:,:] = 0 # manual padding
+                        break
+
                 done= env.step(action)
                 irl_reward = get_reward(discrim, state, action, args)
                 if done:
@@ -175,6 +184,7 @@ def main():
                 memory.append([state, torch.from_numpy(action).to(device), irl_reward, mask,expert_action])
                 score += irl_reward
                 similarity_score += get_cosine_sim(expert=expert_action,action=action.squeeze(),seq_len=5)
+                #print(get_cosine_sim(s1=expert_action,s2=action.squeeze(),seq_len=5),'sim')
                 if done:
                     break
 
@@ -197,7 +207,7 @@ def main():
             if args.suspend_accu_exp is not None: #only if not None do we check.
                 if expert_acc > args.suspend_accu_exp and learner_acc > args.suspend_accu_gen:
                     train_discrim_flag = False
-                    
+
         train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args)
         writer.add_scalar('log/score', float(score_avg), iter)
         writer.add_scalar('log/similarity_score', float(similarity_score_avg), iter)
@@ -208,6 +218,7 @@ def main():
 
         if iter % 100:
             score_avg = int(score_avg)
+            print(raw_state[0],'|',raw_action, '|',raw_expert_action)
 
 
             model_path = os.path.join(os.getcwd(),'save_model')
@@ -223,8 +234,6 @@ def main():
                 'args': args,
                 'score': score_avg,
             }, filename=ckpt_path)
-
-
 if __name__=="__main__":
     main()
 
