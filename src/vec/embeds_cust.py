@@ -103,4 +103,5 @@ def run_intersect():
     model.save("./models/custom_w2v_intersect_GoogleNews")
 
 if __name__ == "__main__":
-    run_reg()
+    #run_reg()
+    run_intersect()
