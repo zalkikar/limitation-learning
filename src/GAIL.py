@@ -82,8 +82,8 @@ def get_cosine_sim(expert, action,
     if type == 'greedy':
         action = [model.wv[tok] for tok in get_raw_action(action).split(' ')]
 
-    expertV = np.zeros((300, ), dtype='float32')
-    actionV = np.zeros((300, ), dtype='float32')
+    expertV = np.zeros((50, ), dtype='float32')
+    actionV = np.zeros((50, ), dtype='float32')
     for v in expert: 
         if isinstance(v, torch.Tensor):
             v = v.cpu().numpy()
