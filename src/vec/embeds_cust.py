@@ -30,7 +30,7 @@ def run_reg():
     my_sentences = load_sentences()
 
     model = gensim.models.Word2Vec(size=50, 
-                                min_count=10,          # token is included if it appears at least 10 time in the vocabulary
+                                min_count=10,          # token is included if it appears at least min_count time in the vocabulary
                                 iter = W2V_ITERATIONS, # number of iterations (epochs)
                                 alpha = 0.025,         # initial learning rate
                                 min_alpha=0.0001,      # lr with linearly drop during training

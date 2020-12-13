@@ -69,7 +69,7 @@ def getTokVect_fromDoc_spacy(nlp, doc):
     return np.array(v)
 
 
-def create_state_vects(w2v, state_dict):
+def create_state_vects(w2v, state_dict, no_pad = True):
     state_vects = {}
     dropped_vector_pairs = []
     for i, (k, v) in enumerate(state_dict.items()):
@@ -87,6 +87,11 @@ def create_state_vects(w2v, state_dict):
         if ((len(TokVectK) > TOKENS_WITH_VECTOR_CUTOFF) or (len(TokVectV) > TOKENS_WITH_VECTOR_CUTOFF)):
             dropped_vector_pairs.append(i)
             continue
+        # ignore pairs where either vectorized states dont have assigned vectors for every token
+        if ((no_pad) and ((len(TokVectK) != len(k.split(' '))) or (len(TokVectV) != len(v.split(' '))))):
+            dropped_vector_pairs.append(i)
+            continue
+
         state_vects[i] = [
             TokVectK, 
             TokVectV
