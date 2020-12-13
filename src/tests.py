@@ -44,7 +44,7 @@ if __name__ == '__main__':
     raw = torch.load('./dat/processed/raw_states.pt')
 
     for index, vects in d.items():
-        # each is 30 x 300
+        # each is N x 300
         input_state, next_state = vects[0], vects[1]
         # raw strings corresponding to embeddings
         raw_input_state, raw_next_state = list(raw.keys())[index], raw[list(raw.keys())[index]]
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     print(model)
 
     for index, vects in d.items():
-        # each is 30 x 300
+        # each is N x 300
         input_state, next_state = vects[0], vects[1]
         # raw strings corresponding to embeddings
         raw_input_state, raw_next_state = list(raw.keys())[index], raw[list(raw.keys())[index]]

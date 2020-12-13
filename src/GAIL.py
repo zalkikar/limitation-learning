@@ -23,9 +23,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 #model = gensim.models.KeyedVectors.load_word2vec_format("/scratch/nsk367/limitation-learning/apps/dat/preprocess/GoogleNews-vectors-negative300.bin.gz", binary=True)
 #model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
-#deepRL/limitation-learning/apps/dat/preprocess/
-#model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
-model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v_intersect_GoogleNews")
+model = gensim.models.Word2Vec.load("../models/custom_w2v_intersect_GoogleNews")
 model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
 
 def get_action(mu, std):
@@ -42,20 +40,20 @@ def get_action(mu, std):
 
 
 def get_raw_action(action, 
-                   type = 'average',
+                   type = 'greedy',
                    metric = 'cosine',
                    cutoff = None,
-                   normalize = False):
+                   N_vocab = None):
 
     raw_action = []
 
     if metric != 'cosine':
         raise NotImplementedError
 
-    if type == 'greedy':
+    if type == 'average':
         raise NotImplementedError
 
-    elif type == 'average':
+    elif type == 'greedy':
         
         for token_vector in action:
 
@@ -65,13 +63,8 @@ def get_raw_action(action,
             # https://tedboy.github.io/nlps/_modules/gensim/models/word2vec.html#Word2Vec.similar_by_vector
             # computes cosine similarity between a simple mean of the projection
             # weight vectors of the given words and the vectors for each word in the model
-            sims = model.similar_by_vector(token_vector, topn=1, restrict_vocab=None)
-
-            ### TODO: 
-            # vocab restriction after sorting vocab in descending order
-            # or by substting top N words in cornell movie dialog corpus and then sorting
-            ### UPDATE:
-            # the above probably wont be needed now!
+            # the vocab should be pre-sorted,  model.vocabulary.sorted_vocab should be True
+            sims = model.similar_by_vector(token_vector, topn=1, restrict_vocab=N_vocab)
             
             raw_token = sims[0][0]
             sim_score = sims[0][1]
@@ -82,21 +75,27 @@ def get_raw_action(action,
 
     return ' '.join(raw_action)
 
-def get_cosine_sim(s1, s2, seq_len = 5): # two sentences, lists of pytorch vectors
-    s1v = np.zeros((300, ), dtype='float32')
-    s2v = np.zeros((300, ), dtype='float32')
-    for v1 in s1: 
-        if isinstance(v1, torch.Tensor):
-            v1 = v1.cpu().numpy()
-        s1v = np.add(s1v, v1)
-    for v2 in s2:
-        if isinstance(v2, torch.Tensor):
-            v2 = v2.cpu().numpy()
-        s2v = np.add(s2v, v2)
+def get_cosine_sim(expert, action,
+                   type = None,
+                   seq_len = 5):
+
+    if type == 'greedy':
+        action = [model.wv[tok] for tok in get_raw_action(action).split(' ')]
+
+    expertV = np.zeros((300, ), dtype='float32')
+    actionV = np.zeros((300, ), dtype='float32')
+    for v in expert: 
+        if isinstance(v, torch.Tensor):
+            v = v.cpu().numpy()
+        expertV = np.add(expertV, v)
+    for v in action:
+        if isinstance(v, torch.Tensor):
+            v = v.cpu().numpy()
+        actionV = np.add(actionV, v)
     # assume there is atleast one vector in sentence
-    s1v = np.divide(s1v, seq_len)
-    s2v = np.divide(s2v, seq_len)
-    return np.dot(s1v, s2v)/(np.linalg.norm(s1v)*np.linalg.norm(s2v))
+    expertV = np.divide(expertV, seq_len)
+    actionV = np.divide(actionV, seq_len)
+    return np.dot(expertV, actionV)/(np.linalg.norm(expertV)*np.linalg.norm(actionV))
 
 
 def get_entropy(mu, std):
