@@ -66,7 +66,7 @@ class DialogEnvironment(object):
 
 
         state = self.conversation[0]
-        expert_action = self.conversation[0]
+        expert_action = self.conversation[1]
         
         raw_state = list(self.raw_conversations.keys())[self.i], 
         
