@@ -218,14 +218,15 @@ def main():
 
         if iter % 100:
             score_avg = int(score_avg)
-            print(raw_state[0],'|',raw_action, '|',raw_expert_action)
+            #print(raw_state[0],'|',raw_action, '|',raw_expert_action)
 
 
             model_path = os.path.join(os.getcwd(),'save_model')
             if not os.path.isdir(model_path):
                 os.makedirs(model_path)
+            experiment_name = args.logdir.split('/')[1] #model name
 
-            ckpt_path = os.path.join(model_path, 'ckpt_'+ str(score_avg)+'.pth.tar')
+            ckpt_path = os.path.join(model_path, experiment_name + '_ckpt_'+ str(score_avg)+'.pth.tar')
 
             save_checkpoint({
                 'actor': actor.state_dict(),
