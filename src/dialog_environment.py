@@ -58,7 +58,7 @@ class DialogEnvironment(object):
         I will leave this as a TODO in case without replacement is preferred. 
         """
 
-        valid_convos = list(self.conversations.keys())[:1]
+        valid_convos = list(self.conversations.keys())[:1000]
         self.i = np.random.choice(valid_convos)
 
         self.conversations_visited.append(self.i)
