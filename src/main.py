@@ -115,7 +115,7 @@ def main():
     torch.manual_seed(args.seed)
 
     #TODO
-    actor = Actor(hidden_size=args.hidden_size,num_layers=args.num_layers,device='cuda',input_size=args.input_size,output_size=args.input_size//2)
+    actor = Actor(hidden_size=args.hidden_size,num_layers=args.num_layers,device='cuda',input_size=args.input_size,output_size=args.input_size)
     critic = Critic(hidden_size=args.hidden_size,num_layers=args.num_layers,input_size=args.input_size,seq_len=args.seq_len)
     discrim = Discriminator(hidden_size=args.hidden_size,num_layers=args.hidden_size,input_size=args.input_size,seq_len=args.seq_len)
     
@@ -174,7 +174,7 @@ def main():
 
                 memory.append([state, torch.from_numpy(action).to(device), irl_reward, mask,expert_action])
                 score += irl_reward
-                similarity_score += get_cosine_sim(action,expert_action)
+                similarity_score += get_cosine_sim(s1=expert_action,s2=action.squeeze(),seq_len=5)
                 if done:
                     break
 

@@ -33,7 +33,7 @@ class DecoderRNN(nn.Module):
         self.linear = nn.Linear(hidden_size*2, output_size)
 
     def forward(self, x):
-        print(x.shape)
+       # print(x.shape)
         out, _ = self.memory_cell(x)
         return self.linear(out)
 

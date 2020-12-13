@@ -82,7 +82,7 @@ def get_raw_action(action,
 
     return ' '.join(raw_action)
 
-def get_cosine_sim(s1, s2, seq_len = 10): # two sentences, lists of pytorch vectors
+def get_cosine_sim(s1, s2, seq_len = 5): # two sentences, lists of pytorch vectors
     s1v = np.zeros((seq_len, ), dtype='float32')
     s2v = np.zeros((seq_len, ), dtype='float32')
     for v1 in s1: 
