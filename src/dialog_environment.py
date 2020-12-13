@@ -57,15 +57,12 @@ class DialogEnvironment(object):
 
         I will leave this as a TODO in case without replacement is preferred. 
         """
-        while True: #some indices have been removed, for various resions. This while loop 
-                # allows us to keep trying until a viable conversation is selected. 
-            try:
-                self.i = random.randint(a=0,b=10)#b=len(self.conversations)) # test for over-fitting. 
-                self.conversations_visited.append(self.i)
-                self.conversation = self.conversations[self.i]
-                break
-            except:
-                pass
+
+        valid_convos = list(self.conversations.keys())[:10]
+        self.i = np.random.choice(valid_convos)
+
+        self.conversations_visited.append(self.i)
+        self.conversation = self.conversations[self.i]
 
 
         state = self.conversation[0]
