@@ -55,11 +55,11 @@ parser.add_argument('--clip_param',
                     help='clipping parameter for PPO (default: 0.2)')
 
 parser.add_argument('--discrim_update_num', 
-                    type=int, default=4, 
+                    type=int, default=10, 
                     help='update number of discriminator (default: 2)')
 
 parser.add_argument('--actor_critic_update_num', 
-                    type=int, default=10, 
+                    type=int, default=2, 
                     help='update number of actor-critic (default: 10)')
 
 parser.add_argument('--total_sample_size', 
@@ -67,7 +67,7 @@ parser.add_argument('--total_sample_size',
                     help='total sample size to collect before PPO update (default: 2048)')
 
 parser.add_argument('--batch_size', 
-                    type=int, default=128, 
+                    type=int, default=256, 
                     help='batch size to update (default: 128)')
 
 parser.add_argument('--suspend_accu_exp', 
@@ -91,7 +91,7 @@ parser.add_argument('--logdir',
                     help='tensorboardx logs directory (default: logs/EXPERIMENTNAME)')
 
 parser.add_argument('--hidden_size', 
-                    type=int, default=128,
+                    type=int, default=32,
                     help='New sequence length of the representation produced by the encoder/decoder RNNs. (default: 1024)')
 parser.add_argument('--num_layers', 
                     type=int, default=2,
@@ -111,6 +111,7 @@ args = parser.parse_args()
 
 def main():
     env = DialogEnvironment()
+    experiment_name = args.logdir.split('/')[1] #model name
 
     torch.manual_seed(args.seed)
 
@@ -218,13 +219,18 @@ def main():
 
         if iter % 100:
             score_avg = int(score_avg)
-            #print(raw_state[0],'|',raw_action, '|',raw_expert_action)
+            # Open a file with access mode 'a'
+            file_object = open(experiment_name+'.txt', 'a')
 
+            result_str = str(iter) + '|' + raw_state[0] + '|' + raw_action + '|' + raw_expert_action + '\n'
+            # Append at the end of file
+            file_object.write(result_str)
+            # Close the file
+            file_object.close()
 
             model_path = os.path.join(os.getcwd(),'save_model')
             if not os.path.isdir(model_path):
                 os.makedirs(model_path)
-            experiment_name = args.logdir.split('/')[1] #model name
 
             ckpt_path = os.path.join(model_path, experiment_name + '_ckpt_'+ str(score_avg)+'.pth.tar')
 
