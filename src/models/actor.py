@@ -20,6 +20,7 @@ class Actor(nn.Module):
                  input_size=input_size,
                 output_size=output_size,
                  bidirectional=bidirectional)
+    
 
     def forward(self,x):
         
