@@ -48,6 +48,15 @@ def create_states(processed_txt_path, turn_limit=2):
                     state_dict[rolling_turns.strip()] = turns[i]
     return state_dict
 
+def getTokIndices_fromDoc_gensim(w2v, doc):
+    w2ind = {token: token_index for token_index, token in enumerate(w2v.index2word)} 
+    v = []
+    for tok in doc.split(' '):
+        try:
+            v.append(w2ind[tok])
+        except KeyError:
+            continue
+    return np.array(v)
 
 def getTokVect_fromDoc_gensim(w2v, doc): # doc is already processed from spacy #(doc: spacy.tokens.Doc):
     # document level token vectors (num_tokens, dim_tokens)
@@ -77,8 +86,13 @@ def create_state_vects(w2v, state_dict, no_pad = True):
         if ((len(k.split(' ')) > TOKENS_RAW_CUTOFF) or (len(v.split(' ')) > TOKENS_RAW_CUTOFF)):
             dropped_vector_pairs.append(i)
             continue
-        TokVectK = getTokVect_fromDoc_gensim(w2v, k) #getTokVect_fromDoc_spacy(w2v,k)
-        TokVectV = getTokVect_fromDoc_gensim(w2v, v) #getTokVect_fromDoc_spacy(w2v,v)
+
+        #TokVectK = getTokVect_fromDoc_gensim(w2v, k) #getTokVect_fromDoc_spacy(w2v,k)
+        #TokVectV = getTokVect_fromDoc_gensim(w2v, v) #getTokVect_fromDoc_spacy(w2v,v)
+        
+        TokVectK = getTokIndices_fromDoc_gensim(w2v, k)
+        TokVectV = getTokIndices_fromDoc_gensim(w2v, v)
+        
         # ignore pairs where initial_state or next_state are empty vectors, for now
         if ((len(TokVectK) == 0) or (len(TokVectV) == 0)):
             dropped_vector_pairs.append(i)
@@ -100,6 +114,32 @@ def create_state_vects(w2v, state_dict, no_pad = True):
             TokVectV
             ]
     return state_vects, dropped_vector_pairs
+
+
+def pad_state_indices(w2v, vects, size =TOKENS_RAW_CUTOFF):
+    w2ind = {token: token_index for token_index, token in enumerate(w2v.index2word)} 
+    padded_vects = []
+
+    doc_vects = list(vects.values())
+    doc_inds = [[i, i] for i in list(vects.keys())]
+    # flattened list of matrices from (initial_state,next_state) matrix pairs
+    # of document vectors
+    doc_vects_flatten = [np.array(v) for subv in doc_vects for v in subv]
+    doc_inds_flatten = [i for subi in doc_inds for i in subi]
+    assert len(doc_vects_flatten) == len(doc_inds_flatten) == 2 * len(vects)
+
+    for v in doc_vects_flatten:
+        t = size - len(v)
+        padded = np.pad(v, pad_width=(w2ind["."], t), mode='constant') # ****pad with index of "." from pretrained embeddings for now
+        padded_vects.append(padded)
+    data = np_to_var(np.array(padded_vects), cuda=False) # not using gpu for now
+    # re-create state dictionary
+    padded_state_vects = {i: [] for i in list(vects.keys())}
+    for i in range(len(doc_vects_flatten)):
+        padded_state_vects[doc_inds_flatten[i]].append(data[i])
+    assert len(padded_state_vects) == len(vects)
+
+    return padded_state_vects
 
 
 def pad_state_vects(vects, token_padding=False):
@@ -169,7 +209,8 @@ def run_dialog_states():
     assert len(state_dict)-len(no_vector_pairs) == len(state_vects)
     torch.save(state_vects, './dat/processed/vectorized_states_v3.pt')
 
-    padded_vects = pad_state_vects(state_vects)
+    #padded_vects = pad_state_vects(state_vects)
+    padded_vects = pad_state_indices(model.wv, state_vects)
     assert len(state_dict)-len(no_vector_pairs) == len(padded_vects)
     torch.save(padded_vects, './dat/processed/padded_vectorized_states_v3.pt')
 
