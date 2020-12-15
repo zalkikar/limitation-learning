@@ -106,7 +106,7 @@ def log_prob_density(x, mu, std):
     #TODO: Sanity check a few of these.. 
     log_prob_density = -(x - mu).pow(2) / (2 * std.pow(2)) \
                      - 0.5 * math.log(2 * math.pi)
-    return log_prob_density.sum(1, keepdim=True)
+    return log_prob_density.sum(2, keepdim=True) # I think this fixed it. 
 
 def get_reward(discrim, state, action,args):
     """
