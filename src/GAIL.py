@@ -220,7 +220,7 @@ def train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args):
             clipped_ratio = torch.clamp(ratio,
                                         1.0 - args.clip_param,
                                         1.0 + args.clip_param)
-            clipped_loss = clipped_ratio * rewards
+            clipped_loss = clipped_ratio * rewards.unsqueeze(dim=1)
             actor_loss = -torch.min(loss, clipped_loss).mean()
             #print(actor_loss,critic_loss,entropy)
            # return actor_loss, critic_loss, entropy
