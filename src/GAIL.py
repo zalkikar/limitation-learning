@@ -32,8 +32,7 @@ def get_action(mu, std):
     """
     action = torch.normal(mu, std)
     
-    norm = action.norm(p=2, dim=2, keepdim=True)
-    action = action.div(norm.expand_as(action))
+
     action = action.detach().cpu().numpy()
 
     return action

@@ -24,8 +24,10 @@ class Actor(nn.Module):
     def forward(self,x):
         
         mu = self.seq2seq(x)
+        norm = mu.norm(p=2, dim=2, keepdim=True)
+        mu = mu.div(norm.expand_as(mu))
         logstd = torch.zeros_like(mu)
-        std = torch.exp(logstd)
+        std = 0.001 * torch.exp(logstd)
         return mu, std # output is standard deviation 1 and mean value for gaussian distribution at each point in embedding.
 
         #unit norm, 
