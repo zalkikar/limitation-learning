@@ -2,15 +2,20 @@ import torch
 import torch.nn as nn
 from models.seq2seq import Seq2Seq#, Seq2SeqAttn_pre_embed
 
+import torch
+import torch.nn as nn
+
+from models.seq2seq import Seq2Seq, Seq2SeqAttn_pre_embed
+
 
 class Actor(nn.Module):
     """
     Direct application of Sequence to Sequence Network. Input a state and receive a reply. 
     
     """
-    def __init__(self,  hidden_size=1, num_layers=1,
+    def __init__(self,  hidden_size, num_layers,
                  device='cuda', drop_prob=0, lstm=True, feature_norm=False,
-                 input_size=50,output_size=50,
+                 input_size=100,output_size=100,
                  bidirectional=True):
         super().__init__()
         
