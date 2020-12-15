@@ -111,6 +111,7 @@ args = parser.parse_args()
 
 def main():
     env = DialogEnvironment()
+    experiment_name = args.logdir.split('/')[1] #model name
 
     torch.manual_seed(args.seed)
 
@@ -218,13 +219,18 @@ def main():
 
         if iter % 100:
             score_avg = int(score_avg)
-            #print(raw_state[0],'|',raw_action, '|',raw_expert_action)
+            # Open a file with access mode 'a'
+            file_object = open(experiment_name'.txt', 'a')
 
+            result_str = str(iter) + '|' + raw_state[0] + '|' + raw_action + '|' + raw_expert_action + '\n'
+            # Append at the end of file
+            file_object.write(result_str)
+            # Close the file
+            file_object.close()
 
             model_path = os.path.join(os.getcwd(),'save_model')
             if not os.path.isdir(model_path):
                 os.makedirs(model_path)
-            experiment_name = args.logdir.split('/')[1] #model name
 
             ckpt_path = os.path.join(model_path, experiment_name + '_ckpt_'+ str(score_avg)+'.pth.tar')
 
