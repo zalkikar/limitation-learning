@@ -27,7 +27,7 @@ class Actor(nn.Module):
         norm = mu.norm(p=2, dim=2, keepdim=True)
         mu = mu.div(norm.expand_as(mu))
         logstd = torch.zeros_like(mu)
-        std = 0.001 * torch.exp(logstd)
+        std = 0.005 * torch.exp(logstd)
         return mu, std # output is standard deviation 1 and mean value for gaussian distribution at each point in embedding.
 
         #unit norm, 

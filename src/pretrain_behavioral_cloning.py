@@ -112,17 +112,23 @@ def main():
 
         steps = 0
         scores = []
-        similarity_scores = []
+        states = []
+        expert_actions = []
         while steps < args.batch_size: 
             scores = []
             similarity_scores = []
             state, expert_action, raw_state, raw_expert_action = env.reset()
+
             score = 0
             similarity_score = 0
             state = state[:args.seq_len,:]
             expert_action = expert_action[:args.seq_len,:]
             state = state.to(device)
             expert_action = expert_action.to(device)
+            states.append(state)
+            expert_actions.append(expert_action)
+
+            
             for _ in range(10000): 
 
                 steps += 1

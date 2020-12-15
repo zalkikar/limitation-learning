@@ -278,7 +278,7 @@ def surrogate_loss(actor, advants, states, old_policy, actions, batch_index):
     old_policy = old_policy[batch_index]
 
     ratio = torch.exp(new_policy - old_policy)
-    surrogate_loss = ratio * advants
+    surrogate_loss = ratio * advants.unsqueeze(dim=1)
     entropy = get_entropy(mu, std)
 
     return surrogate_loss, ratio, entropy
