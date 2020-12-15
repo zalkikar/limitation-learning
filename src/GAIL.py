@@ -104,6 +104,7 @@ def get_entropy(mu, std):
     return entropy
 
 def log_prob_density(x, mu, std):
+    #TODO: Sanity check a few of these.. 
     log_prob_density = -(x - mu).pow(2) / (2 * std.pow(2)) \
                      - 0.5 * math.log(2 * math.pi)
     return log_prob_density.sum(1, keepdim=True)
