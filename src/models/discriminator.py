@@ -1,7 +1,11 @@
 import torch
 import torch.nn as nn
-from models.encoders import EncoderRNN
-from models.decoders import DecoderRNN
+try:
+    from models.encoders import EncoderRNN
+    from models.decoders import DecoderRNN
+except:
+    from encoders import EncoderRNN
+    from decoders import DecoderRNN
 
 
 

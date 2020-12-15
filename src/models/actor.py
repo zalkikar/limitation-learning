@@ -1,9 +1,5 @@
 import torch
 import torch.nn as nn
-from models.seq2seq import Seq2Seq#, Seq2SeqAttn_pre_embed
-
-import torch
-import torch.nn as nn
 
 from models.seq2seq import Seq2Seq, Seq2SeqAttn_pre_embed
 
@@ -24,7 +20,7 @@ class Actor(nn.Module):
                  input_size=input_size,
                 output_size=output_size,
                  bidirectional=bidirectional)
-    
+
     def forward(self,x):
         
         mu = self.seq2seq(x)
