@@ -1,10 +1,11 @@
 import torch
 import torch.nn as nn
-
-from models.utils import from_pretrained
-from models.config import TOKENS_RAW_CUTOFF
-
-
+try:
+    from models.utils import from_pretrained
+    from models.config import TOKENS_RAW_CUTOFF
+except:
+    from utils import from_pretrained
+    from config import TOKENS_RAW_CUTOFF
 class EncRnn(nn.Module):
 
     def __init__(self, hidden_size, num_layers,
