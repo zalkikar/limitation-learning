@@ -106,7 +106,7 @@ def log_prob_density(x, mu, std):
     #TODO: Sanity check a few of these.. 
     log_prob_density = -(x - mu).pow(2) / (2 * std.pow(2)) \
                      - 0.5 * math.log(2 * math.pi)
-    return log_prob_density.sum(2, keepdim=True) # I think this fixed it. 
+    return log_prob_density.sum(2, keepdim=True).sum(1, keepdim=True) # I think this fixed it. 
 
 def get_reward(discrim, state, action,args):
     """
@@ -220,7 +220,7 @@ def train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args):
             clipped_ratio = torch.clamp(ratio,
                                         1.0 - args.clip_param,
                                         1.0 + args.clip_param)
-            clipped_loss = clipped_ratio * rewards.unsqueeze(dim=1)
+            clipped_loss = clipped_ratio * rewards#.unsqueeze(dim=1)
             actor_loss = -torch.min(loss, clipped_loss).mean()
             #print(actor_loss,critic_loss,entropy)
            # return actor_loss, critic_loss, entropy
@@ -278,7 +278,7 @@ def surrogate_loss(actor, advants, states, old_policy, actions, batch_index):
     old_policy = old_policy[batch_index]
 
     ratio = torch.exp(new_policy - old_policy)
-    surrogate_loss = ratio * advants.unsqueeze(dim=1)
+    surrogate_loss = ratio * advants#.unsqueeze(dim=1)
     entropy = get_entropy(mu, std)
 
     return surrogate_loss, ratio, entropy
