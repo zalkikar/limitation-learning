@@ -128,25 +128,6 @@ def main():
             states.append(state)
             expert_actions.append(expert_action)
 
-            
-            for _ in range(10000): 
-
-                steps += 1
-
-                mu, std = actor(state.resize(1,args.seq_len,args.input_size)) #TODO: gotta be a better way to resize. 
-                action =  mu # no longer drawn randomly. Just get mu very close TODO.... how does this handle normalization?? #get_action(mu.cpu(), std.cpu())[0] #TODO
-                for i in range(5):
-                    emb_sum = expert_action[i,:].sum().cpu().item()
-                    if emb_sum == 0:
-                       # print(i)
-                        action[i:,:] = 0 # manual padding
-                        break
-
-                done= env.step(action)
-                if done:
-                    mask = 0
-                else:
-                    mask = 1
 
 
                 similarity_score += get_cosine_sim(expert=expert_action,action=action.squeeze(),seq_len=5)
@@ -155,13 +136,19 @@ def main():
                     break
 
             episodes += 1
+
             similarity_scores.append(similarity_score)
+        states = torch.stack(states)
+        actions_pred , _ = actor(states)
+        expert_actions = torch.stack(expert_actions)
+
+
 
         similarity_score_avg = np.mean(similarity_scores)
         print('{}:: {} episode similarity score is {:.2f}'.format(iter, episodes, similarity_score_avg))
 
         actor.train()
-        loss = F.mse_loss(action,expert_action)
+        loss = F.mse_loss(actions_pred,expert_action)
         actor_optim.zero_grad()
         actor_optim.step() 
         # and this is basically all we need to do
