@@ -1,9 +1,13 @@
 import torch
 import gensim
 
-def get_vectors():
+def get_model():
     model = gensim.models.Word2Vec.load("../models/custom_w2v_intersect_GoogleNews") # ("./models/custom_w2v")
     model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
+    return model
+
+def get_vectors():
+    model = get_model()
     return torch.FloatTensor(model.wv.vectors)
 
 def from_pretrained(embeddings=None, freeze=True):
