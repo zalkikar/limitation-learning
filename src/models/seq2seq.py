@@ -3,8 +3,8 @@ import torch.nn as nn
 
 import random
 
-from models.encoders import EncoderRNN, EncRnn_pre_embed
-from models.decoders import DecoderRNN, DecRnn_pre_embed
+from models.encoders import EncoderRNN#, EncRnn_pre_embed
+from models.decoders import DecoderRNN#, DecRnn_pre_embed
 
 class Seq2Seq(nn.Module):
     def __init__(self,  hidden_size, num_layers,
