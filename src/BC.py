@@ -40,7 +40,7 @@ def display_attention(sentence, translation, attention):
     plt.close()
 
 
-def train(train_d, valid_d, w2v_model, words, model, optimizer, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, CLIP, EPOCHS = 10):
+def train(train_d, valid_d, w2v_model, words, model, optimizer, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, CLIP, device, EPOCHS = 10):
 
     for epoch in range(EPOCHS):
         model.train()
@@ -50,13 +50,14 @@ def train(train_d, valid_d, w2v_model, words, model, optimizer, criterion, sos_i
                 input_state, next_state = vects[0], vects[1]
                 
                 # add <sos> and <eos>
-                input_state = torch.cat((torch.LongTensor([sos_ind]), input_state, torch.LongTensor([eos_ind])), dim=0)
-                next_state = torch.cat((torch.LongTensor([sos_ind]), next_state, torch.LongTensor([eos_ind])), dim=0)
+                input_state = torch.cat((torch.LongTensor([sos_ind]), input_state, torch.LongTensor([eos_ind])), dim=0).to(device)
+                next_state = torch.cat((torch.LongTensor([sos_ind]), next_state, torch.LongTensor([eos_ind])), dim=0).to(device)
 
-                trg = next_state.unsqueeze(0)
+                trg = next_state.unsqueeze(0).to(device)
+                seq_len_tensor = torch.Tensor([SEQ_LEN]).to(device)
 
                 optimizer.zero_grad()
-                output = model(input_state.unsqueeze(0), torch.Tensor([SEQ_LEN]), trg)
+                output = model(input_state.unsqueeze(0), seq_len_tensor, trg)
 
 
                 trg = trg.transpose(1,0)
@@ -76,15 +77,15 @@ def train(train_d, valid_d, w2v_model, words, model, optimizer, criterion, sos_i
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(model.parameters(), CLIP)
                 optimizer.step()
-                epoch_loss += loss.item()
+                epoch_loss += loss.detach().cpu().item()
 
         # Train PPL: {math.exp(epoch_loss / len(train_d)):7.3f}
         print(f'\t\tEpoch {epoch+1} Train Loss: {epoch_loss / len(train_d):.3f}')
-        evaluate(valid_d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN)
+        evaluate(valid_d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device)
         torch.save(model.state_dict(), f'./generators/model-epoch{epoch+1}.pt')
 
 
-def evaluate(d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, type='Valid'):
+def evaluate(d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device, type='Valid'):
     model.eval()
     val_loss = 0
     cos_sims = 0
@@ -92,11 +93,12 @@ def evaluate(d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_ID
         for idx, (index, vects) in enumerate(d.items()):
 
             input_state, next_state = vects[0], vects[1]
-            input_state = torch.cat((torch.LongTensor([sos_ind]), input_state, torch.LongTensor([eos_ind])), dim=0)
-            next_state = torch.cat((torch.LongTensor([sos_ind]), next_state, torch.LongTensor([eos_ind])), dim=0)
-            trg = next_state.unsqueeze(0)
+            input_state = torch.cat((torch.LongTensor([sos_ind]), input_state, torch.LongTensor([eos_ind])), dim=0).to(device)
+            next_state = torch.cat((torch.LongTensor([sos_ind]), next_state, torch.LongTensor([eos_ind])), dim=0).to(device)
+            trg = next_state.unsqueeze(0).to(device)
+            seq_len_tensor = torch.Tensor([SEQ_LEN]).to(device)
 
-            output = model(input_state.unsqueeze(0), torch.Tensor([SEQ_LEN]), trg)
+            output = model(input_state.unsqueeze(0), seq_len_tensor, trg)
 
             trg = trg.transpose(1,0)
             output_dim = output.shape[-1]                
@@ -104,9 +106,9 @@ def evaluate(d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_ID
             trg = trg[1:].view(-1)
 
             loss = criterion(output, trg)
-            val_loss += loss.item()
+            val_loss += loss.detach().cpu().item()
 
-            translation, attention = translate_sentence(words, input_state, next_state, model, eos_ind, SEQ_LEN)
+            translation, attention = translate_sentence(words, input_state, next_state, model, eos_ind, SEQ_LEN, device)
 
             # drop <sos>, <eos>
             expert_act = [words[int(ind)] for ind in next_state.numpy()][1:-1]
@@ -118,20 +120,20 @@ def evaluate(d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_ID
                     break
             vectorized_expert_act = [w2v_model.wv[tok] for tok in expert_act_unpadded]
             vectorized_pred_act = [w2v_model.wv[tok] for tok in translation]
-            cos_sims += get_cosine_sim(vectorized_expert_act, vectorized_pred_act, type = None, seq_len = 5, dim = 300)
+            cos_sims += get_cosine_sim(vectorized_expert_act.detach(), vectorized_pred_act.detach(), type = None, seq_len = 5, dim = 300)
     print(f'\t{type} Avg Loss: {val_loss / len(d):.3f} | {type} Avg Cosine Sim: {cos_sims / len(d):.3f}')
 
 
-def translate_sentence(words, input_state, next_state, model, eos_ind, max_len):
+def translate_sentence(words, input_state, next_state, model, eos_ind, max_len, device):
     
     model.eval()
-    src_tensor = input_state.unsqueeze(0)
-    src_len = torch.Tensor([max_len])
+    src_tensor = input_state.unsqueeze(0).to(device)
+    src_len = torch.Tensor([max_len]).to(device)
 
     with torch.no_grad():
         encoder_outputs, hidden = model.encoder(src_tensor, src_len)
 
-    mask = model.create_mask(src_tensor.transpose(1,0))
+    mask = model.create_mask(src_tensor.transpose(1,0)).to(device)
     # get first decoder input (<sos>)'s one hot
     trg_indexes = [next_state[0]]
     # create a array to store attetnion
@@ -140,7 +142,7 @@ def translate_sentence(words, input_state, next_state, model, eos_ind, max_len):
 
 
     for i in range(max_len):
-        trg_tensor = torch.LongTensor([trg_indexes[-1]])
+        trg_tensor = torch.LongTensor([trg_indexes[-1]]).to(device)
         #print(trg_tensor.shape)
         with torch.no_grad():
             output, hidden, attention = model.decoder(trg_tensor, hidden, encoder_outputs, mask)
@@ -233,11 +235,8 @@ def main():
     eos_ind = w2ind['<eos>']
     # adjusted sequence length
     SEQ_LEN = 5 + 2 # sos, eos tokens
-
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
     # padded vectorized states of token indexes
-    d = torch.load('../dat/processed/padded_vectorized_states_v3.pt').to(device)
+    d = torch.load('../dat/processed/padded_vectorized_states_v3.pt')
     # train test valid split
     train_d = {}
     test_d = {}
@@ -254,13 +253,14 @@ def main():
     print(f'valid % = {len(valid_d)/len(d)}\n')
 
     clip = 1
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     enc = EncRnn(hidden_size=args.n_hidden, num_layers=args.n_layers, embed_size=EMBED_DIM)
     dec = DecRnn(hidden_size=args.n_hidden, num_layers=args.n_layers, embed_size=EMBED_DIM, output_size=VOCAB_SIZE)
     model = Seq2SeqAttn(enc, dec, TRG_PAD_IDX, VOCAB_SIZE, device).to(device)
 
     optimizer = torch.optim.Adam(model.parameters())
-    criterion = nn.CrossEntropyLoss(ignore_index = TRG_PAD_IDX)
+    criterion = nn.CrossEntropyLoss(ignore_index = TRG_PAD_IDX).to(device)
 
     assert w2v_model.vocabulary.sorted_vocab == True
     word_counts = {word: vocab_obj.count for word, vocab_obj in w2v_model.wv.vocab.items()}
@@ -268,9 +268,9 @@ def main():
     words = [t[0] for t in word_counts]
 
     model.apply(init_weights)
-    train(train_d, valid_d, w2v_model, words, model, optimizer, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, clip, args.epochs)
+    train(train_d, valid_d, w2v_model, words, model, optimizer, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, clip, device, args.epochs)
     
-    evaluate(test_d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, type='Test')
+    evaluate(test_d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device, type='Test')
     
     observe(w2v_model, words, model, d, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN)
         
