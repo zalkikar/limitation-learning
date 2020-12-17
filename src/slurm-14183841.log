@@ -1,0 +1,12 @@
+usage: main.py [-h] [--load_model LOAD_MODEL] [--gamma GAMMA] [--lamda LAMDA]
+               [--learning_rate LEARNING_RATE] [--l2_rate L2_RATE]
+               [--clip_param CLIP_PARAM]
+               [--discrim_update_num DISCRIM_UPDATE_NUM]
+               [--actor_critic_update_num ACTOR_CRITIC_UPDATE_NUM]
+               [--total_sample_size TOTAL_SAMPLE_SIZE]
+               [--batch_size BATCH_SIZE] [--suspend_accu_exp SUSPEND_ACCU_EXP]
+               [--suspend_accu_gen SUSPEND_ACCU_GEN]
+               [--max_iter_num MAX_ITER_NUM] [--seed SEED] [--logdir LOGDIR]
+               [--hidden_size HIDDEN_SIZE] [--num_layers NUM_LAYERS]
+               [--seq_len SEQ_LEN] [--input_size INPUT_SIZE]
+main.py: error: unrecognized arguments: -actor_critic_update_num 2
