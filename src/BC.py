@@ -233,8 +233,11 @@ def main():
     eos_ind = w2ind['<eos>']
     # adjusted sequence length
     SEQ_LEN = 5 + 2 # sos, eos tokens
+
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
     # padded vectorized states of token indexes
-    d = torch.load('../dat/processed/padded_vectorized_states_v3.pt')
+    d = torch.load('../dat/processed/padded_vectorized_states_v3.pt').to(device)
     # train test valid split
     train_d = {}
     test_d = {}
@@ -251,7 +254,6 @@ def main():
     print(f'valid % = {len(valid_d)/len(d)}\n')
 
     clip = 1
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     enc = EncRnn(hidden_size=args.n_hidden, num_layers=args.n_layers, embed_size=EMBED_DIM)
     dec = DecRnn(hidden_size=args.n_hidden, num_layers=args.n_layers, embed_size=EMBED_DIM, output_size=VOCAB_SIZE)

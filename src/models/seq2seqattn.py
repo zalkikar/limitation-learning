@@ -18,7 +18,7 @@ class EncRnn(nn.Module):
         self.num_layers = num_layers
         self.device = device
 
-        self.embedding = from_pretrained().to(device)
+        self.embedding = from_pretrained()
 
         self.memory_cell = torch.nn.GRU(input_size=embed_size,
                                 hidden_size=hidden_size,
@@ -74,7 +74,7 @@ class DecRnn(nn.Module):
 
         self.attention = Attention(hidden_size)
 
-        self.embedding = from_pretrained().to(device)
+        self.embedding = from_pretrained()
         
         self.memory_cell = torch.nn.GRU((hidden_size * 2) + embed_size, hidden_size)
         self.linear = nn.Linear((hidden_size * 3)+embed_size, output_size)
