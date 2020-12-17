@@ -96,7 +96,7 @@ def evaluate(d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_ID
             input_state = torch.cat((torch.LongTensor([sos_ind]), input_state, torch.LongTensor([eos_ind])), dim=0).to(device)
             next_state = torch.cat((torch.LongTensor([sos_ind]), next_state, torch.LongTensor([eos_ind])), dim=0).to(device)
             trg = next_state.unsqueeze(0).to(device)
-            seq_len_tensor = torch.Tensor([SEQ_LEN]).to(device)
+            seq_len_tensor = torch.Tensor([int(SEQ_LEN)])
 
             output = model(input_state.unsqueeze(0), seq_len_tensor, trg)
 
@@ -128,7 +128,7 @@ def translate_sentence(words, input_state, next_state, model, eos_ind, max_len, 
     
     model.eval()
     src_tensor = input_state.unsqueeze(0).to(device)
-    src_len = torch.Tensor([max_len]).to(device)
+    src_len = torch.Tensor([int(max_len)])
 
     with torch.no_grad():
         encoder_outputs, hidden = model.encoder(src_tensor, src_len)
