@@ -7,16 +7,11 @@ from models.config import TOKENS_RAW_CUTOFF
 
 import random
 
-w2v_model = get_model() # already normed
-
-SEQ_LEN = TOKENS_RAW_CUTOFF
-VOCAB_SIZE, EMBED_DIM = w2v_model.wv.vectors.shape
 
 class EncRnn(nn.Module):
     
-    def __init__(self, hidden_size, num_layers,
+    def __init__(self, hidden_size, num_layers, embed_size,
                  device='cpu', drop_prob=0, lstm=True, feature_norm=False,
-                 embed_size=EMBED_DIM,
                  bidirectional=True):
         super().__init__()
         self.hidden_size = hidden_size
@@ -49,6 +44,7 @@ class EncRnn(nn.Module):
         return out, hidden
 
 
+
 class Attention(nn.Module):
     def __init__(self, hidden_size):
         super().__init__()
@@ -68,9 +64,8 @@ class Attention(nn.Module):
 
 
 class DecRnn(nn.Module):
-    def __init__(self, hidden_size, num_layers,
+    def __init__(self, hidden_size, num_layers, embed_size, output_size,
                  device='cpu', drop_prob=0, lstm=True, feature_norm=False,
-                 embed_size=EMBED_DIM,output_size=VOCAB_SIZE,
                  bidirectional=False):
         super().__init__()
         self.hidden_size = hidden_size
@@ -80,14 +75,7 @@ class DecRnn(nn.Module):
         self.attention = Attention(hidden_size)
 
         self.embedding = from_pretrained()
-        """
-        self.memory_cell = torch.nn.GRU(input_size=(hidden_size*2)+embed_size,
-                                hidden_size=hidden_size,
-                                num_layers=num_layers,
-                                # make dropout 0 if num_layers is 1
-                                dropout=drop_prob * (num_layers != 1),
-                                bidirectional=False)
-        """
+        
         self.memory_cell = torch.nn.GRU((hidden_size * 2) + embed_size, hidden_size)
         self.linear = nn.Linear((hidden_size * 3)+embed_size, output_size)
         self.dropout = nn.Dropout(drop_prob)
@@ -124,13 +112,14 @@ class DecRnn(nn.Module):
 
 
 class Seq2SeqAttn(nn.Module):
-    def __init__(self, encoder, decoder, src_pad_idx, device):
+    def __init__(self, encoder, decoder, src_pad_idx, vocab_size, device):
         super().__init__()
         
         self.encoder = encoder
         self.decoder = decoder
         self.src_pad_idx = src_pad_idx
         self.device = device
+        self.vocab_size = vocab_size
         
     def create_mask(self, src):
         mask = (src != self.src_pad_idx).permute(1, 0) ### used to be != ???
@@ -149,7 +138,7 @@ class Seq2SeqAttn(nn.Module):
                     
         batch_size = src.shape[1]
         trg_len = trg.shape[0]
-        trg_vocab_size = VOCAB_SIZE
+        trg_vocab_size = self.vocab_size
         
         outputs = torch.zeros(trg_len, batch_size, trg_vocab_size).to(self.device)
         ##print(outputs)
