@@ -116,8 +116,8 @@ def evaluate(d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_ID
             expert_act_unpadded = []
             for tok in expert_act:
                 expert_act_unpadded.append(tok)
-                if (tok == words[int(TRG_PAD_IDX)]) or (not tok.isalnum()):
-                    break
+                #if (tok == words[int(TRG_PAD_IDX)]):
+                #    break
             vectorized_expert_act = [w2v_model.wv[tok] for tok in expert_act_unpadded]
             vectorized_pred_act = [w2v_model.wv[tok] for tok in translation]
             cos_sims += get_cosine_sim(vectorized_expert_act, vectorized_pred_act, type = None, seq_len = 5, dim = 300)
@@ -182,12 +182,12 @@ def observe(w2v_model, words, model, d, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, 
         expert_act_unpadded, init_act_unpadded = [],[]
         for tok in expert_act:
             expert_act_unpadded.append(tok)
-            if (tok == words[int(TRG_PAD_IDX)]) or (not tok.isalnum()):
-                break
+            #if (tok == words[int(TRG_PAD_IDX)]):
+            #    break
         for tok in init_act:
             init_act_unpadded.append(tok)
-            if (tok == words[int(TRG_PAD_IDX)]) or (not tok.isalnum()):
-                break
+            #if (tok == words[int(TRG_PAD_IDX)]):
+            #    break
         vectorized_expert_act = [w2v_model.wv[tok] for tok in expert_act_unpadded]
         vectorized_pred_act = [w2v_model.wv[tok] for tok in translation]
         cos_sim = get_cosine_sim(vectorized_expert_act, vectorized_pred_act, type = None, seq_len = 5, dim = 300)
