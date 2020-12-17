@@ -2,9 +2,11 @@ import gensim
 import random
 import math
 import argparse 
+import numpy as np
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 from models.utils import get_model
 from models.config import TOKENS_RAW_CUTOFF
@@ -14,15 +16,18 @@ from matplotlib import pyplot as plt
 from matplotlib import ticker
 
 
-def train(d, model, optimizer, criterion, SEQ_LEN, CLIP, EPOCHS = 10):
+def train(d, model, optimizer, criterion, special_inds, SEQ_LEN, CLIP, EPOCHS = 10):
+    sos_ind, eos_ind = special_inds
     model.train()
     for epoch in range(EPOCHS):
         epoch_loss = 0
         for idx, (index, vects) in enumerate(d.items()):
                 # each is N x 300
                 input_state, next_state = vects[0], vects[1]
-                ### add <sos> and <eos>
-                ##tokens = [src_field.init_token] + tokens + [src_field.eos_token]
+
+                # add <sos> and <eos>
+                input_state = torch.cat((torch.LongTensor([sos_ind]), input_state, torch.LongTensor([eos_ind])), dim=0)
+                next_state = torch.cat((torch.LongTensor([sos_ind]), next_state, torch.LongTensor([eos_ind])), dim=0)
 
                 trg = next_state.unsqueeze(0)
 
@@ -51,7 +56,7 @@ def train(d, model, optimizer, criterion, SEQ_LEN, CLIP, EPOCHS = 10):
         print(f'\tTrain Loss: {epoch_loss / len(d):.3f} | Train PPL: {math.exp(epoch_loss / len(d)):7.3f}')
 
 
-def translate_sentence(words, input_state, next_state, model, SEQ_LEN, max_len = TOKENS_RAW_CUTOFF):
+def translate_sentence(words, input_state, next_state, model, eos_ind, SEQ_LEN):
     
     model.eval()
     src_tensor = input_state.unsqueeze(0)
@@ -64,24 +69,25 @@ def translate_sentence(words, input_state, next_state, model, SEQ_LEN, max_len =
     # get first decoder input (<sos>)'s one hot
     trg_indexes = [next_state[0]]
     # create a array to store attetnion
-    attentions = torch.zeros(max_len, 1, len(input_state))
+    attentions = torch.zeros(SEQ_LEN, 1, len(input_state))
     #print(attentions.shape)
 
 
-    for i in range(max_len):
+    for i in range(SEQ_LEN):
         trg_tensor = torch.LongTensor([trg_indexes[-1]])
         #print(trg_tensor.shape)
         with torch.no_grad():
             output, hidden, attention = model.decoder(trg_tensor, hidden, encoder_outputs, mask)
+        #print(F.softmax(output))
         attentions[i] = attention
         pred_token = output.argmax(1).item()
+        if pred_token == eos_ind: # end of sentence.
+            break
         trg_indexes.append(pred_token)
-        #if pred_token == trg_field.vocab.stoi[trg_field.eos_token]:
-        #    break
-        
+
     trg_tokens = [words[int(ind)] for ind in trg_indexes]
-    #return trg_tokens[1:], attentions[:len(trg_tokens)-1]
-    return trg_tokens, attentions[:len(trg_tokens)]
+    #  remove <sos>
+    return trg_tokens[1:], attentions[:len(trg_tokens)-1]
 
 
 def display_attention(sentence, translation, attention):
@@ -107,15 +113,27 @@ def display_attention(sentence, translation, attention):
     plt.close()
 
 
-def observe(words, model, src, trg, SEQ_LEN):
+def observe(w2v_model, words, model, src, trg, special_inds, SEQ_LEN):
+
+    sos_ind, eos_ind = special_inds
+
+    # add <sos> and <eos>
+    src = torch.cat((torch.LongTensor([sos_ind]), src, torch.LongTensor([eos_ind])), dim=0)
+    trg = torch.cat((torch.LongTensor([sos_ind]), trg, torch.LongTensor([eos_ind])), dim=0)
 
     print("src = {}".format(" ".join([words[int(ind)] for ind in src.numpy()])))
     print("trg = {}".format(" ".join([words[int(ind)] for ind in trg.numpy()])))
 
-    translation, attention = translate_sentence(words, src, trg, model, SEQ_LEN)
+    translation, attention = translate_sentence(words, src, trg, model, eos_ind, SEQ_LEN)
 
     print(f'predicted trg = {" ".join(translation)}')
     #display_attention([words[int(ind)] for ind in src.numpy()], translation, attention)
+
+    embedded_action = torch.Tensor([w2v_model.wv[tok] for tok in translation])
+    expert_action = torch.Tensor([w2v_model.wv.vectors[ind] for ind in trg][1:-1])  # drop <sos>, <eos>
+
+    print(expert_action.shape)
+    print(embedded_action.shape)
 
 
 def main():
@@ -124,7 +142,7 @@ def main():
 
     parser.add_argument('--epochs', 
                         type=int, 
-                        default=20)
+                        default=5)
 
     parser.add_argument('--n_hidden', 
                         type=int, 
@@ -135,17 +153,20 @@ def main():
     d = torch.load('../dat/processed/padded_vectorized_states_v3.pt')
 
     w2v_model = get_model() # already normed
+    VOCAB_SIZE, EMBED_DIM = w2v_model.wv.vectors.shape
+    # w2ind from w2v
+    w2ind = {token: token_index for token_index, token in enumerate(w2v_model.wv.index2word)} 
+    # padding token for now
+    TRG_PAD_IDX = w2ind["."] # this is 0
 
     N_HIDDEN = args.n_hidden
-    SEQ_LEN = TOKENS_RAW_CUTOFF
-    VOCAB_SIZE, EMBED_DIM = w2v_model.wv.vectors.shape
+    SEQ_LEN = TOKENS_RAW_CUTOFF + 2# max sequence length
 
     CLIP = 1 # for exploding gradients
-    device = 'cpu'
+    device = 'cpu' # FOR NOW
     enc = EncRnn(hidden_size=N_HIDDEN, num_layers=2, embed_size=EMBED_DIM)
     dec = DecRnn(hidden_size=N_HIDDEN, num_layers=2, embed_size=EMBED_DIM, output_size=VOCAB_SIZE)
 
-    TRG_PAD_IDX = 0
     model = Seq2SeqAttn(enc, dec, TRG_PAD_IDX, device)
 
     optimizer = torch.optim.Adam(model.parameters())
@@ -153,7 +174,7 @@ def main():
                 
     model.apply(init_weights)
 
-    train(d, model, optimizer, criterion, SEQ_LEN, CLIP, args.epochs)
+    train(d, model, optimizer, criterion, (w2ind['<sos>'], w2ind['<eos>']), SEQ_LEN, CLIP, args.epochs)
 
     torch.save(model.state_dict(), './generators/seq2seq-model.pt')
 
@@ -166,7 +187,7 @@ def main():
     print("\n")
     for k in keys:
         input_state, next_state = d[k]
-        observe(words, model, input_state, next_state, SEQ_LEN)
+        observe(w2v_model, words, model, input_state, next_state, (w2ind['<sos>'], w2ind['<eos>']), SEQ_LEN)
         print("\n")
 
 if __name__ == '__main__':
