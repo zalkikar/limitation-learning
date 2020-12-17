@@ -82,7 +82,7 @@ def train(train_d, valid_d, w2v_model, words, model, optimizer, criterion, sos_i
         # Train PPL: {math.exp(epoch_loss / len(train_d)):7.3f}
         print(f'\t\tEpoch {epoch+1} Train Loss: {epoch_loss / len(train_d):.3f}')
         evaluate(valid_d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device)
-        torch.save(model.state_dict(), f'./generators/model-epoch{epoch+1}.pt')
+        torch.save(model.state_dict(), f'./generators_prince_2/model-epoch{epoch+1}.pt')
 
 
 def evaluate(d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device, type='Valid'):
@@ -116,7 +116,7 @@ def evaluate(d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_ID
             expert_act_unpadded = []
             for tok in expert_act:
                 expert_act_unpadded.append(tok)
-                if tok == words[int(TRG_PAD_IDX)]:
+                if (tok == words[int(TRG_PAD_IDX)]) or (not tok.isalnum()):
                     break
             vectorized_expert_act = [w2v_model.wv[tok] for tok in expert_act_unpadded]
             vectorized_pred_act = [w2v_model.wv[tok] for tok in translation]
@@ -159,7 +159,7 @@ def translate_sentence(words, input_state, next_state, model, eos_ind, max_len, 
     
    
 
-def observe(w2v_model, words, model, d, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN):
+def observe(w2v_model, words, model, d, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device):
     src = None
     trg = None
     for idx, (index, vects) in enumerate(d.items()):
@@ -173,7 +173,7 @@ def observe(w2v_model, words, model, d, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN):
         src = input_state
         trg = next_state
 
-        translation, attention = translate_sentence(words, src, trg, model, eos_ind, SEQ_LEN)
+        translation, attention = translate_sentence(words, src, trg, model, eos_ind, SEQ_LEN, device)
 
         # drop <sos>, <eos>
         expert_act = [words[int(ind)] for ind in next_state.numpy()][1:-1]
@@ -182,11 +182,11 @@ def observe(w2v_model, words, model, d, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN):
         expert_act_unpadded, init_act_unpadded = [],[]
         for tok in expert_act:
             expert_act_unpadded.append(tok)
-            if tok == words[int(TRG_PAD_IDX)]:
+            if (tok == words[int(TRG_PAD_IDX)]) or (not tok.isalnum()):
                 break
         for tok in init_act:
             init_act_unpadded.append(tok)
-            if tok == words[int(TRG_PAD_IDX)]:
+            if (tok == words[int(TRG_PAD_IDX)]) or (not tok.isalnum()):
                 break
         vectorized_expert_act = [w2v_model.wv[tok] for tok in expert_act_unpadded]
         vectorized_pred_act = [w2v_model.wv[tok] for tok in translation]
@@ -242,9 +242,9 @@ def main():
     test_d = {}
     valid_d = {}
     for index, vects in d.items():
-        if torch.rand(1) < 0.2:
+        if torch.rand(1) < 0.1:
             test_d[index] = vects
-        elif torch.rand(1) < 0.4:
+        elif torch.rand(1) < 0.2:
             valid_d[index] = vects
         else:
             train_d[index] = vects
@@ -272,7 +272,7 @@ def main():
     
     evaluate(test_d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device, type='Test')
     
-    observe(w2v_model, words, model, d, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN)
+    observe(w2v_model, words, model, d, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device)
         
 
 if __name__ == '__main__':
