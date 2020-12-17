@@ -234,6 +234,51 @@ def train_actor_critic(actor, critic, memory, actor_optim, critic_optim, args):
            # loss.backward() 
            # critic_optim.step()
 
+
+def train_policy(actor, memory, actor_optim,, args):
+    """
+    Take a Policy Gradient step or two to improve the actor  model,  using the single step returns to optimize objective. 
+    
+    
+    
+    """
+    # tuple of a regular old RL problem, but now reward is what the discriminator says. 
+    states = torch.stack([memory[i][0] for i in range(len(memory))])
+    actions = torch.stack([memory[i][1] for i in range(len(memory))])
+    rewards = torch.stack([torch.Tensor([memory[i][2]]) for i in range(len(memory))]).to(device)
+    masks = [memory[i][2] for i in range(len(memory))]
+    # compute value of what happened, see if what we can get us better. 
+    #GAE aka estimate of Value + actual return roughtly 
+    #returns, advants = get_gae(rewards, masks, old_values, args)
+    
+    # pass states through actor, get corresponding actions
+    action, action_probs = actor(states)
+    # new mus and stds? 
+    log_probs = log_prob_density(action, action_probs) # all log probabilities over these trajectories
+    # of old actions
+
+    n = len(states)
+    arr = np.arange(n)
+    entropy = get_entropy(action_probs)
+
+    for _ in range(args.actor_critic_update_num):
+        np.random.shuffle(arr)
+
+        for i in range(n // args.batch_size): 
+            batch_index = arr[args.batch_size * i : args.batch_size * (i + 1)]
+            #batch_index = torch.LongTensor(batch_index)
+            
+            inputs = states[batch_index]
+            actions_samples = actions[batch_index]
+            policy_loss = -log_probs[batch_index] * rewards[batch_index]
+
+            loss = policy_loss # + 0.5 * critic_loss  #entropy bonus to promote exploration.
+
+            actor_optim.zero_grad()
+            loss.backward()
+            actor_optim.step()
+
+
 def get_gae(rewards, masks, values, args):
     """
     How much better a particular action is in a particular state. 
