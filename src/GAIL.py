@@ -22,8 +22,8 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 #model = gensim.models.KeyedVectors.load_word2vec_format("/scratch/nsk367/limitation-learning/apps/dat/preprocess/GoogleNews-vectors-negative300.bin.gz", binary=True)
-model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v")
-#model = gensim.models.Word2Vec.load("../models/custom_w2v_intersect_GoogleNews")
+#model = gensim.models.Word2Vec.load("/scratch/nsk367/deepRL/limitation-learning/apps/dat/preprocess/custom_w2v")
+model = gensim.models.Word2Vec.load("../models/custom_w2v_intersect_GoogleNews")
 model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
 
 def get_action(mu, std):
@@ -76,13 +76,14 @@ def get_raw_action(action,
 
 def get_cosine_sim(expert, action,
                    type = None,
-                   seq_len = 5):
+                   seq_len = 5,
+                   dim = 300):
 
     if type == 'greedy':
         action = [model.wv[tok] for tok in get_raw_action(action).split(' ')]
 
-    expertV = np.zeros((50, ), dtype='float32')
-    actionV = np.zeros((50, ), dtype='float32')
+    expertV = np.zeros((dim, ), dtype='float32')
+    actionV = np.zeros((dim, ), dtype='float32')
     for v in expert: 
         if isinstance(v, torch.Tensor):
             v = v.cpu().numpy()
