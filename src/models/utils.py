@@ -4,10 +4,10 @@ import numpy as np
 
 def get_model():
     model = gensim.models.Word2Vec.load("../models/custom_w2v_intersect_GoogleNews") # ("./models/custom_w2v")
-    model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
     EMBED_DIM = model.wv.vectors.shape[1]
     model.wv["<sos>"] = np.random.rand(EMBED_DIM)
     model.wv["<eos>"] = np.random.rand(EMBED_DIM)
+    model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
     return model
 
 def get_vectors():

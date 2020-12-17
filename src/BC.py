@@ -15,6 +15,7 @@ from models.seq2seqattn import init_weights, EncRnn, DecRnn, Seq2SeqAttn
 from matplotlib import pyplot as plt
 from matplotlib import ticker
 
+from GAIL import get_cosine_sim
 
 def display_attention(sentence, translation, attention):
     
@@ -39,22 +40,24 @@ def display_attention(sentence, translation, attention):
     plt.close()
 
 
-def train(d, model, optimizer, criterion, sos_ind, eos_ind, SEQ_LEN, CLIP, EPOCHS = 10):
-    model.train()
+def train(train_d, valid_d, w2v_model, words, model, optimizer, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, CLIP, device, EPOCHS = 10):
+
     for epoch in range(EPOCHS):
+        model.train()
         epoch_loss = 0
-        for idx, (index, vects) in enumerate(d.items()):
+        for idx, (index, vects) in enumerate(train_d.items()):
                 # each is N x 300
                 input_state, next_state = vects[0], vects[1]
                 
                 # add <sos> and <eos>
-                input_state = torch.cat((torch.LongTensor([sos_ind]), input_state, torch.LongTensor([eos_ind])), dim=0)
-                next_state = torch.cat((torch.LongTensor([sos_ind]), next_state, torch.LongTensor([eos_ind])), dim=0)
+                input_state = torch.cat((torch.LongTensor([sos_ind]), input_state, torch.LongTensor([eos_ind])), dim=0).to(device)
+                next_state = torch.cat((torch.LongTensor([sos_ind]), next_state, torch.LongTensor([eos_ind])), dim=0).to(device)
 
-                trg = next_state.unsqueeze(0)
+                trg = next_state.unsqueeze(0).to(device)
+                seq_len_tensor = torch.Tensor([SEQ_LEN])
 
                 optimizer.zero_grad()
-                output = model(input_state.unsqueeze(0), torch.Tensor([SEQ_LEN]), trg)
+                output = model(input_state.unsqueeze(0), seq_len_tensor, trg)
 
 
                 trg = trg.transpose(1,0)
@@ -74,25 +77,63 @@ def train(d, model, optimizer, criterion, sos_ind, eos_ind, SEQ_LEN, CLIP, EPOCH
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(model.parameters(), CLIP)
                 optimizer.step()
-                epoch_loss += loss.item()
+                epoch_loss += loss.detach().cpu().item()
 
-        model.eval()
-        ### TODO: RUN ON VALIDATION, record loss
-        
-        print(f'\tTrain Loss: {epoch_loss / len(d):.3f} | Train PPL: {math.exp(epoch_loss / len(d)):7.3f}')
+        # Train PPL: {math.exp(epoch_loss / len(train_d)):7.3f}
+        print(f'\t\tEpoch {epoch+1} Train Loss: {epoch_loss / len(train_d):.3f}')
+        evaluate(valid_d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device)
+        torch.save(model.state_dict(), f'./generators_prince_2/model-epoch{epoch+1}.pt')
 
 
+def evaluate(d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device, type='Valid'):
+    model.eval()
+    val_loss = 0
+    cos_sims = 0
+    with torch.no_grad():
+        for idx, (index, vects) in enumerate(d.items()):
 
-def translate_sentence(words, input_state, next_state, model, max_len):
+            input_state, next_state = vects[0], vects[1]
+            input_state = torch.cat((torch.LongTensor([sos_ind]), input_state, torch.LongTensor([eos_ind])), dim=0).to(device)
+            next_state = torch.cat((torch.LongTensor([sos_ind]), next_state, torch.LongTensor([eos_ind])), dim=0).to(device)
+            trg = next_state.unsqueeze(0).to(device)
+            seq_len_tensor = torch.Tensor([int(SEQ_LEN)])
+
+            output = model(input_state.unsqueeze(0), seq_len_tensor, trg)
+
+            trg = trg.transpose(1,0)
+            output_dim = output.shape[-1]                
+            output = output[1:].view(-1, output_dim)
+            trg = trg[1:].view(-1)
+
+            loss = criterion(output, trg)
+            val_loss += loss.detach().cpu().item()
+
+            translation, attention = translate_sentence(words, input_state, next_state, model, eos_ind, SEQ_LEN, device)
+
+            # drop <sos>, <eos>
+            expert_act = [words[int(ind)] for ind in next_state.cpu().detach().numpy()][1:-1]
+            # drop multiple instances of padded token
+            expert_act_unpadded = []
+            for tok in expert_act:
+                expert_act_unpadded.append(tok)
+                #if (tok == words[int(TRG_PAD_IDX)]):
+                #    break
+            vectorized_expert_act = [w2v_model.wv[tok] for tok in expert_act_unpadded]
+            vectorized_pred_act = [w2v_model.wv[tok] for tok in translation]
+            cos_sims += get_cosine_sim(vectorized_expert_act, vectorized_pred_act, type = None, seq_len = 5, dim = 300)
+    print(f'\t{type} Avg Loss: {val_loss / len(d):.3f} | {type} Avg Cosine Sim: {cos_sims / len(d):.3f}')
+
+
+def translate_sentence(words, input_state, next_state, model, eos_ind, max_len, device):
     
     model.eval()
-    src_tensor = input_state.unsqueeze(0)
-    src_len = torch.Tensor([max_len])
+    src_tensor = input_state.unsqueeze(0).to(device)
+    src_len = torch.Tensor([int(max_len)])
 
     with torch.no_grad():
         encoder_outputs, hidden = model.encoder(src_tensor, src_len)
 
-    mask = model.create_mask(src_tensor.transpose(1,0))
+    mask = model.create_mask(src_tensor.transpose(1,0)).to(device)
     # get first decoder input (<sos>)'s one hot
     trg_indexes = [next_state[0]]
     # create a array to store attetnion
@@ -101,14 +142,14 @@ def translate_sentence(words, input_state, next_state, model, max_len):
 
 
     for i in range(max_len):
-        trg_tensor = torch.LongTensor([trg_indexes[-1]])
+        trg_tensor = torch.LongTensor([trg_indexes[-1]]).to(device)
         #print(trg_tensor.shape)
         with torch.no_grad():
             output, hidden, attention = model.decoder(trg_tensor, hidden, encoder_outputs, mask)
         #print(F.softmax(output))
         attentions[i] = attention
         pred_token = output.argmax(1).item()
-        if pred_token == "<eos>": # end of sentence.
+        if pred_token == eos_ind: # end of sentence.
             break
         trg_indexes.append(pred_token)
         
@@ -118,10 +159,11 @@ def translate_sentence(words, input_state, next_state, model, max_len):
     
    
 
-def observe(w2v_model, words, model, d, sos_ind, eos_ind, SEQ_LEN):
+def observe(w2v_model, words, model, d, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device):
     src = None
     trg = None
     for idx, (index, vects) in enumerate(d.items()):
+        print("\n")
         # each is N x 300
         input_state, next_state = vects[0], vects[1]
         # add <sos> and <eos>
@@ -131,27 +173,34 @@ def observe(w2v_model, words, model, d, sos_ind, eos_ind, SEQ_LEN):
         src = input_state
         trg = next_state
 
-        print("src = {}".format([words[int(ind)] for ind in src.numpy()]))
-        print("trg = {}".format([words[int(ind)] for ind in trg.numpy()]))
+        translation, attention = translate_sentence(words, src, trg, model, eos_ind, SEQ_LEN, device)
 
-        translation, attention = translate_sentence(words, src, trg, model, SEQ_LEN)
-
-        # remove <eos>s (<sos> already removed)
-        translation_parsed = [tok for tok in translation if tok != "<eos>"] # too hacky??
-        print(f'predicted trg = {translation_parsed}') 
-
-        embedded_action = torch.Tensor([w2v_model.wv[tok] for tok in translation_parsed])
         # drop <sos>, <eos>
-        expert_action = torch.Tensor([w2v_model.wv.vectors[ind] for ind in next_state][1:-1]) 
+        expert_act = [words[int(ind)] for ind in next_state.numpy()][1:-1]
+        init_act = [words[int(ind)] for ind in input_state.numpy()][1:-1]
+        # drop multiple instances of padded token
+        expert_act_unpadded, init_act_unpadded = [],[]
+        for tok in expert_act:
+            expert_act_unpadded.append(tok)
+            #if (tok == words[int(TRG_PAD_IDX)]):
+            #    break
+        for tok in init_act:
+            init_act_unpadded.append(tok)
+            #if (tok == words[int(TRG_PAD_IDX)]):
+            #    break
+        vectorized_expert_act = [w2v_model.wv[tok] for tok in expert_act_unpadded]
+        vectorized_pred_act = [w2v_model.wv[tok] for tok in translation]
+        cos_sim = get_cosine_sim(vectorized_expert_act, vectorized_pred_act, type = None, seq_len = 5, dim = 300)
 
-        #print(expert_action.shape)
-        #print(embedded_action.shape)
+        print(f'initial action = {" ".join(init_act_unpadded)}')
+        print(f'expert action = {" ".join(expert_act_unpadded)}')
+        print(f'predicted action = {" ".join(translation)}')
+        print(f'cosine sim {cos_sim}') 
 
         #display_attention([words[int(ind)] for ind in src.numpy()], translation, attention)
 
         if idx >= 10:
             break
-        print("\n")
 
 
    
@@ -168,49 +217,62 @@ def main():
                         type=int, 
                         default=64)
 
+    parser.add_argument('--n_layers',
+                        type=int,
+                        default=2)
+
     args = parser.parse_args()
 
-    #w2v_model = gensim.models.Word2Vec.load("../models/custom_w2v")
-    w2v_model = gensim.models.Word2Vec.load("../models/custom_w2v_intersect_GoogleNews")
-    w2v_model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
-    # random for special marker tokens
-    w2v_model.wv["<sos>"] = np.random.rand(300) # MAKE SURE THIS L2 normed
-    w2v_model.wv["<eos>"] = np.random.rand(300) # MAKE SURE THIS L2 normed
+    w2v_model = get_model()
     # vocab, embed dims
     VOCAB_SIZE, EMBED_DIM = w2v_model.wv.vectors.shape
     # w2ind from w2v
     w2ind = {token: token_index for token_index, token in enumerate(w2v_model.wv.index2word)} 
     # padding token for now
     TRG_PAD_IDX = w2ind["."] # this is 0
-    
+    # sentence marker token inds
     sos_ind = w2ind['<sos>']
     eos_ind = w2ind['<eos>']
-
+    # adjusted sequence length
     SEQ_LEN = 5 + 2 # sos, eos tokens
-
+    # padded vectorized states of token indexes
     d = torch.load('../dat/processed/padded_vectorized_states_v3.pt')
+    # train test valid split
+    train_d = {}
+    test_d = {}
+    valid_d = {}
+    for index, vects in d.items():
+        if torch.rand(1) < 0.1:
+            test_d[index] = vects
+        elif torch.rand(1) < 0.2:
+            valid_d[index] = vects
+        else:
+            train_d[index] = vects
+    print(f'train % = {len(train_d)/len(d)}')
+    print(f'test % = {len(test_d)/len(d)}')
+    print(f'valid % = {len(valid_d)/len(d)}\n')
 
     clip = 1
-    device = 'cpu' # for now
-    print(SEQ_LEN, VOCAB_SIZE, EMBED_DIM)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    enc = EncRnn(hidden_size=args.n_hidden, num_layers=2, embed_size=EMBED_DIM)
-    dec = DecRnn(hidden_size=args.n_hidden, num_layers=2, embed_size=EMBED_DIM, output_size=VOCAB_SIZE)
-    model = Seq2SeqAttn(enc, dec, TRG_PAD_IDX, VOCAB_SIZE, device)
+    enc = EncRnn(hidden_size=args.n_hidden, num_layers=args.n_layers, embed_size=EMBED_DIM)
+    dec = DecRnn(hidden_size=args.n_hidden, num_layers=args.n_layers, embed_size=EMBED_DIM, output_size=VOCAB_SIZE)
+    model = Seq2SeqAttn(enc, dec, TRG_PAD_IDX, VOCAB_SIZE, device).to(device)
 
     optimizer = torch.optim.Adam(model.parameters())
-    criterion = nn.CrossEntropyLoss(ignore_index = TRG_PAD_IDX)
+    criterion = nn.CrossEntropyLoss(ignore_index = TRG_PAD_IDX).to(device)
 
-    model.apply(init_weights)
-
-    train(d, model, optimizer, criterion, sos_ind, eos_ind, SEQ_LEN, clip, args.epochs)
-
-    w2v_model.vocabulary.sorted_vocab
+    assert w2v_model.vocabulary.sorted_vocab == True
     word_counts = {word: vocab_obj.count for word, vocab_obj in w2v_model.wv.vocab.items()}
     word_counts = sorted(word_counts.items(), key=lambda x:-x[1])
     words = [t[0] for t in word_counts]
 
-    observe(w2v_model, words, model, d, sos_ind, eos_ind, SEQ_LEN)
+    model.apply(init_weights)
+    train(train_d, valid_d, w2v_model, words, model, optimizer, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, clip, device, args.epochs)
+    
+    evaluate(test_d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device, type='Test')
+    
+    observe(w2v_model, words, model, d, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device)
         
 
 if __name__ == '__main__':
