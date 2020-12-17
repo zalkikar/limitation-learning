@@ -54,7 +54,7 @@ def train(train_d, valid_d, w2v_model, words, model, optimizer, criterion, sos_i
                 next_state = torch.cat((torch.LongTensor([sos_ind]), next_state, torch.LongTensor([eos_ind])), dim=0).to(device)
 
                 trg = next_state.unsqueeze(0).to(device)
-                seq_len_tensor = torch.Tensor([SEQ_LEN]).to(device)
+                seq_len_tensor = torch.Tensor([SEQ_LEN])
 
                 optimizer.zero_grad()
                 output = model(input_state.unsqueeze(0), seq_len_tensor, trg)
