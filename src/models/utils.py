@@ -14,13 +14,13 @@ def get_vectors():
     model = get_model()
     return torch.FloatTensor(model.wv.vectors)
 
-def from_pretrained(embeddings=None, freeze=True):
+def from_pretrained(embeddings=None, freeze=False):
     if not embeddings:
         embeddings = get_vectors() # 2 D embeddings param
     rows, cols = embeddings.shape
     # A simple lookup table that stores embeddings of a fixed dictionary and size.
     embedding = torch.nn.Embedding(num_embeddings=rows, embedding_dim=cols)
     embedding.weight = torch.nn.Parameter(embeddings)
-    # no update
+    # no update if freeze=True (default is False)
     embedding.weight.requires_grad = not freeze
     return embedding
