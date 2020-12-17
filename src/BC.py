@@ -120,7 +120,7 @@ def evaluate(d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_ID
                     break
             vectorized_expert_act = [w2v_model.wv[tok] for tok in expert_act_unpadded]
             vectorized_pred_act = [w2v_model.wv[tok] for tok in translation]
-            cos_sims += get_cosine_sim(vectorized_expert_act.detach(), vectorized_pred_act.detach(), type = None, seq_len = 5, dim = 300)
+            cos_sims += get_cosine_sim(vectorized_expert_act, vectorized_pred_act, type = None, seq_len = 5, dim = 300)
     print(f'\t{type} Avg Loss: {val_loss / len(d):.3f} | {type} Avg Cosine Sim: {cos_sims / len(d):.3f}')
 
 
