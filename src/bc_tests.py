@@ -313,10 +313,6 @@ trg = None
 for idx, (index, vects) in enumerate(d.items()):
         # each is N x 300
         input_state, next_state = vects[0], vects[1]
-        # raw strings corresponding to embeddings
-        raw_input_state, raw_next_state = list(raw.keys())[index], raw[list(raw.keys())[index]]
-        #print(input_state, next_state)
-        
         # add <sos> and <eos>
         input_state = torch.cat((torch.LongTensor([sos_ind]), input_state, torch.LongTensor([eos_ind])), dim=0)
         next_state = torch.cat((torch.LongTensor([sos_ind]), next_state, torch.LongTensor([eos_ind])), dim=0)
