@@ -9,7 +9,8 @@ import random
 
 w2v_model = get_model() # already normed
 
-SEQ_LEN = TOKENS_RAW_CUTOFF
+# HACKY FIXES FOR NOW
+SEQ_LEN = 7
 VOCAB_SIZE, EMBED_DIM = w2v_model.wv.vectors.shape
 
 class EncRnn(nn.Module):
