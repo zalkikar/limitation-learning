@@ -111,7 +111,7 @@ def evaluate(d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_ID
             translation, attention = translate_sentence(words, input_state, next_state, model, eos_ind, SEQ_LEN, device)
 
             # drop <sos>, <eos>
-            expert_act = [words[int(ind)] for ind in next_state.numpy()][1:-1]
+            expert_act = [words[int(ind)] for ind in next_state.cpu().detach().numpy()][1:-1]
             # drop multiple instances of padded token
             expert_act_unpadded = []
             for tok in expert_act:
