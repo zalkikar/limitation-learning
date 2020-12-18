@@ -82,7 +82,7 @@ def train(train_d, valid_d, w2v_model, words, model, optimizer, criterion, sos_i
         # Train PPL: {math.exp(epoch_loss / len(train_d)):7.3f}
         print(f'\t\tEpoch {epoch+1} Train Loss: {epoch_loss / len(train_d):.3f}')
         evaluate(valid_d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device)
-        torch.save(model.state_dict(), f'./generators_prince_2/model-epoch{epoch+1}.pt')
+        torch.save(model.state_dict(), f'./generators_prince_4/model-epoch{epoch+1}.pt')
 
 
 def evaluate(d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device, type='Valid'):
@@ -238,6 +238,7 @@ def main():
     # padded vectorized states of token indexes
     d = torch.load('../dat/processed/padded_vectorized_states_v3.pt')
     # train test valid split
+    """
     train_d = {}
     test_d = {}
     valid_d = {}
@@ -251,6 +252,11 @@ def main():
     print(f'train % = {len(train_d)/len(d)}')
     print(f'test % = {len(test_d)/len(d)}')
     print(f'valid % = {len(valid_d)/len(d)}\n')
+    """
+    # all data
+    train_d = d
+    valid_d = d
+    print(len(d))
 
     clip = 1
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -270,7 +276,7 @@ def main():
     model.apply(init_weights)
     train(train_d, valid_d, w2v_model, words, model, optimizer, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, clip, device, args.epochs)
     
-    evaluate(test_d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device, type='Test')
+    # evaluate(test_d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device, type='Test')
     
     observe(w2v_model, words, model, d, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device)
         
