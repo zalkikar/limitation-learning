@@ -8,7 +8,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from models.utils import get_model
+from models.utils import get_model, save_model_instance
 from models.config import TOKENS_RAW_CUTOFF
 from models.seq2seqattn import init_weights, EncRnn, DecRnn, Seq2SeqAttn
 
@@ -280,6 +280,7 @@ def main():
     
     observe(w2v_model, words, model, d, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device)
         
+    save_model_instance()
 
 if __name__ == '__main__':
     main()

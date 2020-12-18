@@ -2,6 +2,8 @@ import torch
 import gensim
 import numpy as np
 
+np.random.seed(0) 
+
 def get_model():
     model = gensim.models.Word2Vec.load("../models/custom_w2v_intersect_GoogleNews") # ("./models/custom_w2v")
     EMBED_DIM = model.wv.vectors.shape[1]
@@ -9,6 +11,10 @@ def get_model():
     model.wv["<eos>"] = np.random.rand(EMBED_DIM)
     model.init_sims(replace=True) #precomputed l2 normed vectors in-place – saving the extra RAM
     return model
+
+def save_model_instance():
+    model = get_model()
+    model.save("../models/custom_w2v_intersect_GoogleNews_seq2seqattn")
 
 def get_vectors():
     model = get_model()
