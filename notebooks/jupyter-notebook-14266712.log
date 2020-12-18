@@ -1,0 +1,270 @@
+
+MacOS or linux terminal command to create your ssh tunnel:
+ssh -N -L 9147:gpu-68:9147 nsk367@ 
+For more info and how to connect from windows, 
+   see research.computing.yale.edu/jupyter-nb
+Here is the MobaXterm info:
+Forwarded port:same as remote port
+Remote server: gpu-68
+Remote port: 9147
+SSH server: 
+SSH login: nsk367
+SSH port: 22
+Use a Browser on your local machine to go to:
+http://localhost:9147  (prefix w/ https:// if using password)
+Use the token string from the URL printed below and add it to the URL above
+
+[I 12:42:05.293 NotebookApp] Serving notebooks from local directory: /scratch/nsk367/deepRL/limitation-learning/notebooks
+[I 12:42:05.294 NotebookApp] Jupyter Notebook 6.1.4 is running at:
+[I 12:42:05.294 NotebookApp] http://gpu-68:9147/?token=ae3edc1266f362e2cbd8304c58e8eccb9f2b785e0c1e5108
+[I 12:42:05.294 NotebookApp]  or http://127.0.0.1:9147/?token=ae3edc1266f362e2cbd8304c58e8eccb9f2b785e0c1e5108
+[I 12:42:05.294 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 12:42:05.326 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/nsk367/.local/share/jupyter/runtime/nbserver-352016-open.html
+    Or copy and paste one of these URLs:
+        http://gpu-68:9147/?token=ae3edc1266f362e2cbd8304c58e8eccb9f2b785e0c1e5108
+     or http://127.0.0.1:9147/?token=ae3edc1266f362e2cbd8304c58e8eccb9f2b785e0c1e5108
+[I 12:42:15.938 NotebookApp] 302 GET /?token=ae3edc1266f362e2cbd8304c58e8eccb9f2b785e0c1e5108 (172.16.0.13) 0.43ms
+[I 12:42:27.791 NotebookApp] Kernel started: ee4eba08-2b52-4330-bd13-e7a4895ae980, name: python3
+[I 12:43:40.672 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 12:43:47.759 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 12:44:06.082 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 12:44:27.637 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 12:46:27.600 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 12:48:28.613 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 12:50:28.557 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 12:52:32.157 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 12:54:27.661 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 12:56:28.581 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 12:58:32.275 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 12:59:40.163 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 13:00:28.076 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:02:27.869 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:03:15.594 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:03:25.845 NotebookApp] Starting buffering for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 13:03:31.172 NotebookApp] Kernel restarted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 13:03:33.595 NotebookApp] Restoring connection for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 13:03:33.595 NotebookApp] Replaying 6 buffered messages
+[I 13:04:27.626 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:05:09.650 NotebookApp] Starting buffering for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 13:05:10.901 NotebookApp] Kernel restarted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 13:05:11.381 NotebookApp] Restoring connection for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 13:05:11.381 NotebookApp] Replaying 3 buffered messages
+[I 13:06:27.663 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:08:31.188 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:10:28.884 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:12:29.462 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:14:31.569 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:16:29.331 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:18:28.648 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:20:28.672 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:22:27.848 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:24:31.917 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:34:27.628 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:35:08.694 NotebookApp] Starting buffering for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 13:35:13.979 NotebookApp] Kernel restarted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 13:35:14.056 NotebookApp] Restoring connection for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 13:35:14.056 NotebookApp] Replaying 3 buffered messages
+[I 13:36:27.732 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:38:27.663 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:40:27.655 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:42:27.643 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:43:58.462 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 13:44:04.277 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:44:27.649 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:45:01.466 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:46:27.657 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:46:31.734 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 13:47:42.965 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 13:48:27.720 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:50:27.676 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:52:27.683 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:54:27.681 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 13:56:33.415 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 14:47:04.272 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 14:48:31.376 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 14:50:27.764 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 14:52:28.866 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 14:54:32.306 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 14:56:29.725 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 14:58:29.001 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:00:35.281 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:02:32.081 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:04:27.862 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:06:31.475 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:08:31.780 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:10:29.060 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:12:29.079 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:14:31.888 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:16:28.991 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:18:28.729 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:20:31.974 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:22:32.429 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:24:29.558 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:26:28.938 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:28:28.715 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:30:28.792 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:32:29.114 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:34:27.780 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:36:27.819 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:38:27.794 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:40:29.002 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:42:28.924 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:44:32.388 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[W python_anomaly_mode.cpp:104] Warning: Error detected in MulBackward0. Traceback of forward call that caused the error:
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/ipykernel_launcher.py", line 16, in <module>
+    app.launch_new_instance()
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/traitlets/config/application.py", line 845, in launch_instance
+    app.start()
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/ipykernel/kernelapp.py", line 612, in start
+    self.io_loop.start()
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/tornado/platform/asyncio.py", line 199, in start
+    self.asyncio_loop.run_forever()
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/asyncio/base_events.py", line 570, in run_forever
+    self._run_once()
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/asyncio/base_events.py", line 1859, in _run_once
+    handle._run()
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/asyncio/events.py", line 81, in _run
+    self._context.run(self._callback, *self._args)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/tornado/ioloop.py", line 688, in <lambda>
+    lambda f: self._run_callback(functools.partial(callback, future))
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/tornado/ioloop.py", line 741, in _run_callback
+    ret = callback()
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/tornado/gen.py", line 814, in inner
+    self.ctx_run(self.run)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/tornado/gen.py", line 775, in run
+    yielded = self.gen.send(value)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/ipykernel/kernelbase.py", line 365, in process_one
+    yield gen.maybe_future(dispatch(*args))
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/tornado/gen.py", line 234, in wrapper
+    yielded = ctx_run(next, result)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/ipykernel/kernelbase.py", line 268, in dispatch_shell
+    yield gen.maybe_future(handler(stream, idents, msg))
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/tornado/gen.py", line 234, in wrapper
+    yielded = ctx_run(next, result)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/ipykernel/kernelbase.py", line 543, in execute_request
+    self.do_execute(
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/tornado/gen.py", line 234, in wrapper
+    yielded = ctx_run(next, result)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/ipykernel/ipkernel.py", line 306, in do_execute
+    res = shell.run_cell(code, store_history=store_history, silent=silent)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/ipykernel/zmqshell.py", line 536, in run_cell
+    return super(ZMQInteractiveShell, self).run_cell(*args, **kwargs)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/IPython/core/interactiveshell.py", line 2877, in run_cell
+    result = self._run_cell(
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/IPython/core/interactiveshell.py", line 2923, in _run_cell
+    return runner(coro)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/IPython/core/async_helpers.py", line 68, in _pseudo_sync_runner
+    coro.send(None)
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/IPython/core/interactiveshell.py", line 3146, in run_cell_async
+    has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/IPython/core/interactiveshell.py", line 3338, in run_ast_nodes
+    if (await self.run_code(code, result,  async_=asy)):
+  File "/scratch/nsk367/anaconda3/envs/irl/lib/python3.8/site-packages/IPython/core/interactiveshell.py", line 3418, in run_code
+    exec(code_obj, self.user_global_ns, self.user_ns)
+  File "<ipython-input-101-2b7f39164c56>", line 37, in <module>
+    learner_memory.append([(-irl_reward  * action_log_probs).sum()])
+ (function _print_stack)
+[I 15:46:27.941 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:46:42.439 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 15:48:11.384 NotebookApp] Starting buffering for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 15:48:16.789 NotebookApp] Kernel restarted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 15:48:16.962 NotebookApp] Restoring connection for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 15:48:16.962 NotebookApp] Replaying 3 buffered messages
+[I 15:48:27.842 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:50:23.286 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:50:27.786 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:51:03.700 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:52:27.862 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:54:27.772 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:56:27.972 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:56:40.449 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 15:57:26.290 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 15:57:51.163 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 15:58:27.772 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 15:58:59.714 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:00:27.784 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:01:44.411 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 16:02:27.761 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:04:29.021 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:05:22.185 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 16:06:29.860 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:08:58.076 NotebookApp] Starting buffering for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 16:08:59.622 NotebookApp] Kernel restarted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 16:08:59.776 NotebookApp] Restoring connection for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 16:08:59.776 NotebookApp] Replaying 3 buffered messages
+[I 16:10:28.807 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:10:37.229 NotebookApp] Starting buffering for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 16:10:37.866 NotebookApp] Kernel restarted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 16:10:37.934 NotebookApp] Restoring connection for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 16:10:37.934 NotebookApp] Replaying 3 buffered messages
+[I 16:12:33.272 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:14:31.859 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:15:47.742 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:18:27.835 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:18:56.360 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 16:20:38.195 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[W 16:22:35.044 NotebookApp] Notebook vis_bc_v2.ipynb is not trusted
+[I 16:22:35.562 NotebookApp] Kernel started: ab36a7ca-d86a-42e6-a65d-a14b3815af5f, name: python3
+[I 16:23:05.370 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:23:18.557 NotebookApp] Starting buffering for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 16:23:19.792 NotebookApp] Kernel restarted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 16:23:19.876 NotebookApp] Restoring connection for ee4eba08-2b52-4330-bd13-e7a4895ae980:eb0ffea7ac624d468dafbd076fe77039
+[I 16:23:19.876 NotebookApp] Replaying 3 buffered messages
+[I 16:24:27.858 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:26:27.848 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:28:27.887 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:30:27.792 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:32:29.348 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:34:32.570 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:36:29.204 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:38:27.923 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:39:14.663 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:40:31.761 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:42:27.864 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:44:33.163 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:46:29.246 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:48:28.896 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:50:33.100 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:52:28.851 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:54:27.964 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:56:29.840 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 16:58:32.750 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:00:27.918 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:02:27.937 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:03:34.009 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 17:04:28.010 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:06:28.005 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:08:29.655 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:10:34.159 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:12:29.094 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:14:28.037 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:14:34.659 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 17:16:29.043 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:16:49.085 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 17:18:27.992 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:20:28.022 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:21:23.218 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:22:27.896 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:24:27.953 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:26:28.966 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:28:28.731 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:30:32.251 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:32:27.907 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:34:28.569 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:47:30.785 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 17:47:50.748 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 17:48:27.913 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:49:26.470 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 17:49:56.814 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 17:50:27.950 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:52:16.042 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 17:52:27.928 NotebookApp] Saving file at /Conversation GAIL.ipynb
+[I 17:54:08.892 NotebookApp] Kernel interrupted: ee4eba08-2b52-4330-bd13-e7a4895ae980
+[I 17:54:27.983 NotebookApp] Saving file at /Conversation GAIL.ipynb
