@@ -265,6 +265,8 @@ def main():
     dec = DecRnn(hidden_size=args.n_hidden, num_layers=args.n_layers, embed_size=EMBED_DIM, output_size=VOCAB_SIZE)
     model = Seq2SeqAttn(enc, dec, TRG_PAD_IDX, VOCAB_SIZE, device).to(device)
 
+    save_model_instance()
+
     optimizer = torch.optim.Adam(model.parameters())
     criterion = nn.CrossEntropyLoss(ignore_index = TRG_PAD_IDX).to(device)
 
@@ -279,8 +281,6 @@ def main():
     # evaluate(test_d, w2v_model, words, model, criterion, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device, type='Test')
     
     observe(w2v_model, words, model, d, sos_ind, eos_ind, TRG_PAD_IDX, SEQ_LEN, device)
-        
-    save_model_instance()
 
 if __name__ == '__main__':
     main()
