@@ -1,0 +1,4 @@
+  File "main.py", line 223
+    file_object = open(experiment_name'.txt', 'a')
+                                      ^
+SyntaxError: invalid syntax

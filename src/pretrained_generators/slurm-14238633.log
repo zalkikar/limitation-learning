@@ -1,0 +1,91 @@
+train % = 0.719425359150531
+test % = 0.09806371018113678
+valid % = 0.1825109306683323
+
+		Epoch 1 Train Loss: 3.616
+	Valid Avg Loss: 3.488 | Valid Avg Cosine Sim: 0.289
+		Epoch 2 Train Loss: 3.245
+	Valid Avg Loss: 3.514 | Valid Avg Cosine Sim: 0.276
+		Epoch 3 Train Loss: 3.088
+	Valid Avg Loss: 3.646 | Valid Avg Cosine Sim: 0.285
+		Epoch 4 Train Loss: 2.936
+	Valid Avg Loss: 3.735 | Valid Avg Cosine Sim: 0.271
+		Epoch 5 Train Loss: 2.767
+	Valid Avg Loss: 3.863 | Valid Avg Cosine Sim: 0.262
+		Epoch 6 Train Loss: 2.571
+	Valid Avg Loss: 4.032 | Valid Avg Cosine Sim: 0.256
+		Epoch 7 Train Loss: 2.332
+	Valid Avg Loss: 4.248 | Valid Avg Cosine Sim: 0.247
+		Epoch 8 Train Loss: 2.103
+	Valid Avg Loss: 4.472 | Valid Avg Cosine Sim: 0.227
+		Epoch 9 Train Loss: 1.898
+	Valid Avg Loss: 4.665 | Valid Avg Cosine Sim: 0.236
+		Epoch 10 Train Loss: 1.694
+	Valid Avg Loss: 4.862 | Valid Avg Cosine Sim: 0.218
+	Test Avg Loss: 4.789 | Test Avg Cosine Sim: 0.208
+
+
+initial action = <time> <time> to go !
+expert action = yes . . . .
+predicted action = yes ! <time> <time> !
+cosine sim 0.2623250186443329
+
+
+initial action = <org> . . . .
+expert action = i hate him . .
+predicted action = what 's nice ... ?
+cosine sim 0.1297404021024704
+
+
+initial action = good <time> , doctor .
+expert action = good <time> ! . .
+predicted action = good <time> , <person> ?
+cosine sim 0.3900514841079712
+
+
+initial action = i think so . .
+expert action = that 's my girl .
+predicted action = yeah ? ? ? ?
+cosine sim 0.250651478767395
+
+
+initial action = did you do it ?
+expert action = no . . . .
+predicted action = no shit ? ? ?
+cosine sim 0.1279798299074173
+
+
+initial action = yes ! . . .
+expert action = why ? . . .
+predicted action = what about them ? ?
+cosine sim 0.3660542070865631
+
+
+initial action = a god ? . .
+expert action = yes ! . . .
+predicted action = yes ! ! ! ?
+cosine sim 0.7078638672828674
+
+
+initial action = <org> ! <person> ! .
+expert action = yeah , <person> . .
+predicted action = yeah ... <person> <person> ?
+cosine sim 0.5887694358825684
+
+
+initial action = how 's everything ? .
+expert action = everything is everything . .
+predicted action = nice ... nice ... nice
+cosine sim 0.1409531831741333
+
+
+initial action = hello there . . .
+expert action = ... hi . . .
+predicted action = hi , <person> ? !
+cosine sim 0.36843767762184143
+
+
+initial action = it 's alive ! .
+expert action = hello there . . .
+predicted action = i 'm sorry ? ?
+cosine sim 0.1470077782869339
