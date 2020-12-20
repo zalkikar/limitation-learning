@@ -1,0 +1,129 @@
+/scratch/rz1567/deep_rl/final_project_new/limitation-learning/src/GAIL.py:98: RuntimeWarning: invalid value encountered in float_scalars
+  return np.dot(expertV, actionV)/(np.linalg.norm(expertV)*np.linalg.norm(actionV))
+8005
+		Epoch 1 Train Loss: 3.562
+	Valid Avg Loss: 3.248 | Valid Avg Cosine Sim: 0.271
+		Epoch 2 Train Loss: 3.215
+	Valid Avg Loss: 3.131 | Valid Avg Cosine Sim: 0.273
+		Epoch 3 Train Loss: 3.059
+	Valid Avg Loss: 3.064 | Valid Avg Cosine Sim: 0.301
+		Epoch 4 Train Loss: 2.919
+	Valid Avg Loss: 2.883 | Valid Avg Cosine Sim: 0.322
+		Epoch 5 Train Loss: 2.744
+	Valid Avg Loss: 2.691 | Valid Avg Cosine Sim: 0.313
+		Epoch 6 Train Loss: 2.519
+	Valid Avg Loss: 2.497 | Valid Avg Cosine Sim: 0.319
+		Epoch 7 Train Loss: 2.272
+	Valid Avg Loss: 2.233 | Valid Avg Cosine Sim: 0.334
+		Epoch 8 Train Loss: 2.017
+	Valid Avg Loss: 2.032 | Valid Avg Cosine Sim: nan
+		Epoch 9 Train Loss: 1.773
+	Valid Avg Loss: 1.840 | Valid Avg Cosine Sim: 0.369
+		Epoch 10 Train Loss: 1.585
+	Valid Avg Loss: 1.706 | Valid Avg Cosine Sim: 0.378
+		Epoch 11 Train Loss: 1.475
+	Valid Avg Loss: 1.684 | Valid Avg Cosine Sim: 0.386
+		Epoch 12 Train Loss: 1.395
+	Valid Avg Loss: 1.579 | Valid Avg Cosine Sim: 0.407
+		Epoch 13 Train Loss: 1.321
+	Valid Avg Loss: 1.540 | Valid Avg Cosine Sim: 0.408
+		Epoch 14 Train Loss: 1.294
+	Valid Avg Loss: 1.494 | Valid Avg Cosine Sim: nan
+		Epoch 15 Train Loss: 1.253
+	Valid Avg Loss: 1.500 | Valid Avg Cosine Sim: nan
+		Epoch 16 Train Loss: 1.242
+	Valid Avg Loss: 1.494 | Valid Avg Cosine Sim: 0.420
+		Epoch 17 Train Loss: 1.211
+	Valid Avg Loss: 1.413 | Valid Avg Cosine Sim: nan
+		Epoch 18 Train Loss: 1.223
+	Valid Avg Loss: 1.482 | Valid Avg Cosine Sim: 0.420
+		Epoch 19 Train Loss: 1.214
+	Valid Avg Loss: 1.503 | Valid Avg Cosine Sim: 0.415
+		Epoch 20 Train Loss: 1.199
+	Valid Avg Loss: 1.413 | Valid Avg Cosine Sim: 0.428
+		Epoch 21 Train Loss: 1.224
+	Valid Avg Loss: 1.490 | Valid Avg Cosine Sim: 0.422
+		Epoch 22 Train Loss: 1.230
+	Valid Avg Loss: 1.419 | Valid Avg Cosine Sim: 0.416
+		Epoch 23 Train Loss: 1.222
+	Valid Avg Loss: 1.659 | Valid Avg Cosine Sim: 0.408
+		Epoch 24 Train Loss: 1.253
+	Valid Avg Loss: 1.528 | Valid Avg Cosine Sim: 0.414
+		Epoch 25 Train Loss: 1.292
+	Valid Avg Loss: 1.589 | Valid Avg Cosine Sim: 0.407
+		Epoch 26 Train Loss: 1.311
+	Valid Avg Loss: 1.694 | Valid Avg Cosine Sim: 0.409
+		Epoch 27 Train Loss: 1.351
+	Valid Avg Loss: 1.634 | Valid Avg Cosine Sim: 0.402
+		Epoch 28 Train Loss: 1.312
+	Valid Avg Loss: 1.581 | Valid Avg Cosine Sim: nan
+		Epoch 29 Train Loss: 1.331
+	Valid Avg Loss: 1.553 | Valid Avg Cosine Sim: 0.405
+		Epoch 30 Train Loss: 1.350
+	Valid Avg Loss: 1.722 | Valid Avg Cosine Sim: 0.395
+
+
+initial action = <time> <time> to go !
+expert action = yes . . . .
+predicted action = yes ? yes ? ?
+cosine sim 0.12693190574645996
+
+
+initial action = <org> . . . .
+expert action = i hate him . .
+predicted action = <org> ? <org> ? ?
+cosine sim 0.0760275200009346
+
+
+initial action = good <time> , doctor .
+expert action = good <time> ! . .
+predicted action = good <time> <time> sweetheart !
+cosine sim 0.5290796756744385
+
+
+initial action = i think so . .
+expert action = that 's my girl .
+predicted action = let them that ? ?
+cosine sim 0.36589863896369934
+
+
+initial action = did you do it ?
+expert action = no . . . .
+predicted action = no , i think ?
+cosine sim 0.0815826877951622
+
+
+initial action = yes ! . . .
+expert action = why ? . . .
+predicted action = why ? ? ? ?
+cosine sim 0.5103403925895691
+
+
+initial action = a god ? . .
+expert action = yes ! . . .
+predicted action = yes ! ! ! !
+cosine sim 0.7184560298919678
+
+
+initial action = <org> ! <person> ! .
+expert action = yeah , <person> . .
+predicted action = <person> , <person> ! !
+cosine sim 0.6819687485694885
+
+
+initial action = how 's everything ? .
+expert action = everything is everything . .
+predicted action = everything is everything ? ?
+cosine sim 0.6149808764457703
+
+
+initial action = hello there . . .
+expert action = ... hi . . .
+predicted action = about about <person> ? ?
+cosine sim -0.01127853523939848
+
+
+initial action = it 's alive ! .
+expert action = hello there . . .
+predicted action = you ! ! ! ?
+cosine sim 0.48573392629623413
