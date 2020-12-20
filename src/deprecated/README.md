@@ -1,0 +1,1 @@
+These are deprecated helper tools which were valuable at one point in the project's development, but no longer used. They could be used for future research directions and are kept here, but without any real pointers or annotations, so peruse at your own risk!
