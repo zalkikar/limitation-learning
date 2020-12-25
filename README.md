@@ -5,7 +5,7 @@ This repository houses the code for the NYU Deep Reinforcement Learning Fall 202
 
 
 
-We apply generative adversarial imitation learning (GAIL) to produce a proxy for the reward function present in a basic conversation, using the Cornell Movie Dialog Corpus. We apply imitation learning to craft coherent replies to the input utterance. 
+We apply generative adversarial imitation learning (GAIL) to produce a proxy for the reward function present in a basic conversation, using the Cornell Movie Dialog Corpus. We apply imitation learning to craft coherent replies to the input utterance. Thus, the actor network is Seq2Seq w/ Attention pre-trained with imitation learning.
 
 Down the line, our focus is on an auxilary objective of GAIL, using a discriminator network as a proxy for a reward function.
 
